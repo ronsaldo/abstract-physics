@@ -156,6 +156,11 @@ public:
 		return aphyCreateDefaultConstraintSolver( this );
 	}
 
+	inline aphy_motion_state* createDefaultMotionState (  )
+	{
+		return aphyCreateDefaultMotionStte( this );
+	}
+
 	inline aphy_world* createDynamicsWorld ( aphy_collision_dispatcher* collision_dispatcher, aphy_broadphase* broadphase, aphy_constraint_solver* constraint_solver, aphy_collision_configuration* collision_configuration )
 	{
 		return aphyCreateDynamicsWorld( this, collision_dispatcher, broadphase, constraint_solver, collision_configuration );
@@ -219,6 +224,11 @@ public:
 	inline aphy_collision_shape* createSphere ( aphy_scalar radius )
 	{
 		return aphyCreateSphere( this, radius );
+	}
+
+	inline aphy_collision_object* createSimpleRigidBody ( aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia )
+	{
+		return aphyCreateSimpleRigidBody( this, mass, motion_state, collision_shape, local_inertia );
 	}
 
 };
@@ -423,9 +433,55 @@ public:
 		return aphyGetShapeMargin( this );
 	}
 
+	inline aphy_vector3 computeLocalInertia ( aphy_scalar mass )
+	{
+		return aphyComputeLocalInertia( this, mass );
+	}
+
 };
 
 typedef aphy_ref<aphy_collision_shape> aphy_collision_shape_ref;
+
+// Interface wrapper for aphy_motion_state.
+struct _aphy_motion_state
+{
+private:
+	_aphy_motion_state() {}
+
+public:
+	inline void addReference (  )
+	{
+		APhyThrowIfFailed(aphyAddMotionStateReference( this ));
+	}
+
+	inline void release (  )
+	{
+		APhyThrowIfFailed(aphyReleaseMotionStateReference( this ));
+	}
+
+	inline aphy_transform getTransform (  )
+	{
+		return aphyGetMotionStateTransform( this );
+	}
+
+	inline aphy_vector3 getTranslation (  )
+	{
+		return aphyGetMotionStateTranslation( this );
+	}
+
+	inline aphy_matrix3x3 getMatrix (  )
+	{
+		return aphyGetMotionStateMatrix( this );
+	}
+
+	inline aphy_quaternion getQuaternion (  )
+	{
+		return aphyGetMotionStateQuaternion( this );
+	}
+
+};
+
+typedef aphy_ref<aphy_motion_state> aphy_motion_state_ref;
 
 
 #endif /* APHY_HPP_ */

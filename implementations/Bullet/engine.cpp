@@ -6,6 +6,7 @@
 #include "collision_object.hpp"
 #include "collision_shape.hpp"
 #include "constraint_solver.hpp"
+#include "motion_state.hpp"
 #include "world.hpp"
 
 _aphy_engine::_aphy_engine()
@@ -96,6 +97,14 @@ APHY_EXPORT aphy_constraint_solver* aphyCreateDefaultConstraintSolver ( aphy_eng
         return nullptr;
 
     return new aphy_constraint_solver(new btSequentialImpulseConstraintSolver());
+}
+
+APHY_EXPORT aphy_motion_state* aphyCreateDefaultMotionStte ( aphy_engine* engine )
+{
+    if(!engine)
+        return nullptr;
+
+    return new aphy_motion_state(new btDefaultMotionState());
 }
 
 APHY_EXPORT aphy_world* aphyCreateDynamicsWorld ( aphy_engine* engine, aphy_collision_dispatcher* collision_dispatcher, aphy_broadphase* broadphase, aphy_constraint_solver* constraint_solver, aphy_collision_configuration* collision_configuration )
@@ -205,6 +214,18 @@ APHY_EXPORT aphy_collision_shape* aphyCreateSphere ( aphy_engine* engine, aphy_s
     if(!engine)
         return nullptr;
     return new aphy_collision_shape(new btSphereShape(radius));
+}
+
+APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBody ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia )
+{
+    if(!engine || !motion_state || !collision_shape)
+        return nullptr;
+
+    auto inertia = btVector3(local_inertia.x, local_inertia.y, local_inertia.z);
+    auto result = new aphy_collision_object(new btRigidBody(mass, motion_state->handle, collision_shape->handle, inertia), true);
+    motion_state->retain();     result->motionState = motion_state;
+    collision_shape->retain();  result->collisionShape = collision_shape;
+    return result;
 }
 
 #if defined(_WIN32)

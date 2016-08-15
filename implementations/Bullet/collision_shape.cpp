@@ -1,4 +1,5 @@
 #include "collision_shape.hpp"
+#include "utility.hpp"
 
 _aphy_collision_shape::_aphy_collision_shape(btCollisionShape *handle)
     : handle(handle)
@@ -35,4 +36,15 @@ APHY_EXPORT aphy_scalar aphyGetShapeMargin ( aphy_collision_shape* collision_sha
     if(!collision_shape)
         return 0;
     return collision_shape->handle->getMargin();
+}
+
+
+APHY_EXPORT aphy_vector3 aphyComputeLocalInertia ( aphy_collision_shape* collision_shape, aphy_scalar mass )
+{
+    if(!collision_shape)
+        return aphy_vector3();
+
+    btVector3 result;
+    collision_shape->handle->calculateLocalInertia(mass, result);
+    return convertVector(result);
 }

@@ -1,13 +1,20 @@
 #include "collision_object.hpp"
+#include "motion_state.hpp"
+#include "collision_shape.hpp"
 
 _aphy_collision_object::_aphy_collision_object(btCollisionObject *handle, bool isRigidBody)
-    : handle(handle), isRigidBody(isRigidBody)
+    : handle(handle), motionState(nullptr), collisionShape(nullptr), isRigidBody(isRigidBody)
 {
 }
 
 void _aphy_collision_object::lostReferences()
 {
     delete handle;
+
+    if(motionState)
+        motionState->release();
+    if(collisionShape)
+        collisionShape->release();
 }
 
 // The exported C interface

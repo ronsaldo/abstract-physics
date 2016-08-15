@@ -26,6 +26,8 @@ set(APHY_Bullet_SOURCES
     engine.cpp
     engine.hpp
     icd.c
+    motion_state.cpp
+    motion_state.hpp
     object.hpp
     world.cpp
     world.hpp

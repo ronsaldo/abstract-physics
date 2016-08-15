@@ -47,6 +47,7 @@ typedef struct _aphy_constraint_solver aphy_constraint_solver;
 typedef struct _aphy_world aphy_world;
 typedef struct _aphy_collision_object aphy_collision_object;
 typedef struct _aphy_collision_shape aphy_collision_shape;
+typedef struct _aphy_motion_state aphy_motion_state;
 
 typedef enum {
 	APHY_OK = 0,
@@ -59,6 +60,35 @@ typedef enum {
 	APHY_UNIMPLEMENTED = -7,
 } aphy_error;
 
+
+/* Structure aphy_vector3. */
+typedef struct aphy_vector3 {
+	aphy_scalar x;
+	aphy_scalar y;
+	aphy_scalar z;
+	aphy_scalar pad;
+} aphy_vector3;
+
+/* Structure aphy_quaternion. */
+typedef struct aphy_quaternion {
+	aphy_scalar w;
+	aphy_scalar x;
+	aphy_scalar y;
+	aphy_scalar z;
+} aphy_quaternion;
+
+/* Structure aphy_matrix3x3. */
+typedef struct aphy_matrix3x3 {
+	aphy_vector3 firstRow;
+	aphy_vector3 secondRow;
+	aphy_vector3 thirdRow;
+} aphy_matrix3x3;
+
+/* Structure aphy_transform. */
+typedef struct aphy_transform {
+	aphy_matrix3x3 rotation;
+	aphy_vector3 origin;
+} aphy_transform;
 
 /* Global functions. */
 typedef aphy_error (*aphyGetEngines_FUN) ( aphy_size numengines, aphy_engine** engines, aphy_size* ret_numengines );
@@ -74,6 +104,7 @@ typedef aphy_collision_configuration* (*aphyCreateDefaultCollisionConfiguration_
 typedef aphy_collision_dispatcher* (*aphyCreateDefaultCollisionDispatcher_FUN) ( aphy_engine* engine, aphy_collision_configuration* collision_configuration );
 typedef aphy_broadphase* (*aphyCreateDefaultBroadphase_FUN) ( aphy_engine* engine );
 typedef aphy_constraint_solver* (*aphyCreateDefaultConstraintSolver_FUN) ( aphy_engine* engine );
+typedef aphy_motion_state* (*aphyCreateDefaultMotionStte_FUN) ( aphy_engine* engine );
 typedef aphy_world* (*aphyCreateDynamicsWorld_FUN) ( aphy_engine* engine, aphy_collision_dispatcher* collision_dispatcher, aphy_broadphase* broadphase, aphy_constraint_solver* constraint_solver, aphy_collision_configuration* collision_configuration );
 typedef aphy_collision_shape* (*aphyCreateBoxShape_FUN) ( aphy_engine* engine, aphy_scalar half_width, aphy_scalar half_height, aphy_scalar half_depth );
 typedef aphy_collision_shape* (*aphyCreateCylinderX_FUN) ( aphy_engine* engine, aphy_scalar half_width, aphy_scalar half_height, aphy_scalar half_depth );
@@ -87,6 +118,7 @@ typedef aphy_collision_shape* (*aphyCreateConeX_FUN) ( aphy_engine* engine, aphy
 typedef aphy_collision_shape* (*aphyCreateConeY_FUN) ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 typedef aphy_collision_shape* (*aphyCreateConeZ_FUN) ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 typedef aphy_collision_shape* (*aphyCreateSphere_FUN) ( aphy_engine* engine, aphy_scalar radius );
+typedef aphy_collision_object* (*aphyCreateSimpleRigidBody_FUN) ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia );
 
 APHY_EXPORT aphy_error aphyAddEngineReference ( aphy_engine* engine );
 APHY_EXPORT aphy_error aphyReleaseEngine ( aphy_engine* engine );
@@ -96,6 +128,7 @@ APHY_EXPORT aphy_collision_configuration* aphyCreateDefaultCollisionConfiguratio
 APHY_EXPORT aphy_collision_dispatcher* aphyCreateDefaultCollisionDispatcher ( aphy_engine* engine, aphy_collision_configuration* collision_configuration );
 APHY_EXPORT aphy_broadphase* aphyCreateDefaultBroadphase ( aphy_engine* engine );
 APHY_EXPORT aphy_constraint_solver* aphyCreateDefaultConstraintSolver ( aphy_engine* engine );
+APHY_EXPORT aphy_motion_state* aphyCreateDefaultMotionStte ( aphy_engine* engine );
 APHY_EXPORT aphy_world* aphyCreateDynamicsWorld ( aphy_engine* engine, aphy_collision_dispatcher* collision_dispatcher, aphy_broadphase* broadphase, aphy_constraint_solver* constraint_solver, aphy_collision_configuration* collision_configuration );
 APHY_EXPORT aphy_collision_shape* aphyCreateBoxShape ( aphy_engine* engine, aphy_scalar half_width, aphy_scalar half_height, aphy_scalar half_depth );
 APHY_EXPORT aphy_collision_shape* aphyCreateCylinderX ( aphy_engine* engine, aphy_scalar half_width, aphy_scalar half_height, aphy_scalar half_depth );
@@ -109,6 +142,7 @@ APHY_EXPORT aphy_collision_shape* aphyCreateConeX ( aphy_engine* engine, aphy_sc
 APHY_EXPORT aphy_collision_shape* aphyCreateConeY ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 APHY_EXPORT aphy_collision_shape* aphyCreateConeZ ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 APHY_EXPORT aphy_collision_shape* aphyCreateSphere ( aphy_engine* engine, aphy_scalar radius );
+APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBody ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia );
 
 /* Methods for interface aphy_collision_configuration. */
 typedef aphy_error (*aphyAddCollisionConfigurationReference_FUN) ( aphy_collision_configuration* collision_configuration );
@@ -175,11 +209,28 @@ typedef aphy_error (*aphyAddCollisionShapeReference_FUN) ( aphy_collision_shape*
 typedef aphy_error (*aphyReleaseCollisionShapeReference_FUN) ( aphy_collision_shape* collision_shape );
 typedef aphy_error (*aphySetShapeMargin_FUN) ( aphy_collision_shape* collision_shape, aphy_scalar margin );
 typedef aphy_scalar (*aphyGetShapeMargin_FUN) ( aphy_collision_shape* collision_shape );
+typedef aphy_vector3 (*aphyComputeLocalInertia_FUN) ( aphy_collision_shape* collision_shape, aphy_scalar mass );
 
 APHY_EXPORT aphy_error aphyAddCollisionShapeReference ( aphy_collision_shape* collision_shape );
 APHY_EXPORT aphy_error aphyReleaseCollisionShapeReference ( aphy_collision_shape* collision_shape );
 APHY_EXPORT aphy_error aphySetShapeMargin ( aphy_collision_shape* collision_shape, aphy_scalar margin );
 APHY_EXPORT aphy_scalar aphyGetShapeMargin ( aphy_collision_shape* collision_shape );
+APHY_EXPORT aphy_vector3 aphyComputeLocalInertia ( aphy_collision_shape* collision_shape, aphy_scalar mass );
+
+/* Methods for interface aphy_motion_state. */
+typedef aphy_error (*aphyAddMotionStateReference_FUN) ( aphy_motion_state* motion_state );
+typedef aphy_error (*aphyReleaseMotionStateReference_FUN) ( aphy_motion_state* motion_state );
+typedef aphy_transform (*aphyGetMotionStateTransform_FUN) ( aphy_motion_state* motion_state );
+typedef aphy_vector3 (*aphyGetMotionStateTranslation_FUN) ( aphy_motion_state* motion_state );
+typedef aphy_matrix3x3 (*aphyGetMotionStateMatrix_FUN) ( aphy_motion_state* motion_state );
+typedef aphy_quaternion (*aphyGetMotionStateQuaternion_FUN) ( aphy_motion_state* motion_state );
+
+APHY_EXPORT aphy_error aphyAddMotionStateReference ( aphy_motion_state* motion_state );
+APHY_EXPORT aphy_error aphyReleaseMotionStateReference ( aphy_motion_state* motion_state );
+APHY_EXPORT aphy_transform aphyGetMotionStateTransform ( aphy_motion_state* motion_state );
+APHY_EXPORT aphy_vector3 aphyGetMotionStateTranslation ( aphy_motion_state* motion_state );
+APHY_EXPORT aphy_matrix3x3 aphyGetMotionStateMatrix ( aphy_motion_state* motion_state );
+APHY_EXPORT aphy_quaternion aphyGetMotionStateQuaternion ( aphy_motion_state* motion_state );
 
 /* Installable client driver interface. */
 typedef struct _aphy_icd_dispatch {
@@ -193,6 +244,7 @@ typedef struct _aphy_icd_dispatch {
 	aphyCreateDefaultCollisionDispatcher_FUN aphyCreateDefaultCollisionDispatcher;
 	aphyCreateDefaultBroadphase_FUN aphyCreateDefaultBroadphase;
 	aphyCreateDefaultConstraintSolver_FUN aphyCreateDefaultConstraintSolver;
+	aphyCreateDefaultMotionStte_FUN aphyCreateDefaultMotionStte;
 	aphyCreateDynamicsWorld_FUN aphyCreateDynamicsWorld;
 	aphyCreateBoxShape_FUN aphyCreateBoxShape;
 	aphyCreateCylinderX_FUN aphyCreateCylinderX;
@@ -206,6 +258,7 @@ typedef struct _aphy_icd_dispatch {
 	aphyCreateConeY_FUN aphyCreateConeY;
 	aphyCreateConeZ_FUN aphyCreateConeZ;
 	aphyCreateSphere_FUN aphyCreateSphere;
+	aphyCreateSimpleRigidBody_FUN aphyCreateSimpleRigidBody;
 	aphyAddCollisionConfigurationReference_FUN aphyAddCollisionConfigurationReference;
 	aphyReleaseCollisionConfiguration_FUN aphyReleaseCollisionConfiguration;
 	aphyAddCollisionDispatcherReference_FUN aphyAddCollisionDispatcherReference;
@@ -231,6 +284,13 @@ typedef struct _aphy_icd_dispatch {
 	aphyReleaseCollisionShapeReference_FUN aphyReleaseCollisionShapeReference;
 	aphySetShapeMargin_FUN aphySetShapeMargin;
 	aphyGetShapeMargin_FUN aphyGetShapeMargin;
+	aphyComputeLocalInertia_FUN aphyComputeLocalInertia;
+	aphyAddMotionStateReference_FUN aphyAddMotionStateReference;
+	aphyReleaseMotionStateReference_FUN aphyReleaseMotionStateReference;
+	aphyGetMotionStateTransform_FUN aphyGetMotionStateTransform;
+	aphyGetMotionStateTranslation_FUN aphyGetMotionStateTranslation;
+	aphyGetMotionStateMatrix_FUN aphyGetMotionStateMatrix;
+	aphyGetMotionStateQuaternion_FUN aphyGetMotionStateQuaternion;
 } aphy_icd_dispatch;
 
 

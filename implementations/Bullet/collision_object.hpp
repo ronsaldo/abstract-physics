@@ -15,7 +15,12 @@ public:
     void lostReferences();
 
     btCollisionObject *handle;
+
+    aphy_motion_state *motionState;
+    aphy_collision_shape *collisionShape;
+
     bool isRigidBody;
+
 };
 
 #endif //APHY_COLLISION_OBJECT_HPP_

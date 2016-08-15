@@ -25,6 +25,30 @@
     </types>
 
 	<structs>
+        <struct name="vector3">
+            <field name="x" type="scalar" />
+            <field name="y" type="scalar" />
+            <field name="z" type="scalar" />
+            <field name="pad" type="scalar" />
+        </struct>
+
+        <struct name="quaternion">
+            <field name="w" type="scalar" />
+            <field name="x" type="scalar" />
+            <field name="y" type="scalar" />
+            <field name="z" type="scalar" />
+        </struct>
+
+        <struct name="matrix3x3">
+            <field name="firstRow" type="vector3" />
+            <field name="secondRow" type="vector3" />
+            <field name="thirdRow" type="vector3" />
+        </struct>
+
+        <struct name="transform">
+            <field name="rotation" type="matrix3x3" />
+            <field name="origin" type="vector3" />
+        </struct>
 	</structs>
 
     <constants>
@@ -74,6 +98,9 @@
             </method>
 
             <method name="createDefaultConstraintSolver" cname="CreateDefaultConstraintSolver" returnType="constraint_solver*">
+            </method>
+
+            <method name="createDefaultMotionState" cname="CreateDefaultMotionStte" returnType="motion_state*">
             </method>
 
             <method name="createDynamicsWorld" cname="CreateDynamicsWorld" returnType="world*">
@@ -145,6 +172,13 @@
 
             <method name="createSphere" cname="CreateSphere" returnType="collision_shape*">
                 <arg name="radius" type="scalar" />
+            </method>
+
+            <method name="createSimpleRigidBody" cname="CreateSimpleRigidBody" returnType="collision_object*">
+                <arg name="mass" type="scalar" />
+                <arg name="motion_state" type="motion_state*" />
+                <arg name="collision_shape" type="collision_shape*" />
+                <arg name="local_inertia" type="vector3" />
             </method>
 
         </interface>
@@ -253,6 +287,31 @@
 
             <method name="getMargin" cname="GetShapeMargin" returnType="scalar">
             </method>
+
+            <method name="computeLocalInertia" cname="ComputeLocalInertia" returnType="vector3">
+                <arg name="mass" type="scalar" />
+            </method>
+        </interface>
+
+        <interface name="motion_state">
+            <method name="addReference" cname="AddMotionStateReference" returnType="error">
+            </method>
+
+            <method name="release" cname="ReleaseMotionStateReference" returnType="error">
+            </method>
+
+            <method name="getTransform" cname="GetMotionStateTransform" returnType="transform">
+            </method>
+
+            <method name="getTranslation" cname="GetMotionStateTranslation" returnType="vector3">
+            </method>
+
+            <method name="getMatrix" cname="GetMotionStateMatrix" returnType="matrix3x3">
+            </method>
+
+            <method name="getQuaternion" cname="GetMotionStateQuaternion" returnType="quaternion">
+            </method>
+
         </interface>
     </interfaces>
 </version>
