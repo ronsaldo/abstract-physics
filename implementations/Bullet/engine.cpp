@@ -115,10 +115,10 @@ APHY_EXPORT aphy_world* aphyCreateDynamicsWorld ( aphy_engine* engine, aphy_coll
             constraint_solver->handle,
             collision_configuration->handle));
 
-    collision_dispatcher->retain();     result->collision_dispatcher = collision_dispatcher;
+    collision_dispatcher->retain();     result->collisionDispatcher = collision_dispatcher;
     broadphase->retain();               result->broadphase = broadphase;
-    constraint_solver->retain();        result->constraint_solver = constraint_solver;
-    collision_configuration->retain();  result->collision_configuration = collision_configuration;
+    constraint_solver->retain();        result->constraintSolver = constraint_solver;
+    collision_configuration->retain();  result->collisionConfiguration = collision_configuration;
     return result;
 }
 

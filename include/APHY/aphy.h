@@ -149,6 +149,7 @@ typedef aphy_error (*aphyAddRigidBody_FUN) ( aphy_world* world, aphy_collision_o
 typedef aphy_error (*aphyRemoveRigidBody_FUN) ( aphy_world* world, aphy_collision_object* object );
 typedef aphy_error (*aphyAddRigidBodyWithFilter_FUN) ( aphy_world* world, aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask );
 typedef aphy_error (*aphyStepSimulation_FUN) ( aphy_world* world, aphy_scalar time_step, aphy_int max_sub_steps, aphy_scalar fixed_time_step );
+typedef aphy_error (*aphySetGravity_FUN) ( aphy_world* world, aphy_scalar x, aphy_scalar y, aphy_scalar z );
 
 APHY_EXPORT aphy_error aphyAddWorldReference ( aphy_world* world );
 APHY_EXPORT aphy_error aphyReleaseWorldReference ( aphy_world* world );
@@ -160,6 +161,7 @@ APHY_EXPORT aphy_error aphyAddRigidBody ( aphy_world* world, aphy_collision_obje
 APHY_EXPORT aphy_error aphyRemoveRigidBody ( aphy_world* world, aphy_collision_object* object );
 APHY_EXPORT aphy_error aphyAddRigidBodyWithFilter ( aphy_world* world, aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask );
 APHY_EXPORT aphy_error aphyStepSimulation ( aphy_world* world, aphy_scalar time_step, aphy_int max_sub_steps, aphy_scalar fixed_time_step );
+APHY_EXPORT aphy_error aphySetGravity ( aphy_world* world, aphy_scalar x, aphy_scalar y, aphy_scalar z );
 
 /* Methods for interface aphy_collision_object. */
 typedef aphy_error (*aphyAddCollisionObjectReference_FUN) ( aphy_collision_object* collision_object );
@@ -222,6 +224,7 @@ typedef struct _aphy_icd_dispatch {
 	aphyRemoveRigidBody_FUN aphyRemoveRigidBody;
 	aphyAddRigidBodyWithFilter_FUN aphyAddRigidBodyWithFilter;
 	aphyStepSimulation_FUN aphyStepSimulation;
+	aphySetGravity_FUN aphySetGravity;
 	aphyAddCollisionObjectReference_FUN aphyAddCollisionObjectReference;
 	aphyReleaseCollisionObjectReference_FUN aphyReleaseCollisionObjectReference;
 	aphyAddCollisionShapeReference_FUN aphyAddCollisionShapeReference;

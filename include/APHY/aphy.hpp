@@ -366,6 +366,11 @@ public:
 		APhyThrowIfFailed(aphyStepSimulation( this, time_step, max_sub_steps, fixed_time_step ));
 	}
 
+	inline void setGravity ( aphy_scalar x, aphy_scalar y, aphy_scalar z )
+	{
+		APhyThrowIfFailed(aphySetGravity( this, x, y, z ));
+	}
+
 };
 
 typedef aphy_ref<aphy_world> aphy_world_ref;

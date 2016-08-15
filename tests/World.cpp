@@ -18,6 +18,7 @@ SUITE(Engine)
             broadphase = engine->createDefaultBroadphase();
             constraintSolver = engine->createDefaultConstraintSolver();
             world = engine->createDynamicsWorld(collisionDispatcher.get(), broadphase.get(), constraintSolver.get(), collisionConfiguration.get());
+            world->setGravity(0, -9.8, 0);
         }
 
         aphy_engine_ref engine;

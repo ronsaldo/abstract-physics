@@ -224,6 +224,12 @@
                 <arg name="fixed_time_step" type="scalar" />
             </method>
 
+            <method name="setGravity" cname="SetGravity" returnType="error">
+                <arg name="x" type="scalar" />
+                <arg name="y" type="scalar" />
+                <arg name="z" type="scalar" />
+            </method>
+
         </interface>
 
         <interface name="collision_object">
