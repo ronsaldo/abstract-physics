@@ -1,4 +1,6 @@
 10,
 aphyGetEngines,
+aphyAddEngineReference,
+aphyReleaseEngine,
 aphyGetEngineName,
 aphyGetEngineVersion

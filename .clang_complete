@@ -1,0 +1,3 @@
+-I.
+-Iinclude
+-I/usr/include/unittest++

@@ -5,7 +5,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#define CHECK_POINTER(pointer) if (!(pointer)) return AGPU_NULL_POINTER;
+#define CHECK_POINTER(pointer) if (!(pointer)) return APHY_NULL_POINTER;
 
 void printError(const char *format, ...);
 

@@ -116,6 +116,16 @@ private:
 	_aphy_engine() {}
 
 public:
+	inline void addReference (  )
+	{
+		APhyThrowIfFailed(aphyAddEngineReference( this ));
+	}
+
+	inline void release (  )
+	{
+		APhyThrowIfFailed(aphyReleaseEngine( this ));
+	}
+
 	inline aphy_cstring getName (  )
 	{
 		return aphyGetEngineName( this );

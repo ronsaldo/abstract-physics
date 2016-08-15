@@ -52,6 +52,12 @@
 
     <interfaces>
         <interface name="engine">
+            <method name="addReference" cname="AddEngineReference" returnType="error">
+            </method>
+
+            <method name="release" cname="ReleaseEngine" returnType="error">
+            </method>
+
             <method name="getName" cname="GetEngineName" returnType="cstring">
             </method>
 

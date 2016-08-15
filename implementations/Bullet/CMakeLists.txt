@@ -9,6 +9,9 @@ option(USE_GRAPHICAL_BENCHMARK "" OFF)
 add_subdirectory(bullet3)
 
 set(APHY_Bullet_SOURCES
+    common.hpp
+    engine.cpp
+    engine.hpp
     icd.c
     object.hpp
 )

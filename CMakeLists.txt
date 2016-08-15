@@ -42,12 +42,16 @@ include_directories(. include)
 # Set output dir.
 set(EXECUTABLE_OUTPUT_PATH "${APHY_BINARY_DIR}/dist")
 set(LIBRARY_OUTPUT_PATH "${APHY_BINARY_DIR}/dist")
+option(BUILD_APHY_TEST "Build APHY tests" OFF)
 
 # Find unittest++
-#pkg_check_modules(UNITTESTMM unittest++)
-#if(UNITTESTMM_FOUND)
-#    include_directories(${UNITTESTMM_INCLUDE_DIRS})
-#endif()
+find_package(PkgConfig)
+if(PKG_CONFIG_FOUND AND NOT APPLE)
+    pkg_check_modules(UNITTESTMM unittest++)
+    if(UNITTESTMM_FOUND)
+        include_directories(${UNITTESTMM_INCLUDE_DIRS})
+    endif()
+endif()
 
 # Find OpenGL
 find_package(OpenGL)
@@ -83,7 +87,7 @@ endif()
 
 
 # Samples libraries
-set(APHY_MAIN_LIB APhy)
+set(APHY_MAIN_LIB APhyBullet)
 set(APHY_SAMPLES_LIBS ${APHY_SAMPLES_LIBS} ${SDL2_LIBRARIES} ${APHY_MAIN_LIB})
 
 # Build the implementations
@@ -95,6 +99,6 @@ if(SDL2_FOUND AND APHY_BUILD_SAMPLES)
 endif()
 
 # Build the tests.
-if(UNITTESTMM_FOUND)
+if(UNITTESTMM_FOUND AND BUILD_APHY_TEST)
     add_subdirectory(tests)
 endif()

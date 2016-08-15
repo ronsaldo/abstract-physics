@@ -60,9 +60,13 @@ typedef aphy_error (*aphyGetEngines_FUN) ( aphy_size numengines, aphy_engine** e
 APHY_EXPORT aphy_error aphyGetEngines ( aphy_size numengines, aphy_engine** engines, aphy_size* ret_numengines );
 
 /* Methods for interface aphy_engine. */
+typedef aphy_error (*aphyAddEngineReference_FUN) ( aphy_engine* engine );
+typedef aphy_error (*aphyReleaseEngine_FUN) ( aphy_engine* engine );
 typedef aphy_cstring (*aphyGetEngineName_FUN) ( aphy_engine* engine );
 typedef aphy_int (*aphyGetEngineVersion_FUN) ( aphy_engine* engine );
 
+APHY_EXPORT aphy_error aphyAddEngineReference ( aphy_engine* engine );
+APHY_EXPORT aphy_error aphyReleaseEngine ( aphy_engine* engine );
 APHY_EXPORT aphy_cstring aphyGetEngineName ( aphy_engine* engine );
 APHY_EXPORT aphy_int aphyGetEngineVersion ( aphy_engine* engine );
 
@@ -70,6 +74,8 @@ APHY_EXPORT aphy_int aphyGetEngineVersion ( aphy_engine* engine );
 typedef struct _aphy_icd_dispatch {
 	int icd_interface_version;
 	aphyGetEngines_FUN aphyGetEngines;
+	aphyAddEngineReference_FUN aphyAddEngineReference;
+	aphyReleaseEngine_FUN aphyReleaseEngine;
 	aphyGetEngineName_FUN aphyGetEngineName;
 	aphyGetEngineVersion_FUN aphyGetEngineVersion;
 } aphy_icd_dispatch;

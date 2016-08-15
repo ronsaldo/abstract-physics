@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include "engine.hpp"
 
+_aphy_engine::_aphy_engine()
+{
+}
+
+void _aphy_engine::lostReferences()
+{
+}
+
 aphy_cstring aphy_engine::getName (  )
 {
     return "Bullet";
@@ -23,6 +31,18 @@ APHY_EXPORT aphy_error aphyGetEngines ( aphy_size numengines, aphy_engine** engi
 }
 
 // The exported C interface
+APHY_EXPORT aphy_error aphyAddEngineReference ( aphy_engine* engine )
+{
+    CHECK_POINTER(engine);
+    return engine->retain();
+}
+
+APHY_EXPORT aphy_error aphyReleaseEngine ( aphy_engine* engine )
+{
+    CHECK_POINTER(engine);
+    return engine->release();
+}
+
 APHY_EXPORT aphy_cstring aphyGetEngineName ( aphy_engine* engine )
 {
     if(!engine)
