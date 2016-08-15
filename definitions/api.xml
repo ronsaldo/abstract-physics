@@ -12,8 +12,7 @@
         <typedef name="enum" ctype="int" />
         <typedef name="bool" ctype="int" />
 
-        <typedef name="float" ctype="float" />
-        <typedef name="double" ctype="double" />
+        <typedef name="scalar" ctype="float" />
 
         <typedef name="bitfield" ctype="unsigned int" />
 
@@ -62,6 +61,191 @@
             </method>
 
             <method name="getVersion" cname="GetEngineVersion" returnType="int">
+            </method>
+
+            <method name="createDefaultCollisionConfiguration" cname="CreateDefaultCollisionConfiguration" returnType="collision_configuration*">
+            </method>
+
+            <method name="createDefaultCollisionDispatcher" cname="CreateDefaultCollisionDispatcher" returnType="collision_dispatcher*">
+                <arg name="collision_configuration" type="collision_configuration*" />
+            </method>
+
+            <method name="createDefaultBroadphase" cname="CreateDefaultBroadphase" returnType="broadphase*">
+            </method>
+
+            <method name="createDefaultConstraintSolver" cname="CreateDefaultConstraintSolver" returnType="constraint_solver*">
+            </method>
+
+            <method name="createDynamicsWorld" cname="CreateDynamicsWorld" returnType="world*">
+                <arg name="collision_dispatcher" type="collision_dispatcher*" />
+                <arg name="broadphase" type="broadphase*" />
+                <arg name="constraint_solver" type="constraint_solver*" />
+                <arg name="collision_configuration" type="collision_configuration*" />
+            </method>
+
+            <method name="createBoxShape" cname="CreateBoxShape" returnType="collision_shape*">
+                <arg name="half_width" type="scalar" />
+                <arg name="half_height" type="scalar" />
+                <arg name="half_depth" type="scalar" />
+            </method>
+
+            <method name="createCylinderX" cname="CreateCylinderX" returnType="collision_shape*">
+                <arg name="half_width" type="scalar" />
+                <arg name="half_height" type="scalar" />
+                <arg name="half_depth" type="scalar" />
+            </method>
+
+            <method name="createCylinderY" cname="CreateCylinderY" returnType="collision_shape*">
+                <arg name="half_width" type="scalar" />
+                <arg name="half_height" type="scalar" />
+                <arg name="half_depth" type="scalar" />
+            </method>
+
+            <method name="createCylinderZ" cname="CreateCylinderZ" returnType="collision_shape*">
+                <arg name="half_width" type="scalar" />
+                <arg name="half_height" type="scalar" />
+                <arg name="half_depth" type="scalar" />
+            </method>
+
+            <method name="createConvexHullShape" cname="CreateConvexHullShape" returnType="collision_shape*">
+                <arg name="coordinates" type="scalar*" />
+                <arg name="num_points" type="size" />
+                <arg name="stride" type="size" />
+            </method>
+
+            <method name="createCapsuleShapeX" cname="CreateCapsuleShapeX" returnType="collision_shape*">
+                <arg name="radius" type="scalar" />
+                <arg name="height" type="scalar" />
+            </method>
+
+            <method name="createCapsuleShapeY" cname="CreateCapsuleShapeY" returnType="collision_shape*">
+                <arg name="radius" type="scalar" />
+                <arg name="height" type="scalar" />
+            </method>
+
+            <method name="createCapsuleShapeZ" cname="CreateCapsuleShapeZ" returnType="collision_shape*">
+                <arg name="radius" type="scalar" />
+                <arg name="height" type="scalar" />
+            </method>
+
+            <method name="createConeX" cname="CreateConeX" returnType="collision_shape*">
+                <arg name="radius" type="scalar" />
+                <arg name="height" type="scalar" />
+            </method>
+
+            <method name="createConeY" cname="CreateConeY" returnType="collision_shape*">
+                <arg name="radius" type="scalar" />
+                <arg name="height" type="scalar" />
+            </method>
+
+            <method name="createConeZ" cname="CreateConeZ" returnType="collision_shape*">
+                <arg name="radius" type="scalar" />
+                <arg name="height" type="scalar" />
+            </method>
+
+            <method name="createSphere" cname="CreateSphere" returnType="collision_shape*">
+                <arg name="radius" type="scalar" />
+            </method>
+
+        </interface>
+
+        <interface name="collision_configuration">
+            <method name="addReference" cname="AddCollisionConfigurationReference" returnType="error">
+            </method>
+
+            <method name="release" cname="ReleaseCollisionConfiguration" returnType="error">
+            </method>
+        </interface>
+
+        <interface name="collision_dispatcher">
+            <method name="addReference" cname="AddCollisionDispatcherReference" returnType="error">
+            </method>
+
+            <method name="release" cname="ReleaseCollisionDispatcher" returnType="error">
+            </method>
+        </interface>
+
+        <interface name="broadphase">
+            <method name="addReference" cname="AddBroadphaseReference" returnType="error">
+            </method>
+
+            <method name="release" cname="ReleaseBroadphaseReference" returnType="error">
+            </method>
+        </interface>
+
+        <interface name="constraint_solver">
+            <method name="addReference" cname="AddConstraintSolverReference" returnType="error">
+            </method>
+
+            <method name="release" cname="ReleaseConstraintSolverReference" returnType="error">
+            </method>
+        </interface>
+
+        <interface name="world">
+            <method name="addReference" cname="AddWorldReference" returnType="error">
+            </method>
+
+            <method name="release" cname="ReleaseWorldReference" returnType="error">
+            </method>
+
+            <method name="getNumberOfCollisionObject" cname="GetNumberOfCollisionObject" returnType="uint">
+            </method>
+
+            <method name="getNumberOfConstraints" cname="GetNumberOfConstraints" returnType="uint">
+            </method>
+
+            <method name="addCollisionObject" cname="AddCollisionObject" returnType="error">
+                <arg name="object" type="collision_object*" />
+                <arg name="collision_filter_group" type="short" />
+                <arg name="collision_filter_mask" type="short" />
+            </method>
+
+            <method name="removeCollisionObject" cname="RemoveCollisionObject" returnType="error">
+                <arg name="object" type="collision_object*" />
+            </method>
+
+            <method name="addRigidBody" cname="AddRigidBody" returnType="error">
+                <arg name="object" type="collision_object*" />
+            </method>
+
+            <method name="removeRigidBody" cname="RemoveRigidBody" returnType="error">
+                <arg name="object" type="collision_object*" />
+            </method>
+
+            <method name="addRigidBodyWithFilter" cname="AddRigidBodyWithFilter" returnType="error">
+                <arg name="object" type="collision_object*" />
+                <arg name="collision_filter_group" type="short" />
+                <arg name="collision_filter_mask" type="short" />
+            </method>
+
+            <method name="stepSimulation" cname="StepSimulation" returnType="error">
+                <arg name="time_step" type="scalar" />
+                <arg name="max_sub_steps" type="int" />
+                <arg name="fixed_time_step" type="scalar" />
+            </method>
+
+        </interface>
+
+        <interface name="collision_object">
+            <method name="addReference" cname="AddCollisionObjectReference" returnType="error">
+            </method>
+
+            <method name="release" cname="ReleaseCollisionObjectReference" returnType="error">
+            </method>
+        </interface>
+
+        <interface name="collision_shape">
+            <method name="addReference" cname="AddCollisionShapeReference" returnType="error">
+            </method>
+
+            <method name="release" cname="ReleaseCollisionShapeReference" returnType="error">
+            </method>
+
+            <method name="setMargin" cname="SetShapeMargin" returnType="error">
+                <arg name="margin" type="scalar" />
+            </method>
+
+            <method name="getMargin" cname="GetShapeMargin" returnType="scalar">
             </method>
         </interface>
     </interfaces>

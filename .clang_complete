@@ -1,3 +1,4 @@
 -I.
 -Iinclude
 -I/usr/include/unittest++
+-Iimplementations/Bullet/bullet3/src

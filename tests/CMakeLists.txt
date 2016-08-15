@@ -1,6 +1,7 @@
 set(APhyTests_SOURCES
     Engine.cpp
     Main.cpp
+    World.cpp
 )
 
 add_executable(APhyTests ${APhyTests_SOURCES})

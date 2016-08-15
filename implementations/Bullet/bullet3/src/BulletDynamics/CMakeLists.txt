@@ -121,9 +121,11 @@ SET(BulletDynamics_HDRS
 )
 
 
-ADD_LIBRARY(BulletDynamics ${BulletDynamics_SRCS} ${BulletDynamics_HDRS})
+ADD_LIBRARY(BulletDynamics OBJECT ${BulletDynamics_SRCS} ${BulletDynamics_HDRS})
 SET_TARGET_PROPERTIES(BulletDynamics PROPERTIES VERSION ${BULLET_VERSION})
 SET_TARGET_PROPERTIES(BulletDynamics PROPERTIES SOVERSION ${BULLET_VERSION})
+# Modified to include in aphy.
+SET_TARGET_PROPERTIES(BulletDynamics PROPERTIES POSITION_INDEPENDENT_CODE True)
 IF (BUILD_SHARED_LIBS)
 	TARGET_LINK_LIBRARIES(BulletDynamics BulletCollision LinearMath)
 ENDIF (BUILD_SHARED_LIBS)
