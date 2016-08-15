@@ -1,0 +1,63 @@
+<api name="Abstract Physics" headerFile="aphy.h" constantPrefix="APHY_" typePrefix="aphy_" functionPrefix="aphy" >
+<version name="1.0">
+    <types>
+        <typedef name="byte" ctype="unsigned char" />
+        <typedef name="sbyte" ctype="signed char" />
+        <typedef name="short" ctype="signed short" />
+        <typedef name="ushort" ctype="unsigned short" />
+        <typedef name="int" ctype="signed int" />
+        <typedef name="uint" ctype="unsigned int" />
+        <typedef name="pointer" ctype="void*" />
+        <typedef name="size" ctype="unsigned int" />
+        <typedef name="enum" ctype="int" />
+        <typedef name="bool" ctype="int" />
+
+        <typedef name="float" ctype="float" />
+        <typedef name="double" ctype="double" />
+
+        <typedef name="bitfield" ctype="unsigned int" />
+
+        <typedef name="cstring" ctype="const char*" />
+        <typedef name="string" ctype="const char*" />
+        <typedef name="string_length" ctype="int" />
+
+        <typedef name="cstring_buffer" ctype="char*" />
+        <typedef name="string_buffer" ctype="char*" />
+    </types>
+
+	<structs>
+	</structs>
+
+    <constants>
+        <enum name="error">
+            <constant name="Ok" value="0" />
+            <constant name="Error" value="-1" />
+            <constant name="NullPointer" value="-2" />
+            <constant name="InvalidOperation" value="-3" />
+            <constant name="InvalidParameter" value="-4" />
+            <constant name="OutOfBounds" value="-5" />
+            <constant name="Unsupported" value="-6" />
+            <constant name="Unimplemented" value="-7" />
+        </enum>
+
+    </constants>
+
+    <globals>
+        <function name="getEngines" cname="GetEngines" returnType="error" category="engine">
+            <arg name="numengines" type="size" />
+            <arg name="engines" type="engine**" arrayReturn="true"/>
+            <arg name="ret_numengines" type="size*" />
+        </function>
+    </globals>
+
+    <interfaces>
+        <interface name="engine">
+            <method name="getName" cname="GetEngineName" returnType="cstring">
+            </method>
+
+            <method name="getVersion" cname="GetEngineVersion" returnType="int">
+            </method>
+        </interface>
+    </interfaces>
+</version>
+</api>
