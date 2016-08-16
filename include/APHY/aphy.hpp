@@ -402,6 +402,46 @@ public:
 		APhyThrowIfFailed(aphyReleaseCollisionObjectReference( this ));
 	}
 
+	inline aphy_transform getTransform (  )
+	{
+		return aphyGetCollisionObjectTransform( this );
+	}
+
+	inline aphy_vector3 getTranslation (  )
+	{
+		return aphyGetCollisionObjectTranslation( this );
+	}
+
+	inline aphy_matrix3x3 getMatrix (  )
+	{
+		return aphyGetCollisionObjectMatrix( this );
+	}
+
+	inline aphy_quaternion getQuaternion (  )
+	{
+		return aphyGetCollisionObjectQuaternion( this );
+	}
+
+	inline void setTransform ( aphy_transform value )
+	{
+		APhyThrowIfFailed(aphySetCollisionObjectTransform( this, value ));
+	}
+
+	inline void setTranslation ( aphy_vector3 value )
+	{
+		APhyThrowIfFailed(aphySetCollisionObjectTranslation( this, value ));
+	}
+
+	inline void setMatrix ( aphy_matrix3x3 value )
+	{
+		APhyThrowIfFailed(aphySetCollisionObjectMatrix( this, value ));
+	}
+
+	inline void setQuaternion ( aphy_quaternion value )
+	{
+		APhyThrowIfFailed(aphySetCollisionObjectQuaternion( this, value ));
+	}
+
 };
 
 typedef aphy_ref<aphy_collision_object> aphy_collision_object_ref;

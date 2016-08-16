@@ -272,6 +272,34 @@
 
             <method name="release" cname="ReleaseCollisionObjectReference" returnType="error">
             </method>
+
+            <method name="getTransform" cname="GetCollisionObjectTransform" returnType="transform">
+            </method>
+
+            <method name="getTranslation" cname="GetCollisionObjectTranslation" returnType="vector3">
+            </method>
+
+            <method name="getMatrix" cname="GetCollisionObjectMatrix" returnType="matrix3x3">
+            </method>
+
+            <method name="getQuaternion" cname="GetCollisionObjectQuaternion" returnType="quaternion">
+            </method>
+
+            <method name="setTransform" cname="SetCollisionObjectTransform" returnType="error">
+                <arg name="value" type="transform" />
+            </method>
+
+            <method name="setTranslation" cname="SetCollisionObjectTranslation" returnType="error">
+                <arg name="value" type="vector3" />
+            </method>
+
+            <method name="setMatrix" cname="SetCollisionObjectMatrix" returnType="error">
+                <arg name="value" type="matrix3x3" />
+            </method>
+
+            <method name="setQuaternion" cname="SetCollisionObjectQuaternion" returnType="error">
+                <arg name="value" type="quaternion" />
+            </method>
         </interface>
 
         <interface name="collision_shape">

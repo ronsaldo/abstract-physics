@@ -71,10 +71,10 @@ typedef struct aphy_vector3 {
 
 /* Structure aphy_quaternion. */
 typedef struct aphy_quaternion {
-	aphy_scalar w;
 	aphy_scalar x;
 	aphy_scalar y;
 	aphy_scalar z;
+	aphy_scalar w;
 } aphy_quaternion;
 
 /* Structure aphy_matrix3x3. */
@@ -200,9 +200,25 @@ APHY_EXPORT aphy_error aphySetGravity ( aphy_world* world, aphy_scalar x, aphy_s
 /* Methods for interface aphy_collision_object. */
 typedef aphy_error (*aphyAddCollisionObjectReference_FUN) ( aphy_collision_object* collision_object );
 typedef aphy_error (*aphyReleaseCollisionObjectReference_FUN) ( aphy_collision_object* collision_object );
+typedef aphy_transform (*aphyGetCollisionObjectTransform_FUN) ( aphy_collision_object* collision_object );
+typedef aphy_vector3 (*aphyGetCollisionObjectTranslation_FUN) ( aphy_collision_object* collision_object );
+typedef aphy_matrix3x3 (*aphyGetCollisionObjectMatrix_FUN) ( aphy_collision_object* collision_object );
+typedef aphy_quaternion (*aphyGetCollisionObjectQuaternion_FUN) ( aphy_collision_object* collision_object );
+typedef aphy_error (*aphySetCollisionObjectTransform_FUN) ( aphy_collision_object* collision_object, aphy_transform value );
+typedef aphy_error (*aphySetCollisionObjectTranslation_FUN) ( aphy_collision_object* collision_object, aphy_vector3 value );
+typedef aphy_error (*aphySetCollisionObjectMatrix_FUN) ( aphy_collision_object* collision_object, aphy_matrix3x3 value );
+typedef aphy_error (*aphySetCollisionObjectQuaternion_FUN) ( aphy_collision_object* collision_object, aphy_quaternion value );
 
 APHY_EXPORT aphy_error aphyAddCollisionObjectReference ( aphy_collision_object* collision_object );
 APHY_EXPORT aphy_error aphyReleaseCollisionObjectReference ( aphy_collision_object* collision_object );
+APHY_EXPORT aphy_transform aphyGetCollisionObjectTransform ( aphy_collision_object* collision_object );
+APHY_EXPORT aphy_vector3 aphyGetCollisionObjectTranslation ( aphy_collision_object* collision_object );
+APHY_EXPORT aphy_matrix3x3 aphyGetCollisionObjectMatrix ( aphy_collision_object* collision_object );
+APHY_EXPORT aphy_quaternion aphyGetCollisionObjectQuaternion ( aphy_collision_object* collision_object );
+APHY_EXPORT aphy_error aphySetCollisionObjectTransform ( aphy_collision_object* collision_object, aphy_transform value );
+APHY_EXPORT aphy_error aphySetCollisionObjectTranslation ( aphy_collision_object* collision_object, aphy_vector3 value );
+APHY_EXPORT aphy_error aphySetCollisionObjectMatrix ( aphy_collision_object* collision_object, aphy_matrix3x3 value );
+APHY_EXPORT aphy_error aphySetCollisionObjectQuaternion ( aphy_collision_object* collision_object, aphy_quaternion value );
 
 /* Methods for interface aphy_collision_shape. */
 typedef aphy_error (*aphyAddCollisionShapeReference_FUN) ( aphy_collision_shape* collision_shape );
@@ -288,6 +304,14 @@ typedef struct _aphy_icd_dispatch {
 	aphySetGravity_FUN aphySetGravity;
 	aphyAddCollisionObjectReference_FUN aphyAddCollisionObjectReference;
 	aphyReleaseCollisionObjectReference_FUN aphyReleaseCollisionObjectReference;
+	aphyGetCollisionObjectTransform_FUN aphyGetCollisionObjectTransform;
+	aphyGetCollisionObjectTranslation_FUN aphyGetCollisionObjectTranslation;
+	aphyGetCollisionObjectMatrix_FUN aphyGetCollisionObjectMatrix;
+	aphyGetCollisionObjectQuaternion_FUN aphyGetCollisionObjectQuaternion;
+	aphySetCollisionObjectTransform_FUN aphySetCollisionObjectTransform;
+	aphySetCollisionObjectTranslation_FUN aphySetCollisionObjectTranslation;
+	aphySetCollisionObjectMatrix_FUN aphySetCollisionObjectMatrix;
+	aphySetCollisionObjectQuaternion_FUN aphySetCollisionObjectQuaternion;
 	aphyAddCollisionShapeReference_FUN aphyAddCollisionShapeReference;
 	aphyReleaseCollisionShapeReference_FUN aphyReleaseCollisionShapeReference;
 	aphySetShapeMargin_FUN aphySetShapeMargin;
