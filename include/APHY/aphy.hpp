@@ -479,6 +479,26 @@ public:
 		return aphyGetMotionStateQuaternion( this );
 	}
 
+	inline void setTransform ( aphy_transform value )
+	{
+		APhyThrowIfFailed(aphySetMotionStateTransform( this, value ));
+	}
+
+	inline void setTranslation ( aphy_vector3 value )
+	{
+		APhyThrowIfFailed(aphySetMotionStateTranslation( this, value ));
+	}
+
+	inline void setMatrix ( aphy_matrix3x3 value )
+	{
+		APhyThrowIfFailed(aphySetMotionStateMatrix( this, value ));
+	}
+
+	inline void setQuaternion ( aphy_quaternion value )
+	{
+		APhyThrowIfFailed(aphySetMotionStateQuaternion( this, value ));
+	}
+
 };
 
 typedef aphy_ref<aphy_motion_state> aphy_motion_state_ref;

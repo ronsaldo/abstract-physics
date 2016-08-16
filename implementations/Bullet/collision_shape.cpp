@@ -38,7 +38,6 @@ APHY_EXPORT aphy_scalar aphyGetShapeMargin ( aphy_collision_shape* collision_sha
     return collision_shape->handle->getMargin();
 }
 
-
 APHY_EXPORT aphy_vector3 aphyComputeLocalInertia ( aphy_collision_shape* collision_shape, aphy_scalar mass )
 {
     if(!collision_shape)

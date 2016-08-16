@@ -54,4 +54,8 @@ aphyReleaseMotionStateReference,
 aphyGetMotionStateTransform,
 aphyGetMotionStateTranslation,
 aphyGetMotionStateMatrix,
-aphyGetMotionStateQuaternion
+aphyGetMotionStateQuaternion,
+aphySetMotionStateTransform,
+aphySetMotionStateTranslation,
+aphySetMotionStateMatrix,
+aphySetMotionStateQuaternion

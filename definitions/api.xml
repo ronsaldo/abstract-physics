@@ -33,10 +33,10 @@
         </struct>
 
         <struct name="quaternion">
-            <field name="w" type="scalar" />
             <field name="x" type="scalar" />
             <field name="y" type="scalar" />
             <field name="z" type="scalar" />
+            <field name="w" type="scalar" />
         </struct>
 
         <struct name="matrix3x3">
@@ -310,6 +310,22 @@
             </method>
 
             <method name="getQuaternion" cname="GetMotionStateQuaternion" returnType="quaternion">
+            </method>
+
+            <method name="setTransform" cname="SetMotionStateTransform" returnType="error">
+                <arg name="value" type="transform" />
+            </method>
+
+            <method name="setTranslation" cname="SetMotionStateTranslation" returnType="error">
+                <arg name="value" type="vector3" />
+            </method>
+
+            <method name="setMatrix" cname="SetMotionStateMatrix" returnType="error">
+                <arg name="value" type="matrix3x3" />
+            </method>
+
+            <method name="setQuaternion" cname="SetMotionStateQuaternion" returnType="error">
+                <arg name="value" type="quaternion" />
             </method>
 
         </interface>

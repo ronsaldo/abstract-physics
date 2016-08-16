@@ -224,6 +224,10 @@ typedef aphy_transform (*aphyGetMotionStateTransform_FUN) ( aphy_motion_state* m
 typedef aphy_vector3 (*aphyGetMotionStateTranslation_FUN) ( aphy_motion_state* motion_state );
 typedef aphy_matrix3x3 (*aphyGetMotionStateMatrix_FUN) ( aphy_motion_state* motion_state );
 typedef aphy_quaternion (*aphyGetMotionStateQuaternion_FUN) ( aphy_motion_state* motion_state );
+typedef aphy_error (*aphySetMotionStateTransform_FUN) ( aphy_motion_state* motion_state, aphy_transform value );
+typedef aphy_error (*aphySetMotionStateTranslation_FUN) ( aphy_motion_state* motion_state, aphy_vector3 value );
+typedef aphy_error (*aphySetMotionStateMatrix_FUN) ( aphy_motion_state* motion_state, aphy_matrix3x3 value );
+typedef aphy_error (*aphySetMotionStateQuaternion_FUN) ( aphy_motion_state* motion_state, aphy_quaternion value );
 
 APHY_EXPORT aphy_error aphyAddMotionStateReference ( aphy_motion_state* motion_state );
 APHY_EXPORT aphy_error aphyReleaseMotionStateReference ( aphy_motion_state* motion_state );
@@ -231,6 +235,10 @@ APHY_EXPORT aphy_transform aphyGetMotionStateTransform ( aphy_motion_state* moti
 APHY_EXPORT aphy_vector3 aphyGetMotionStateTranslation ( aphy_motion_state* motion_state );
 APHY_EXPORT aphy_matrix3x3 aphyGetMotionStateMatrix ( aphy_motion_state* motion_state );
 APHY_EXPORT aphy_quaternion aphyGetMotionStateQuaternion ( aphy_motion_state* motion_state );
+APHY_EXPORT aphy_error aphySetMotionStateTransform ( aphy_motion_state* motion_state, aphy_transform value );
+APHY_EXPORT aphy_error aphySetMotionStateTranslation ( aphy_motion_state* motion_state, aphy_vector3 value );
+APHY_EXPORT aphy_error aphySetMotionStateMatrix ( aphy_motion_state* motion_state, aphy_matrix3x3 value );
+APHY_EXPORT aphy_error aphySetMotionStateQuaternion ( aphy_motion_state* motion_state, aphy_quaternion value );
 
 /* Installable client driver interface. */
 typedef struct _aphy_icd_dispatch {
@@ -291,6 +299,10 @@ typedef struct _aphy_icd_dispatch {
 	aphyGetMotionStateTranslation_FUN aphyGetMotionStateTranslation;
 	aphyGetMotionStateMatrix_FUN aphyGetMotionStateMatrix;
 	aphyGetMotionStateQuaternion_FUN aphyGetMotionStateQuaternion;
+	aphySetMotionStateTransform_FUN aphySetMotionStateTransform;
+	aphySetMotionStateTranslation_FUN aphySetMotionStateTranslation;
+	aphySetMotionStateMatrix_FUN aphySetMotionStateMatrix;
+	aphySetMotionStateQuaternion_FUN aphySetMotionStateQuaternion;
 } aphy_icd_dispatch;
 
 
