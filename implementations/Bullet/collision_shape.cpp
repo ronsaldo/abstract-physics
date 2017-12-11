@@ -47,3 +47,11 @@ APHY_EXPORT aphy_vector3 aphyComputeLocalInertia ( aphy_collision_shape* collisi
     collision_shape->handle->calculateLocalInertia(mass, result);
     return convertVector(result);
 }
+
+APHY_EXPORT aphy_error aphyComputeLocalInertiaInto ( aphy_collision_shape* collision_shape, aphy_scalar mass, aphy_vector3 *result)
+{
+    CHECK_POINTER(collision_shape);
+    CHECK_POINTER(result);
+    *result = aphyComputeLocalInertia(collision_shape, mass);
+    return APHY_OK;
+}

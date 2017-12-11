@@ -228,6 +228,14 @@ APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBody ( aphy_engine* engi
     return result;
 }
 
+APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBodyFrom ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 *local_inertia )
+{
+    if(!local_inertia)
+        return nullptr;
+        
+    return aphyCreateSimpleRigidBody(engine, mass, motion_state, collision_shape, *local_inertia);
+}
+
 #if defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

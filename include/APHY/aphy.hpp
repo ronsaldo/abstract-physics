@@ -231,6 +231,11 @@ public:
 		return aphyCreateSimpleRigidBody( this, mass, motion_state, collision_shape, local_inertia );
 	}
 
+	inline aphy_collision_object* createSimpleRigidBodyFrom ( aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3* local_inertia )
+	{
+		return aphyCreateSimpleRigidBodyFrom( this, mass, motion_state, collision_shape, local_inertia );
+	}
+
 };
 
 typedef aphy_ref<aphy_engine> aphy_engine_ref;
@@ -407,9 +412,19 @@ public:
 		return aphyGetCollisionObjectTransform( this );
 	}
 
+	inline void getTransformInto ( aphy_transform* result )
+	{
+		APhyThrowIfFailed(aphyGetCollisionObjectTransformInto( this, result ));
+	}
+
 	inline aphy_vector3 getTranslation (  )
 	{
 		return aphyGetCollisionObjectTranslation( this );
+	}
+
+	inline void getTranslationInto ( aphy_vector3* result )
+	{
+		APhyThrowIfFailed(aphyGetCollisionObjectTranslationInto( this, result ));
 	}
 
 	inline aphy_matrix3x3 getMatrix (  )
@@ -417,9 +432,19 @@ public:
 		return aphyGetCollisionObjectMatrix( this );
 	}
 
+	inline void getMatrixInto ( aphy_matrix3x3* result )
+	{
+		APhyThrowIfFailed(aphyGetCollisionObjectMatrixInto( this, result ));
+	}
+
 	inline aphy_quaternion getQuaternion (  )
 	{
 		return aphyGetCollisionObjectQuaternion( this );
+	}
+
+	inline void getQuaternionInto ( aphy_quaternion* result )
+	{
+		APhyThrowIfFailed(aphyGetCollisionObjectQuaternionInto( this, result ));
 	}
 
 	inline void setTransform ( aphy_transform value )
@@ -427,9 +452,19 @@ public:
 		APhyThrowIfFailed(aphySetCollisionObjectTransform( this, value ));
 	}
 
+	inline void setTransformFrom ( aphy_transform* value )
+	{
+		APhyThrowIfFailed(aphySetCollisionObjectTransformFrom( this, value ));
+	}
+
 	inline void setTranslation ( aphy_vector3 value )
 	{
 		APhyThrowIfFailed(aphySetCollisionObjectTranslation( this, value ));
+	}
+
+	inline void setTranslationFrom ( aphy_vector3* value )
+	{
+		APhyThrowIfFailed(aphySetCollisionObjectTranslationFrom( this, value ));
 	}
 
 	inline void setMatrix ( aphy_matrix3x3 value )
@@ -437,9 +472,19 @@ public:
 		APhyThrowIfFailed(aphySetCollisionObjectMatrix( this, value ));
 	}
 
+	inline void setMatrixFrom ( aphy_matrix3x3* value )
+	{
+		APhyThrowIfFailed(aphySetCollisionObjectMatrixFrom( this, value ));
+	}
+
 	inline void setQuaternion ( aphy_quaternion value )
 	{
 		APhyThrowIfFailed(aphySetCollisionObjectQuaternion( this, value ));
+	}
+
+	inline void setQuaternion ( aphy_quaternion* value )
+	{
+		APhyThrowIfFailed(aphySetCollisionObjectQuaternionFrom( this, value ));
 	}
 
 };
@@ -478,6 +523,11 @@ public:
 		return aphyComputeLocalInertia( this, mass );
 	}
 
+	inline void computeLocalInertiaInto ( aphy_scalar mass, aphy_vector3* result )
+	{
+		APhyThrowIfFailed(aphyComputeLocalInertiaInto( this, mass, result ));
+	}
+
 };
 
 typedef aphy_ref<aphy_collision_shape> aphy_collision_shape_ref;
@@ -504,9 +554,19 @@ public:
 		return aphyGetMotionStateTransform( this );
 	}
 
+	inline void getTransformInto ( aphy_transform* result )
+	{
+		APhyThrowIfFailed(aphyGetMotionStateTransformInto( this, result ));
+	}
+
 	inline aphy_vector3 getTranslation (  )
 	{
 		return aphyGetMotionStateTranslation( this );
+	}
+
+	inline void getTranslationInto ( aphy_vector3* result )
+	{
+		APhyThrowIfFailed(aphyGetMotionStateTranslationInto( this, result ));
 	}
 
 	inline aphy_matrix3x3 getMatrix (  )
@@ -514,9 +574,19 @@ public:
 		return aphyGetMotionStateMatrix( this );
 	}
 
+	inline void getMatrixInto ( aphy_matrix3x3* result )
+	{
+		APhyThrowIfFailed(aphyGetMotionStateMatrixInto( this, result ));
+	}
+
 	inline aphy_quaternion getQuaternion (  )
 	{
 		return aphyGetMotionStateQuaternion( this );
+	}
+
+	inline void getQuaternionInto ( aphy_quaternion* result )
+	{
+		APhyThrowIfFailed(aphyGetMotionStateQuaternionInto( this, result ));
 	}
 
 	inline void setTransform ( aphy_transform value )
@@ -524,9 +594,19 @@ public:
 		APhyThrowIfFailed(aphySetMotionStateTransform( this, value ));
 	}
 
+	inline void setTransformFrom ( aphy_transform* value )
+	{
+		APhyThrowIfFailed(aphySetMotionStateTransformFrom( this, value ));
+	}
+
 	inline void setTranslation ( aphy_vector3 value )
 	{
 		APhyThrowIfFailed(aphySetMotionStateTranslation( this, value ));
+	}
+
+	inline void setTranslationFrom ( aphy_vector3* value )
+	{
+		APhyThrowIfFailed(aphySetMotionStateTranslationFrom( this, value ));
 	}
 
 	inline void setMatrix ( aphy_matrix3x3 value )
@@ -534,9 +614,19 @@ public:
 		APhyThrowIfFailed(aphySetMotionStateMatrix( this, value ));
 	}
 
+	inline void setMatrixFrom ( aphy_matrix3x3* value )
+	{
+		APhyThrowIfFailed(aphySetMotionStateMatrixFrom( this, value ));
+	}
+
 	inline void setQuaternion ( aphy_quaternion value )
 	{
 		APhyThrowIfFailed(aphySetMotionStateQuaternion( this, value ));
+	}
+
+	inline void setQuaternionFrom ( aphy_quaternion* value )
+	{
+		APhyThrowIfFailed(aphySetMotionStateQuaternionFrom( this, value ));
 	}
 
 };

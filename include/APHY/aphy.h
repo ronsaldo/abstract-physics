@@ -119,6 +119,7 @@ typedef aphy_collision_shape* (*aphyCreateConeY_FUN) ( aphy_engine* engine, aphy
 typedef aphy_collision_shape* (*aphyCreateConeZ_FUN) ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 typedef aphy_collision_shape* (*aphyCreateSphere_FUN) ( aphy_engine* engine, aphy_scalar radius );
 typedef aphy_collision_object* (*aphyCreateSimpleRigidBody_FUN) ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia );
+typedef aphy_collision_object* (*aphyCreateSimpleRigidBodyFrom_FUN) ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3* local_inertia );
 
 APHY_EXPORT aphy_error aphyAddEngineReference ( aphy_engine* engine );
 APHY_EXPORT aphy_error aphyReleaseEngine ( aphy_engine* engine );
@@ -143,6 +144,7 @@ APHY_EXPORT aphy_collision_shape* aphyCreateConeY ( aphy_engine* engine, aphy_sc
 APHY_EXPORT aphy_collision_shape* aphyCreateConeZ ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 APHY_EXPORT aphy_collision_shape* aphyCreateSphere ( aphy_engine* engine, aphy_scalar radius );
 APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBody ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia );
+APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBodyFrom ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3* local_inertia );
 
 /* Methods for interface aphy_collision_configuration. */
 typedef aphy_error (*aphyAddCollisionConfigurationReference_FUN) ( aphy_collision_configuration* collision_configuration );
@@ -201,24 +203,40 @@ APHY_EXPORT aphy_error aphySetGravity ( aphy_world* world, aphy_scalar x, aphy_s
 typedef aphy_error (*aphyAddCollisionObjectReference_FUN) ( aphy_collision_object* collision_object );
 typedef aphy_error (*aphyReleaseCollisionObjectReference_FUN) ( aphy_collision_object* collision_object );
 typedef aphy_transform (*aphyGetCollisionObjectTransform_FUN) ( aphy_collision_object* collision_object );
+typedef aphy_error (*aphyGetCollisionObjectTransformInto_FUN) ( aphy_collision_object* collision_object, aphy_transform* result );
 typedef aphy_vector3 (*aphyGetCollisionObjectTranslation_FUN) ( aphy_collision_object* collision_object );
+typedef aphy_error (*aphyGetCollisionObjectTranslationInto_FUN) ( aphy_collision_object* collision_object, aphy_vector3* result );
 typedef aphy_matrix3x3 (*aphyGetCollisionObjectMatrix_FUN) ( aphy_collision_object* collision_object );
+typedef aphy_error (*aphyGetCollisionObjectMatrixInto_FUN) ( aphy_collision_object* collision_object, aphy_matrix3x3* result );
 typedef aphy_quaternion (*aphyGetCollisionObjectQuaternion_FUN) ( aphy_collision_object* collision_object );
+typedef aphy_error (*aphyGetCollisionObjectQuaternionInto_FUN) ( aphy_collision_object* collision_object, aphy_quaternion* result );
 typedef aphy_error (*aphySetCollisionObjectTransform_FUN) ( aphy_collision_object* collision_object, aphy_transform value );
+typedef aphy_error (*aphySetCollisionObjectTransformFrom_FUN) ( aphy_collision_object* collision_object, aphy_transform* value );
 typedef aphy_error (*aphySetCollisionObjectTranslation_FUN) ( aphy_collision_object* collision_object, aphy_vector3 value );
+typedef aphy_error (*aphySetCollisionObjectTranslationFrom_FUN) ( aphy_collision_object* collision_object, aphy_vector3* value );
 typedef aphy_error (*aphySetCollisionObjectMatrix_FUN) ( aphy_collision_object* collision_object, aphy_matrix3x3 value );
+typedef aphy_error (*aphySetCollisionObjectMatrixFrom_FUN) ( aphy_collision_object* collision_object, aphy_matrix3x3* value );
 typedef aphy_error (*aphySetCollisionObjectQuaternion_FUN) ( aphy_collision_object* collision_object, aphy_quaternion value );
+typedef aphy_error (*aphySetCollisionObjectQuaternionFrom_FUN) ( aphy_collision_object* collision_object, aphy_quaternion* value );
 
 APHY_EXPORT aphy_error aphyAddCollisionObjectReference ( aphy_collision_object* collision_object );
 APHY_EXPORT aphy_error aphyReleaseCollisionObjectReference ( aphy_collision_object* collision_object );
 APHY_EXPORT aphy_transform aphyGetCollisionObjectTransform ( aphy_collision_object* collision_object );
+APHY_EXPORT aphy_error aphyGetCollisionObjectTransformInto ( aphy_collision_object* collision_object, aphy_transform* result );
 APHY_EXPORT aphy_vector3 aphyGetCollisionObjectTranslation ( aphy_collision_object* collision_object );
+APHY_EXPORT aphy_error aphyGetCollisionObjectTranslationInto ( aphy_collision_object* collision_object, aphy_vector3* result );
 APHY_EXPORT aphy_matrix3x3 aphyGetCollisionObjectMatrix ( aphy_collision_object* collision_object );
+APHY_EXPORT aphy_error aphyGetCollisionObjectMatrixInto ( aphy_collision_object* collision_object, aphy_matrix3x3* result );
 APHY_EXPORT aphy_quaternion aphyGetCollisionObjectQuaternion ( aphy_collision_object* collision_object );
+APHY_EXPORT aphy_error aphyGetCollisionObjectQuaternionInto ( aphy_collision_object* collision_object, aphy_quaternion* result );
 APHY_EXPORT aphy_error aphySetCollisionObjectTransform ( aphy_collision_object* collision_object, aphy_transform value );
+APHY_EXPORT aphy_error aphySetCollisionObjectTransformFrom ( aphy_collision_object* collision_object, aphy_transform* value );
 APHY_EXPORT aphy_error aphySetCollisionObjectTranslation ( aphy_collision_object* collision_object, aphy_vector3 value );
+APHY_EXPORT aphy_error aphySetCollisionObjectTranslationFrom ( aphy_collision_object* collision_object, aphy_vector3* value );
 APHY_EXPORT aphy_error aphySetCollisionObjectMatrix ( aphy_collision_object* collision_object, aphy_matrix3x3 value );
+APHY_EXPORT aphy_error aphySetCollisionObjectMatrixFrom ( aphy_collision_object* collision_object, aphy_matrix3x3* value );
 APHY_EXPORT aphy_error aphySetCollisionObjectQuaternion ( aphy_collision_object* collision_object, aphy_quaternion value );
+APHY_EXPORT aphy_error aphySetCollisionObjectQuaternionFrom ( aphy_collision_object* collision_object, aphy_quaternion* value );
 
 /* Methods for interface aphy_collision_shape. */
 typedef aphy_error (*aphyAddCollisionShapeReference_FUN) ( aphy_collision_shape* collision_shape );
@@ -226,35 +244,53 @@ typedef aphy_error (*aphyReleaseCollisionShapeReference_FUN) ( aphy_collision_sh
 typedef aphy_error (*aphySetShapeMargin_FUN) ( aphy_collision_shape* collision_shape, aphy_scalar margin );
 typedef aphy_scalar (*aphyGetShapeMargin_FUN) ( aphy_collision_shape* collision_shape );
 typedef aphy_vector3 (*aphyComputeLocalInertia_FUN) ( aphy_collision_shape* collision_shape, aphy_scalar mass );
+typedef aphy_error (*aphyComputeLocalInertiaInto_FUN) ( aphy_collision_shape* collision_shape, aphy_scalar mass, aphy_vector3* result );
 
 APHY_EXPORT aphy_error aphyAddCollisionShapeReference ( aphy_collision_shape* collision_shape );
 APHY_EXPORT aphy_error aphyReleaseCollisionShapeReference ( aphy_collision_shape* collision_shape );
 APHY_EXPORT aphy_error aphySetShapeMargin ( aphy_collision_shape* collision_shape, aphy_scalar margin );
 APHY_EXPORT aphy_scalar aphyGetShapeMargin ( aphy_collision_shape* collision_shape );
 APHY_EXPORT aphy_vector3 aphyComputeLocalInertia ( aphy_collision_shape* collision_shape, aphy_scalar mass );
+APHY_EXPORT aphy_error aphyComputeLocalInertiaInto ( aphy_collision_shape* collision_shape, aphy_scalar mass, aphy_vector3* result );
 
 /* Methods for interface aphy_motion_state. */
 typedef aphy_error (*aphyAddMotionStateReference_FUN) ( aphy_motion_state* motion_state );
 typedef aphy_error (*aphyReleaseMotionStateReference_FUN) ( aphy_motion_state* motion_state );
 typedef aphy_transform (*aphyGetMotionStateTransform_FUN) ( aphy_motion_state* motion_state );
+typedef aphy_error (*aphyGetMotionStateTransformInto_FUN) ( aphy_motion_state* motion_state, aphy_transform* result );
 typedef aphy_vector3 (*aphyGetMotionStateTranslation_FUN) ( aphy_motion_state* motion_state );
+typedef aphy_error (*aphyGetMotionStateTranslationInto_FUN) ( aphy_motion_state* motion_state, aphy_vector3* result );
 typedef aphy_matrix3x3 (*aphyGetMotionStateMatrix_FUN) ( aphy_motion_state* motion_state );
+typedef aphy_error (*aphyGetMotionStateMatrixInto_FUN) ( aphy_motion_state* motion_state, aphy_matrix3x3* result );
 typedef aphy_quaternion (*aphyGetMotionStateQuaternion_FUN) ( aphy_motion_state* motion_state );
+typedef aphy_error (*aphyGetMotionStateQuaternionInto_FUN) ( aphy_motion_state* motion_state, aphy_quaternion* result );
 typedef aphy_error (*aphySetMotionStateTransform_FUN) ( aphy_motion_state* motion_state, aphy_transform value );
+typedef aphy_error (*aphySetMotionStateTransformFrom_FUN) ( aphy_motion_state* motion_state, aphy_transform* value );
 typedef aphy_error (*aphySetMotionStateTranslation_FUN) ( aphy_motion_state* motion_state, aphy_vector3 value );
+typedef aphy_error (*aphySetMotionStateTranslationFrom_FUN) ( aphy_motion_state* motion_state, aphy_vector3* value );
 typedef aphy_error (*aphySetMotionStateMatrix_FUN) ( aphy_motion_state* motion_state, aphy_matrix3x3 value );
+typedef aphy_error (*aphySetMotionStateMatrixFrom_FUN) ( aphy_motion_state* motion_state, aphy_matrix3x3* value );
 typedef aphy_error (*aphySetMotionStateQuaternion_FUN) ( aphy_motion_state* motion_state, aphy_quaternion value );
+typedef aphy_error (*aphySetMotionStateQuaternionFrom_FUN) ( aphy_motion_state* motion_state, aphy_quaternion* value );
 
 APHY_EXPORT aphy_error aphyAddMotionStateReference ( aphy_motion_state* motion_state );
 APHY_EXPORT aphy_error aphyReleaseMotionStateReference ( aphy_motion_state* motion_state );
 APHY_EXPORT aphy_transform aphyGetMotionStateTransform ( aphy_motion_state* motion_state );
+APHY_EXPORT aphy_error aphyGetMotionStateTransformInto ( aphy_motion_state* motion_state, aphy_transform* result );
 APHY_EXPORT aphy_vector3 aphyGetMotionStateTranslation ( aphy_motion_state* motion_state );
+APHY_EXPORT aphy_error aphyGetMotionStateTranslationInto ( aphy_motion_state* motion_state, aphy_vector3* result );
 APHY_EXPORT aphy_matrix3x3 aphyGetMotionStateMatrix ( aphy_motion_state* motion_state );
+APHY_EXPORT aphy_error aphyGetMotionStateMatrixInto ( aphy_motion_state* motion_state, aphy_matrix3x3* result );
 APHY_EXPORT aphy_quaternion aphyGetMotionStateQuaternion ( aphy_motion_state* motion_state );
+APHY_EXPORT aphy_error aphyGetMotionStateQuaternionInto ( aphy_motion_state* motion_state, aphy_quaternion* result );
 APHY_EXPORT aphy_error aphySetMotionStateTransform ( aphy_motion_state* motion_state, aphy_transform value );
+APHY_EXPORT aphy_error aphySetMotionStateTransformFrom ( aphy_motion_state* motion_state, aphy_transform* value );
 APHY_EXPORT aphy_error aphySetMotionStateTranslation ( aphy_motion_state* motion_state, aphy_vector3 value );
+APHY_EXPORT aphy_error aphySetMotionStateTranslationFrom ( aphy_motion_state* motion_state, aphy_vector3* value );
 APHY_EXPORT aphy_error aphySetMotionStateMatrix ( aphy_motion_state* motion_state, aphy_matrix3x3 value );
+APHY_EXPORT aphy_error aphySetMotionStateMatrixFrom ( aphy_motion_state* motion_state, aphy_matrix3x3* value );
 APHY_EXPORT aphy_error aphySetMotionStateQuaternion ( aphy_motion_state* motion_state, aphy_quaternion value );
+APHY_EXPORT aphy_error aphySetMotionStateQuaternionFrom ( aphy_motion_state* motion_state, aphy_quaternion* value );
 
 /* Installable client driver interface. */
 typedef struct _aphy_icd_dispatch {
@@ -283,6 +319,7 @@ typedef struct _aphy_icd_dispatch {
 	aphyCreateConeZ_FUN aphyCreateConeZ;
 	aphyCreateSphere_FUN aphyCreateSphere;
 	aphyCreateSimpleRigidBody_FUN aphyCreateSimpleRigidBody;
+	aphyCreateSimpleRigidBodyFrom_FUN aphyCreateSimpleRigidBodyFrom;
 	aphyAddCollisionConfigurationReference_FUN aphyAddCollisionConfigurationReference;
 	aphyReleaseCollisionConfiguration_FUN aphyReleaseCollisionConfiguration;
 	aphyAddCollisionDispatcherReference_FUN aphyAddCollisionDispatcherReference;
@@ -305,28 +342,45 @@ typedef struct _aphy_icd_dispatch {
 	aphyAddCollisionObjectReference_FUN aphyAddCollisionObjectReference;
 	aphyReleaseCollisionObjectReference_FUN aphyReleaseCollisionObjectReference;
 	aphyGetCollisionObjectTransform_FUN aphyGetCollisionObjectTransform;
+	aphyGetCollisionObjectTransformInto_FUN aphyGetCollisionObjectTransformInto;
 	aphyGetCollisionObjectTranslation_FUN aphyGetCollisionObjectTranslation;
+	aphyGetCollisionObjectTranslationInto_FUN aphyGetCollisionObjectTranslationInto;
 	aphyGetCollisionObjectMatrix_FUN aphyGetCollisionObjectMatrix;
+	aphyGetCollisionObjectMatrixInto_FUN aphyGetCollisionObjectMatrixInto;
 	aphyGetCollisionObjectQuaternion_FUN aphyGetCollisionObjectQuaternion;
+	aphyGetCollisionObjectQuaternionInto_FUN aphyGetCollisionObjectQuaternionInto;
 	aphySetCollisionObjectTransform_FUN aphySetCollisionObjectTransform;
+	aphySetCollisionObjectTransformFrom_FUN aphySetCollisionObjectTransformFrom;
 	aphySetCollisionObjectTranslation_FUN aphySetCollisionObjectTranslation;
+	aphySetCollisionObjectTranslationFrom_FUN aphySetCollisionObjectTranslationFrom;
 	aphySetCollisionObjectMatrix_FUN aphySetCollisionObjectMatrix;
+	aphySetCollisionObjectMatrixFrom_FUN aphySetCollisionObjectMatrixFrom;
 	aphySetCollisionObjectQuaternion_FUN aphySetCollisionObjectQuaternion;
+	aphySetCollisionObjectQuaternionFrom_FUN aphySetCollisionObjectQuaternionFrom;
 	aphyAddCollisionShapeReference_FUN aphyAddCollisionShapeReference;
 	aphyReleaseCollisionShapeReference_FUN aphyReleaseCollisionShapeReference;
 	aphySetShapeMargin_FUN aphySetShapeMargin;
 	aphyGetShapeMargin_FUN aphyGetShapeMargin;
 	aphyComputeLocalInertia_FUN aphyComputeLocalInertia;
+	aphyComputeLocalInertiaInto_FUN aphyComputeLocalInertiaInto;
 	aphyAddMotionStateReference_FUN aphyAddMotionStateReference;
 	aphyReleaseMotionStateReference_FUN aphyReleaseMotionStateReference;
 	aphyGetMotionStateTransform_FUN aphyGetMotionStateTransform;
+	aphyGetMotionStateTransformInto_FUN aphyGetMotionStateTransformInto;
 	aphyGetMotionStateTranslation_FUN aphyGetMotionStateTranslation;
+	aphyGetMotionStateTranslationInto_FUN aphyGetMotionStateTranslationInto;
 	aphyGetMotionStateMatrix_FUN aphyGetMotionStateMatrix;
+	aphyGetMotionStateMatrixInto_FUN aphyGetMotionStateMatrixInto;
 	aphyGetMotionStateQuaternion_FUN aphyGetMotionStateQuaternion;
+	aphyGetMotionStateQuaternionInto_FUN aphyGetMotionStateQuaternionInto;
 	aphySetMotionStateTransform_FUN aphySetMotionStateTransform;
+	aphySetMotionStateTransformFrom_FUN aphySetMotionStateTransformFrom;
 	aphySetMotionStateTranslation_FUN aphySetMotionStateTranslation;
+	aphySetMotionStateTranslationFrom_FUN aphySetMotionStateTranslationFrom;
 	aphySetMotionStateMatrix_FUN aphySetMotionStateMatrix;
+	aphySetMotionStateMatrixFrom_FUN aphySetMotionStateMatrixFrom;
 	aphySetMotionStateQuaternion_FUN aphySetMotionStateQuaternion;
+	aphySetMotionStateQuaternionFrom_FUN aphySetMotionStateQuaternionFrom;
 } aphy_icd_dispatch;
 
 
