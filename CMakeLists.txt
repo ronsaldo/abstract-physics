@@ -1,4 +1,4 @@
-# Leng cmake build script.
+# Abstract-Physics cmake build script.
 cmake_minimum_required(VERSION 2.8)
 project(APHY)
 
@@ -52,39 +52,6 @@ if(PKG_CONFIG_FOUND AND NOT APPLE)
         include_directories(${UNITTESTMM_INCLUDE_DIRS})
     endif()
 endif()
-
-# Find OpenGL
-find_package(OpenGL)
-
-if(D3D12_INCLUDE_DIRS AND D3D12_LIBRARY)
-	set(D3D12_FOUND TRUE)
-endif()
-
-# For VisualStudio in Window
-find_path(SDL2_INCLUDE_DIRS
-  NAMES SDL.h
-  PATH_SUFFIXES SDL2
-)
-
-find_path(SDL2_LIBRARY_PATH
-  NAMES SDL2.lib SDL2.a SDL2-2.0.lib SDL2-2.0.a libSDL2-2.0.a
-)
-
-find_library(SDL2_LIBRARY NAMES SDL2 SDL2-2.0 PATHS ${SDL2_LIBRARY_PATH})
-find_library(SDL2_MAIN_LIBRARY NAMES SDL2main PATHS ${SDL2_LIBRARY_PATH})
-
-if(SDL2_INCLUDE_DIRS AND SDL2_LIBRARY AND SDL2_INCLUDE_DIRS)
-    # Use the SDL2 include path.
-    include_directories(${SDL2_INCLUDE_DIRS})
-
-	set(SDL2_FOUND TRUE)
-	if(SDL2_MAIN_LIBRARY)
-    	set(SDL2_LIBRARIES ${SDL2_LIBRARY} ${SDL2_MAIN_LIBRARY})
-	else()
-		set(SDL2_LIBRARIES ${SDL2_LIBRARY})
-	endif()
-endif()
-
 
 # Samples libraries
 set(APHY_MAIN_LIB APhyBullet)
