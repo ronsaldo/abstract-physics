@@ -75,6 +75,17 @@
             <constant name="ScalarTypeFloat" value="2" />
         </enum>
 
+        <enum name="debug_draw_opcode">
+            <constant name="DebugDrawOpNop" value="0" />
+            <constant name="DebugDrawOpLine" value="1" />
+            <constant name="DebugDrawOpLineGradient" value="2" />
+            <constant name="DebugDrawOpTriangleFlat" value="3" />
+            <constant name="DebugDrawOpTriangleGradient" value="4" />
+            <constant name="DebugDrawOpTriangleLighted" value="5" />
+            <constant name="DebugDrawOpContactPoint" value="6" />
+            <constant name="DebugDrawOpErrorWarning" value="7" />
+            <constant name="DebugDrawOp3DText" value="8" />
+        </enum>
     </constants>
 
     <globals>
@@ -302,6 +313,14 @@
                 <arg name="x" type="scalar" />
                 <arg name="y" type="scalar" />
                 <arg name="z" type="scalar" />
+            </method>
+
+            <method name="encodeDebugDrawingData" cname="EncodeDebugDrawing" returnType="size">
+            </method>
+
+            <method name="getDebugDrawingData" cname="GetDebugDrawingData" returnType="error">
+                <arg name="buffer_size" type="size" />
+                <arg name="buffer" type="pointer" />
             </method>
 
         </interface>

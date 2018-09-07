@@ -72,6 +72,18 @@ typedef enum {
 	APHY_SCALAR_TYPE_FLOAT = 2,
 } aphy_scalar_type;
 
+typedef enum {
+	APHY_DEBUG_DRAW_OP_NOP = 0,
+	APHY_DEBUG_DRAW_OP_LINE = 1,
+	APHY_DEBUG_DRAW_OP_LINE_GRADIENT = 2,
+	APHY_DEBUG_DRAW_OP_TRIANGLE_FLAT = 3,
+	APHY_DEBUG_DRAW_OP_TRIANGLE_GRADIENT = 4,
+	APHY_DEBUG_DRAW_OP_TRIANGLE_LIGHTED = 5,
+	APHY_DEBUG_DRAW_OP_CONTACT_POINT = 6,
+	APHY_DEBUG_DRAW_OP_ERROR_WARNING = 7,
+	APHY_DEBUG_DRAW_OP_3DTEXT = 8,
+} aphy_debug_draw_opcode;
+
 
 /* Structure aphy_vector3. */
 typedef struct aphy_vector3 {
@@ -204,6 +216,8 @@ typedef aphy_error (*aphyRemoveRigidBody_FUN) ( aphy_world* world, aphy_collisio
 typedef aphy_error (*aphyAddRigidBodyWithFilter_FUN) ( aphy_world* world, aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask );
 typedef aphy_error (*aphyStepSimulation_FUN) ( aphy_world* world, aphy_scalar time_step, aphy_int max_sub_steps, aphy_scalar fixed_time_step );
 typedef aphy_error (*aphySetGravity_FUN) ( aphy_world* world, aphy_scalar x, aphy_scalar y, aphy_scalar z );
+typedef aphy_size (*aphyEncodeDebugDrawing_FUN) ( aphy_world* world );
+typedef aphy_error (*aphyGetDebugDrawingData_FUN) ( aphy_world* world, aphy_size buffer_size, aphy_pointer buffer );
 
 APHY_EXPORT aphy_error aphyAddWorldReference ( aphy_world* world );
 APHY_EXPORT aphy_error aphyReleaseWorldReference ( aphy_world* world );
@@ -216,6 +230,8 @@ APHY_EXPORT aphy_error aphyRemoveRigidBody ( aphy_world* world, aphy_collision_o
 APHY_EXPORT aphy_error aphyAddRigidBodyWithFilter ( aphy_world* world, aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask );
 APHY_EXPORT aphy_error aphyStepSimulation ( aphy_world* world, aphy_scalar time_step, aphy_int max_sub_steps, aphy_scalar fixed_time_step );
 APHY_EXPORT aphy_error aphySetGravity ( aphy_world* world, aphy_scalar x, aphy_scalar y, aphy_scalar z );
+APHY_EXPORT aphy_size aphyEncodeDebugDrawing ( aphy_world* world );
+APHY_EXPORT aphy_error aphyGetDebugDrawingData ( aphy_world* world, aphy_size buffer_size, aphy_pointer buffer );
 
 /* Methods for interface aphy_collision_object. */
 typedef aphy_error (*aphyAddCollisionObjectReference_FUN) ( aphy_collision_object* collision_object );
@@ -364,6 +380,8 @@ typedef struct _aphy_icd_dispatch {
 	aphyAddRigidBodyWithFilter_FUN aphyAddRigidBodyWithFilter;
 	aphyStepSimulation_FUN aphyStepSimulation;
 	aphySetGravity_FUN aphySetGravity;
+	aphyEncodeDebugDrawing_FUN aphyEncodeDebugDrawing;
+	aphyGetDebugDrawingData_FUN aphyGetDebugDrawingData;
 	aphyAddCollisionObjectReference_FUN aphyAddCollisionObjectReference;
 	aphyReleaseCollisionObjectReference_FUN aphyReleaseCollisionObjectReference;
 	aphyGetCollisionObjectTransform_FUN aphyGetCollisionObjectTransform;

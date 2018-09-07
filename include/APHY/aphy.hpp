@@ -401,6 +401,16 @@ public:
 		APhyThrowIfFailed(aphySetGravity( this, x, y, z ));
 	}
 
+	inline aphy_size encodeDebugDrawingData (  )
+	{
+		return aphyEncodeDebugDrawing( this );
+	}
+
+	inline void getDebugDrawingData ( aphy_size buffer_size, aphy_pointer buffer )
+	{
+		APhyThrowIfFailed(aphyGetDebugDrawingData( this, buffer_size, buffer ));
+	}
+
 };
 
 typedef aphy_ref<aphy_world> aphy_world_ref;
