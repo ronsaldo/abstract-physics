@@ -5,6 +5,7 @@
 #include "object.hpp"
 #include "btBulletDynamicsCommon.h"
 #include "LinearMath/btIDebugDraw.h"
+#include <memory>
 
 class aphy_bullet_world_debug_drawer;
 
