@@ -60,6 +60,18 @@ typedef enum {
 	APHY_UNIMPLEMENTED = -7,
 } aphy_error;
 
+typedef enum {
+	APHY_AXIS_X = 0,
+	APHY_AXIS_Y = 1,
+	APHY_AXIS_Z = 2,
+} aphy_axis;
+
+typedef enum {
+	APHY_SCALAR_TYPE_UCHAR = 0,
+	APHY_SCALAR_TYPE_SHORT = 1,
+	APHY_SCALAR_TYPE_FLOAT = 2,
+} aphy_scalar_type;
+
 
 /* Structure aphy_vector3. */
 typedef struct aphy_vector3 {
@@ -114,9 +126,12 @@ typedef aphy_collision_shape* (*aphyCreateConvexHullShape_FUN) ( aphy_engine* en
 typedef aphy_collision_shape* (*aphyCreateCapsuleShapeX_FUN) ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 typedef aphy_collision_shape* (*aphyCreateCapsuleShapeY_FUN) ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 typedef aphy_collision_shape* (*aphyCreateCapsuleShapeZ_FUN) ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
+typedef aphy_collision_shape* (*aphyCreateCompoundShape_FUN) ( aphy_engine* engine );
 typedef aphy_collision_shape* (*aphyCreateConeX_FUN) ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 typedef aphy_collision_shape* (*aphyCreateConeY_FUN) ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 typedef aphy_collision_shape* (*aphyCreateConeZ_FUN) ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
+typedef aphy_collision_shape* (*aphyCreateEmptyShape_FUN) ( aphy_engine* engine );
+typedef aphy_collision_shape* (*aphyCreateHeightfieldTerrainShape_FUN) ( aphy_engine* engine, aphy_int height_stick_width, aphy_int height_stick_length, aphy_pointer heightfield_data, aphy_scalar height_scale, aphy_scalar min_height, aphy_scalar max_height, aphy_axis up_axis, aphy_scalar_type height_data_type, aphy_bool flip_quad_edges, aphy_scalar local_scale_x, aphy_scalar local_scale_y, aphy_scalar local_scale_z );
 typedef aphy_collision_shape* (*aphyCreateSphere_FUN) ( aphy_engine* engine, aphy_scalar radius );
 typedef aphy_collision_object* (*aphyCreateSimpleRigidBody_FUN) ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia );
 typedef aphy_collision_object* (*aphyCreateSimpleRigidBodyFrom_FUN) ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3* local_inertia );
@@ -139,9 +154,12 @@ APHY_EXPORT aphy_collision_shape* aphyCreateConvexHullShape ( aphy_engine* engin
 APHY_EXPORT aphy_collision_shape* aphyCreateCapsuleShapeX ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 APHY_EXPORT aphy_collision_shape* aphyCreateCapsuleShapeY ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 APHY_EXPORT aphy_collision_shape* aphyCreateCapsuleShapeZ ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
+APHY_EXPORT aphy_collision_shape* aphyCreateCompoundShape ( aphy_engine* engine );
 APHY_EXPORT aphy_collision_shape* aphyCreateConeX ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 APHY_EXPORT aphy_collision_shape* aphyCreateConeY ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
 APHY_EXPORT aphy_collision_shape* aphyCreateConeZ ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height );
+APHY_EXPORT aphy_collision_shape* aphyCreateEmptyShape ( aphy_engine* engine );
+APHY_EXPORT aphy_collision_shape* aphyCreateHeightfieldTerrainShape ( aphy_engine* engine, aphy_int height_stick_width, aphy_int height_stick_length, aphy_pointer heightfield_data, aphy_scalar height_scale, aphy_scalar min_height, aphy_scalar max_height, aphy_axis up_axis, aphy_scalar_type height_data_type, aphy_bool flip_quad_edges, aphy_scalar local_scale_x, aphy_scalar local_scale_y, aphy_scalar local_scale_z );
 APHY_EXPORT aphy_collision_shape* aphyCreateSphere ( aphy_engine* engine, aphy_scalar radius );
 APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBody ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia );
 APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBodyFrom ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3* local_inertia );
@@ -245,6 +263,8 @@ typedef aphy_error (*aphySetShapeMargin_FUN) ( aphy_collision_shape* collision_s
 typedef aphy_scalar (*aphyGetShapeMargin_FUN) ( aphy_collision_shape* collision_shape );
 typedef aphy_vector3 (*aphyComputeLocalInertia_FUN) ( aphy_collision_shape* collision_shape, aphy_scalar mass );
 typedef aphy_error (*aphyComputeLocalInertiaInto_FUN) ( aphy_collision_shape* collision_shape, aphy_scalar mass, aphy_vector3* result );
+typedef aphy_error (*aphyAddLocalShapeWithTransform_FUN) ( aphy_collision_shape* collision_shape, aphy_collision_shape* shape, aphy_transform transform );
+typedef aphy_error (*aphyAddLocalShapeWithTransformFrom_FUN) ( aphy_collision_shape* collision_shape, aphy_collision_shape* shape, aphy_transform* transform );
 
 APHY_EXPORT aphy_error aphyAddCollisionShapeReference ( aphy_collision_shape* collision_shape );
 APHY_EXPORT aphy_error aphyReleaseCollisionShapeReference ( aphy_collision_shape* collision_shape );
@@ -252,6 +272,8 @@ APHY_EXPORT aphy_error aphySetShapeMargin ( aphy_collision_shape* collision_shap
 APHY_EXPORT aphy_scalar aphyGetShapeMargin ( aphy_collision_shape* collision_shape );
 APHY_EXPORT aphy_vector3 aphyComputeLocalInertia ( aphy_collision_shape* collision_shape, aphy_scalar mass );
 APHY_EXPORT aphy_error aphyComputeLocalInertiaInto ( aphy_collision_shape* collision_shape, aphy_scalar mass, aphy_vector3* result );
+APHY_EXPORT aphy_error aphyAddLocalShapeWithTransform ( aphy_collision_shape* collision_shape, aphy_collision_shape* shape, aphy_transform transform );
+APHY_EXPORT aphy_error aphyAddLocalShapeWithTransformFrom ( aphy_collision_shape* collision_shape, aphy_collision_shape* shape, aphy_transform* transform );
 
 /* Methods for interface aphy_motion_state. */
 typedef aphy_error (*aphyAddMotionStateReference_FUN) ( aphy_motion_state* motion_state );
@@ -314,9 +336,12 @@ typedef struct _aphy_icd_dispatch {
 	aphyCreateCapsuleShapeX_FUN aphyCreateCapsuleShapeX;
 	aphyCreateCapsuleShapeY_FUN aphyCreateCapsuleShapeY;
 	aphyCreateCapsuleShapeZ_FUN aphyCreateCapsuleShapeZ;
+	aphyCreateCompoundShape_FUN aphyCreateCompoundShape;
 	aphyCreateConeX_FUN aphyCreateConeX;
 	aphyCreateConeY_FUN aphyCreateConeY;
 	aphyCreateConeZ_FUN aphyCreateConeZ;
+	aphyCreateEmptyShape_FUN aphyCreateEmptyShape;
+	aphyCreateHeightfieldTerrainShape_FUN aphyCreateHeightfieldTerrainShape;
 	aphyCreateSphere_FUN aphyCreateSphere;
 	aphyCreateSimpleRigidBody_FUN aphyCreateSimpleRigidBody;
 	aphyCreateSimpleRigidBodyFrom_FUN aphyCreateSimpleRigidBodyFrom;
@@ -363,6 +388,8 @@ typedef struct _aphy_icd_dispatch {
 	aphyGetShapeMargin_FUN aphyGetShapeMargin;
 	aphyComputeLocalInertia_FUN aphyComputeLocalInertia;
 	aphyComputeLocalInertiaInto_FUN aphyComputeLocalInertiaInto;
+	aphyAddLocalShapeWithTransform_FUN aphyAddLocalShapeWithTransform;
+	aphyAddLocalShapeWithTransformFrom_FUN aphyAddLocalShapeWithTransformFrom;
 	aphyAddMotionStateReference_FUN aphyAddMotionStateReference;
 	aphyReleaseMotionStateReference_FUN aphyReleaseMotionStateReference;
 	aphyGetMotionStateTransform_FUN aphyGetMotionStateTransform;

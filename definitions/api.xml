@@ -63,6 +63,18 @@
             <constant name="Unimplemented" value="-7" />
         </enum>
 
+        <enum name="axis">
+            <constant name="AxisX" value="0" />
+            <constant name="AxisY" value="1" />
+            <constant name="AxisZ" value="2" />
+        </enum>
+
+        <enum name="scalar_type">
+            <constant name="ScalarTypeUChar" value="0" />
+            <constant name="ScalarTypeShort" value="1" />
+            <constant name="ScalarTypeFloat" value="2" />
+        </enum>
+
     </constants>
 
     <globals>
@@ -155,6 +167,9 @@
                 <arg name="height" type="scalar" />
             </method>
 
+            <method name="createCompoundShape" cname="CreateCompoundShape" returnType="collision_shape*">
+            </method>
+
             <method name="createConeX" cname="CreateConeX" returnType="collision_shape*">
                 <arg name="radius" type="scalar" />
                 <arg name="height" type="scalar" />
@@ -168,6 +183,24 @@
             <method name="createConeZ" cname="CreateConeZ" returnType="collision_shape*">
                 <arg name="radius" type="scalar" />
                 <arg name="height" type="scalar" />
+            </method>
+
+            <method name="createEmptyShape" cname="CreateEmptyShape" returnType="collision_shape*">
+            </method>
+
+            <method name="createHeightfieldTerrainShape" cname="CreateHeightfieldTerrainShape" returnType="collision_shape*">
+                <arg name="height_stick_width" type="int" />
+                <arg name="height_stick_length" type="int" />
+                <arg name="heightfield_data" type="pointer" />
+                <arg name="height_scale" type="scalar" />
+                <arg name="min_height" type="scalar" />
+                <arg name="max_height" type="scalar" />
+                <arg name="up_axis" type="axis" />
+                <arg name="height_data_type" type="scalar_type" />
+                <arg name="flip_quad_edges" type="bool" />
+                <arg name="local_scale_x" type="scalar" />
+                <arg name="local_scale_y" type="scalar" />
+                <arg name="local_scale_z" type="scalar" />
             </method>
 
             <method name="createSphere" cname="CreateSphere" returnType="collision_shape*">
@@ -363,6 +396,17 @@
                 <arg name="mass" type="scalar" />">
                 <arg name="result" type="vector3*" />
             </method>
+
+            <method name="addLocalShapeWithTransform" cname="AddLocalShapeWithTransform" returnType="error">
+                <arg name="shape" type="collision_shape*" />
+                <arg name="transform" type="transform" />
+            </method>
+
+            <method name="addLocalShapeWithTransformFrom" cname="AddLocalShapeWithTransformFrom" returnType="error">
+                <arg name="shape" type="collision_shape*" />
+                <arg name="transform" type="transform*" />
+            </method>
+
         </interface>
 
         <interface name="motion_state">
@@ -431,7 +475,6 @@
             <method name="setQuaternionFrom" cname="SetMotionStateQuaternionFrom" returnType="error">
                 <arg name="value" type="quaternion*" />
             </method>
-
         </interface>
     </interfaces>
 </version>

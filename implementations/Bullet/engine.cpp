@@ -8,7 +8,30 @@
 #include "constraint_solver.hpp"
 #include "motion_state.hpp"
 #include "world.hpp"
+#include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
 
+inline int mapHeightUpAxis(aphy_axis axis)
+{
+    switch(axis)
+    {
+    case APHY_AXIS_X: return 0;
+    case APHY_AXIS_Y: return 1;
+    case APHY_AXIS_Z:
+    default:
+        return 2;
+    }
+}
+
+inline PHY_ScalarType mapHeightDataType(aphy_scalar_type type)
+{
+    switch(type)
+    {
+    default:
+    case APHY_SCALAR_TYPE_UCHAR: return PHY_UCHAR;
+    case APHY_SCALAR_TYPE_SHORT: return PHY_SHORT;
+    case APHY_SCALAR_TYPE_FLOAT: return PHY_FLOAT;
+    }
+}
 _aphy_engine::_aphy_engine()
 {
 }
@@ -167,6 +190,13 @@ APHY_EXPORT aphy_collision_shape* aphyCreateCapsuleShapeZ ( aphy_engine* engine,
     return new aphy_collision_shape(new btCapsuleShapeZ(radius, height));
 }
 
+APHY_EXPORT aphy_collision_shape* aphyCreateCompoundShape ( aphy_engine* engine )
+{
+    if(!engine)
+        return nullptr;
+    return new aphy_collision_shape(new btCompoundShape(), APhyBulletCollisionShapeType::Compound);
+}
+
 APHY_EXPORT aphy_collision_shape* aphyCreateConeX ( aphy_engine* engine, aphy_scalar radius, aphy_scalar height)
 {
     if(!engine)
@@ -209,11 +239,34 @@ APHY_EXPORT aphy_collision_shape* aphyCreateCylinderZ ( aphy_engine* engine, aph
     return new aphy_collision_shape(new btCylinderShapeZ(btVector3(half_width, half_height, half_depth)));
 }
 
+APHY_EXPORT aphy_collision_shape* aphyCreateHeightfieldTerrainShape ( aphy_engine* engine,
+        aphy_int height_stick_width, aphy_int height_stick_length, aphy_pointer heightfield_data,
+        aphy_scalar height_scale, aphy_scalar min_height, aphy_scalar max_height, aphy_axis up_axis,
+        aphy_scalar_type height_data_type, aphy_bool flip_quad_edges,
+        aphy_scalar local_scale_x, aphy_scalar local_scale_y, aphy_scalar local_scale_z )
+{
+    if(!engine)
+        return nullptr;
+    auto shape = new btHeightfieldTerrainShape(height_stick_width, height_stick_length, heightfield_data,
+        height_scale, min_height, max_height, mapHeightUpAxis(up_axis),
+        mapHeightDataType(height_data_type), flip_quad_edges);
+
+    shape->setLocalScaling(btVector3(local_scale_x, local_scale_y, local_scale_z));
+    return new aphy_collision_shape(shape, APhyBulletCollisionShapeType::HeightField);
+}
+
 APHY_EXPORT aphy_collision_shape* aphyCreateSphere ( aphy_engine* engine, aphy_scalar radius )
 {
     if(!engine)
         return nullptr;
     return new aphy_collision_shape(new btSphereShape(radius));
+}
+
+APHY_EXPORT aphy_collision_shape* aphyCreateEmptyShape ( aphy_engine* engine )
+{
+    if(!engine)
+        return nullptr;
+    return new aphy_collision_shape(new btEmptyShape());
 }
 
 APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBody ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia )
@@ -232,7 +285,7 @@ APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBodyFrom ( aphy_engine* 
 {
     if(!local_inertia)
         return nullptr;
-        
+
     return aphyCreateSimpleRigidBody(engine, mass, motion_state, collision_shape, *local_inertia);
 }
 

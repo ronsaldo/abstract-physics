@@ -99,7 +99,6 @@ APHY_EXPORT aphy_error aphyGetMotionStateQuaternionInto ( aphy_motion_state* mot
 APHY_EXPORT aphy_error aphySetMotionStateTransform ( aphy_motion_state* motion_state, aphy_transform value )
 {
     CHECK_POINTER(motion_state);
-    motion_state->handle->setWorldTransform(convertAPhyTransform(value));
     return APHY_OK;
 }
 

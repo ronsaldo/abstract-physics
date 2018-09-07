@@ -1,8 +1,8 @@
 #include "collision_shape.hpp"
 #include "utility.hpp"
 
-_aphy_collision_shape::_aphy_collision_shape(btCollisionShape *handle)
-    : handle(handle)
+_aphy_collision_shape::_aphy_collision_shape(btCollisionShape *handle, APhyBulletCollisionShapeType shapeType)
+    : handle(handle), shapeType(shapeType)
 {
 }
 
@@ -54,4 +54,23 @@ APHY_EXPORT aphy_error aphyComputeLocalInertiaInto ( aphy_collision_shape* colli
     CHECK_POINTER(result);
     *result = aphyComputeLocalInertia(collision_shape, mass);
     return APHY_OK;
+}
+
+
+APHY_EXPORT aphy_error aphyAddLocalShapeWithTransform ( aphy_collision_shape* collision_shape, aphy_collision_shape* shape, aphy_transform transform )
+{
+    CHECK_POINTER(collision_shape);
+    CHECK_POINTER(shape);
+    if(collision_shape->shapeType != APhyBulletCollisionShapeType::Compound)
+        return APHY_UNSUPPORTED;
+
+    auto compound = static_cast<btCompoundShape*> (collision_shape->handle);
+    compound->addChildShape(convertAPhyTransform(transform), shape->handle);
+    return APHY_OK;
+}
+
+APHY_EXPORT aphy_error aphyAddLocalShapeWithTransformFrom ( aphy_collision_shape* collision_shape, aphy_collision_shape* shape, aphy_transform* transform )
+{
+    CHECK_POINTER(transform);
+    return aphyAddLocalShapeWithTransform(collision_shape, shape, *transform);
 }

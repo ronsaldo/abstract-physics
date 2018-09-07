@@ -206,6 +206,11 @@ public:
 		return aphyCreateCapsuleShapeZ( this, radius, height );
 	}
 
+	inline aphy_collision_shape* createCompoundShape (  )
+	{
+		return aphyCreateCompoundShape( this );
+	}
+
 	inline aphy_collision_shape* createConeX ( aphy_scalar radius, aphy_scalar height )
 	{
 		return aphyCreateConeX( this, radius, height );
@@ -219,6 +224,16 @@ public:
 	inline aphy_collision_shape* createConeZ ( aphy_scalar radius, aphy_scalar height )
 	{
 		return aphyCreateConeZ( this, radius, height );
+	}
+
+	inline aphy_collision_shape* createEmptyShape (  )
+	{
+		return aphyCreateEmptyShape( this );
+	}
+
+	inline aphy_collision_shape* createHeightfieldTerrainShape ( aphy_int height_stick_width, aphy_int height_stick_length, aphy_pointer heightfield_data, aphy_scalar height_scale, aphy_scalar min_height, aphy_scalar max_height, aphy_axis up_axis, aphy_scalar_type height_data_type, aphy_bool flip_quad_edges, aphy_scalar local_scale_x, aphy_scalar local_scale_y, aphy_scalar local_scale_z )
+	{
+		return aphyCreateHeightfieldTerrainShape( this, height_stick_width, height_stick_length, heightfield_data, height_scale, min_height, max_height, up_axis, height_data_type, flip_quad_edges, local_scale_x, local_scale_y, local_scale_z );
 	}
 
 	inline aphy_collision_shape* createSphere ( aphy_scalar radius )
@@ -526,6 +541,16 @@ public:
 	inline void computeLocalInertiaInto ( aphy_scalar mass, aphy_vector3* result )
 	{
 		APhyThrowIfFailed(aphyComputeLocalInertiaInto( this, mass, result ));
+	}
+
+	inline void addLocalShapeWithTransform ( aphy_collision_shape* shape, aphy_transform transform )
+	{
+		APhyThrowIfFailed(aphyAddLocalShapeWithTransform( this, shape, transform ));
+	}
+
+	inline void addLocalShapeWithTransformFrom ( aphy_collision_shape* shape, aphy_transform* transform )
+	{
+		APhyThrowIfFailed(aphyAddLocalShapeWithTransformFrom( this, shape, transform ));
 	}
 
 };
