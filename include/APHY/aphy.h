@@ -45,6 +45,7 @@ typedef struct _aphy_collision_dispatcher aphy_collision_dispatcher;
 typedef struct _aphy_broadphase aphy_broadphase;
 typedef struct _aphy_constraint_solver aphy_constraint_solver;
 typedef struct _aphy_world aphy_world;
+typedef struct _aphy_character_controller aphy_character_controller;
 typedef struct _aphy_collision_object aphy_collision_object;
 typedef struct _aphy_collision_shape aphy_collision_shape;
 typedef struct _aphy_motion_state aphy_motion_state;
@@ -147,6 +148,9 @@ typedef aphy_collision_shape* (*aphyCreateHeightfieldTerrainShape_FUN) ( aphy_en
 typedef aphy_collision_shape* (*aphyCreateSphere_FUN) ( aphy_engine* engine, aphy_scalar radius );
 typedef aphy_collision_object* (*aphyCreateSimpleRigidBody_FUN) ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia );
 typedef aphy_collision_object* (*aphyCreateSimpleRigidBodyFrom_FUN) ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3* local_inertia );
+typedef aphy_collision_object* (*aphyCreateGhostObject_FUN) ( aphy_engine* engine );
+typedef aphy_collision_object* (*aphyCreatePairCachingGhostObject_FUN) ( aphy_engine* engine );
+typedef aphy_character_controller* (*aphyCreateKinematicCharacterController_FUN) ( aphy_engine* engine, aphy_collision_object* ghost_object, aphy_collision_shape* convex_shape, aphy_scalar step_height, aphy_axis up_axis );
 
 APHY_EXPORT aphy_error aphyAddEngineReference ( aphy_engine* engine );
 APHY_EXPORT aphy_error aphyReleaseEngine ( aphy_engine* engine );
@@ -175,6 +179,9 @@ APHY_EXPORT aphy_collision_shape* aphyCreateHeightfieldTerrainShape ( aphy_engin
 APHY_EXPORT aphy_collision_shape* aphyCreateSphere ( aphy_engine* engine, aphy_scalar radius );
 APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBody ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia );
 APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBodyFrom ( aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3* local_inertia );
+APHY_EXPORT aphy_collision_object* aphyCreateGhostObject ( aphy_engine* engine );
+APHY_EXPORT aphy_collision_object* aphyCreatePairCachingGhostObject ( aphy_engine* engine );
+APHY_EXPORT aphy_character_controller* aphyCreateKinematicCharacterController ( aphy_engine* engine, aphy_collision_object* ghost_object, aphy_collision_shape* convex_shape, aphy_scalar step_height, aphy_axis up_axis );
 
 /* Methods for interface aphy_collision_configuration. */
 typedef aphy_error (*aphyAddCollisionConfigurationReference_FUN) ( aphy_collision_configuration* collision_configuration );
@@ -213,6 +220,8 @@ typedef aphy_error (*aphyAddCollisionObject_FUN) ( aphy_world* world, aphy_colli
 typedef aphy_error (*aphyRemoveCollisionObject_FUN) ( aphy_world* world, aphy_collision_object* object );
 typedef aphy_error (*aphyAddRigidBody_FUN) ( aphy_world* world, aphy_collision_object* object );
 typedef aphy_error (*aphyRemoveRigidBody_FUN) ( aphy_world* world, aphy_collision_object* object );
+typedef aphy_error (*aphyAddCharacterController_FUN) ( aphy_world* world, aphy_character_controller* character );
+typedef aphy_error (*aphyRemoveCharacterController_FUN) ( aphy_world* world, aphy_character_controller* character );
 typedef aphy_error (*aphyAddRigidBodyWithFilter_FUN) ( aphy_world* world, aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask );
 typedef aphy_error (*aphyStepSimulation_FUN) ( aphy_world* world, aphy_scalar time_step, aphy_int max_sub_steps, aphy_scalar fixed_time_step );
 typedef aphy_error (*aphySetGravity_FUN) ( aphy_world* world, aphy_scalar x, aphy_scalar y, aphy_scalar z );
@@ -227,11 +236,44 @@ APHY_EXPORT aphy_error aphyAddCollisionObject ( aphy_world* world, aphy_collisio
 APHY_EXPORT aphy_error aphyRemoveCollisionObject ( aphy_world* world, aphy_collision_object* object );
 APHY_EXPORT aphy_error aphyAddRigidBody ( aphy_world* world, aphy_collision_object* object );
 APHY_EXPORT aphy_error aphyRemoveRigidBody ( aphy_world* world, aphy_collision_object* object );
+APHY_EXPORT aphy_error aphyAddCharacterController ( aphy_world* world, aphy_character_controller* character );
+APHY_EXPORT aphy_error aphyRemoveCharacterController ( aphy_world* world, aphy_character_controller* character );
 APHY_EXPORT aphy_error aphyAddRigidBodyWithFilter ( aphy_world* world, aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask );
 APHY_EXPORT aphy_error aphyStepSimulation ( aphy_world* world, aphy_scalar time_step, aphy_int max_sub_steps, aphy_scalar fixed_time_step );
 APHY_EXPORT aphy_error aphySetGravity ( aphy_world* world, aphy_scalar x, aphy_scalar y, aphy_scalar z );
 APHY_EXPORT aphy_size aphyEncodeDebugDrawing ( aphy_world* world );
 APHY_EXPORT aphy_error aphyGetDebugDrawingData ( aphy_world* world, aphy_size buffer_size, aphy_pointer buffer );
+
+/* Methods for interface aphy_character_controller. */
+typedef aphy_error (*aphyAddCharacterControllerReference_FUN) ( aphy_character_controller* character_controller );
+typedef aphy_error (*aphyReleaseCharacterControllerReference_FUN) ( aphy_character_controller* character_controller );
+typedef aphy_error (*aphySetCharacterControllerWalkDirection_FUN) ( aphy_character_controller* character_controller, aphy_vector3 direction );
+typedef aphy_error (*aphySetCharacterControllerWalkDirectionFrom_FUN) ( aphy_character_controller* character_controller, aphy_vector3* direction );
+typedef aphy_error (*aphySetCharacterControllerVelocityForTimeInterval_FUN) ( aphy_character_controller* character_controller, aphy_vector3 velocity, aphy_scalar time_interval );
+typedef aphy_error (*aphySetCharacterControllerVelocityForTimeIntervalFrom_FUN) ( aphy_character_controller* character_controller, aphy_vector3* velocity, aphy_scalar time_interval );
+typedef aphy_error (*aphyWarpCharacterController_FUN) ( aphy_character_controller* character_controller, aphy_vector3 origin );
+typedef aphy_error (*aphyWarpCharacterControllerWithOriginFrom_FUN) ( aphy_character_controller* character_controller, aphy_vector3* origin );
+typedef aphy_bool (*aphyCanCharacterControllerJump_FUN) ( aphy_character_controller* character_controller );
+typedef aphy_error (*aphyCharacterControllerJump_FUN) ( aphy_character_controller* character_controller );
+typedef aphy_bool (*aphyIsCharacterControllerOnGround_FUN) ( aphy_character_controller* character_controller );
+typedef aphy_error (*aphySetCharacterMaxJumpHeight_FUN) ( aphy_character_controller* character_controller, aphy_scalar height );
+typedef aphy_error (*aphySetCharacterJumpSpeed_FUN) ( aphy_character_controller* character_controller, aphy_scalar speed );
+typedef aphy_error (*aphySetCharacterGravity_FUN) ( aphy_character_controller* character_controller, aphy_scalar gravity );
+
+APHY_EXPORT aphy_error aphyAddCharacterControllerReference ( aphy_character_controller* character_controller );
+APHY_EXPORT aphy_error aphyReleaseCharacterControllerReference ( aphy_character_controller* character_controller );
+APHY_EXPORT aphy_error aphySetCharacterControllerWalkDirection ( aphy_character_controller* character_controller, aphy_vector3 direction );
+APHY_EXPORT aphy_error aphySetCharacterControllerWalkDirectionFrom ( aphy_character_controller* character_controller, aphy_vector3* direction );
+APHY_EXPORT aphy_error aphySetCharacterControllerVelocityForTimeInterval ( aphy_character_controller* character_controller, aphy_vector3 velocity, aphy_scalar time_interval );
+APHY_EXPORT aphy_error aphySetCharacterControllerVelocityForTimeIntervalFrom ( aphy_character_controller* character_controller, aphy_vector3* velocity, aphy_scalar time_interval );
+APHY_EXPORT aphy_error aphyWarpCharacterController ( aphy_character_controller* character_controller, aphy_vector3 origin );
+APHY_EXPORT aphy_error aphyWarpCharacterControllerWithOriginFrom ( aphy_character_controller* character_controller, aphy_vector3* origin );
+APHY_EXPORT aphy_bool aphyCanCharacterControllerJump ( aphy_character_controller* character_controller );
+APHY_EXPORT aphy_error aphyCharacterControllerJump ( aphy_character_controller* character_controller );
+APHY_EXPORT aphy_bool aphyIsCharacterControllerOnGround ( aphy_character_controller* character_controller );
+APHY_EXPORT aphy_error aphySetCharacterMaxJumpHeight ( aphy_character_controller* character_controller, aphy_scalar height );
+APHY_EXPORT aphy_error aphySetCharacterJumpSpeed ( aphy_character_controller* character_controller, aphy_scalar speed );
+APHY_EXPORT aphy_error aphySetCharacterGravity ( aphy_character_controller* character_controller, aphy_scalar gravity );
 
 /* Methods for interface aphy_collision_object. */
 typedef aphy_error (*aphyAddCollisionObjectReference_FUN) ( aphy_collision_object* collision_object );
@@ -252,6 +294,7 @@ typedef aphy_error (*aphySetCollisionObjectMatrix_FUN) ( aphy_collision_object* 
 typedef aphy_error (*aphySetCollisionObjectMatrixFrom_FUN) ( aphy_collision_object* collision_object, aphy_matrix3x3* value );
 typedef aphy_error (*aphySetCollisionObjectQuaternion_FUN) ( aphy_collision_object* collision_object, aphy_quaternion value );
 typedef aphy_error (*aphySetCollisionObjectQuaternionFrom_FUN) ( aphy_collision_object* collision_object, aphy_quaternion* value );
+typedef aphy_error (*aphySetCollisionObjectShape_FUN) ( aphy_collision_object* collision_object, aphy_collision_shape* shape );
 
 APHY_EXPORT aphy_error aphyAddCollisionObjectReference ( aphy_collision_object* collision_object );
 APHY_EXPORT aphy_error aphyReleaseCollisionObjectReference ( aphy_collision_object* collision_object );
@@ -271,6 +314,7 @@ APHY_EXPORT aphy_error aphySetCollisionObjectMatrix ( aphy_collision_object* col
 APHY_EXPORT aphy_error aphySetCollisionObjectMatrixFrom ( aphy_collision_object* collision_object, aphy_matrix3x3* value );
 APHY_EXPORT aphy_error aphySetCollisionObjectQuaternion ( aphy_collision_object* collision_object, aphy_quaternion value );
 APHY_EXPORT aphy_error aphySetCollisionObjectQuaternionFrom ( aphy_collision_object* collision_object, aphy_quaternion* value );
+APHY_EXPORT aphy_error aphySetCollisionObjectShape ( aphy_collision_object* collision_object, aphy_collision_shape* shape );
 
 /* Methods for interface aphy_collision_shape. */
 typedef aphy_error (*aphyAddCollisionShapeReference_FUN) ( aphy_collision_shape* collision_shape );
@@ -361,6 +405,9 @@ typedef struct _aphy_icd_dispatch {
 	aphyCreateSphere_FUN aphyCreateSphere;
 	aphyCreateSimpleRigidBody_FUN aphyCreateSimpleRigidBody;
 	aphyCreateSimpleRigidBodyFrom_FUN aphyCreateSimpleRigidBodyFrom;
+	aphyCreateGhostObject_FUN aphyCreateGhostObject;
+	aphyCreatePairCachingGhostObject_FUN aphyCreatePairCachingGhostObject;
+	aphyCreateKinematicCharacterController_FUN aphyCreateKinematicCharacterController;
 	aphyAddCollisionConfigurationReference_FUN aphyAddCollisionConfigurationReference;
 	aphyReleaseCollisionConfiguration_FUN aphyReleaseCollisionConfiguration;
 	aphyAddCollisionDispatcherReference_FUN aphyAddCollisionDispatcherReference;
@@ -377,11 +424,27 @@ typedef struct _aphy_icd_dispatch {
 	aphyRemoveCollisionObject_FUN aphyRemoveCollisionObject;
 	aphyAddRigidBody_FUN aphyAddRigidBody;
 	aphyRemoveRigidBody_FUN aphyRemoveRigidBody;
+	aphyAddCharacterController_FUN aphyAddCharacterController;
+	aphyRemoveCharacterController_FUN aphyRemoveCharacterController;
 	aphyAddRigidBodyWithFilter_FUN aphyAddRigidBodyWithFilter;
 	aphyStepSimulation_FUN aphyStepSimulation;
 	aphySetGravity_FUN aphySetGravity;
 	aphyEncodeDebugDrawing_FUN aphyEncodeDebugDrawing;
 	aphyGetDebugDrawingData_FUN aphyGetDebugDrawingData;
+	aphyAddCharacterControllerReference_FUN aphyAddCharacterControllerReference;
+	aphyReleaseCharacterControllerReference_FUN aphyReleaseCharacterControllerReference;
+	aphySetCharacterControllerWalkDirection_FUN aphySetCharacterControllerWalkDirection;
+	aphySetCharacterControllerWalkDirectionFrom_FUN aphySetCharacterControllerWalkDirectionFrom;
+	aphySetCharacterControllerVelocityForTimeInterval_FUN aphySetCharacterControllerVelocityForTimeInterval;
+	aphySetCharacterControllerVelocityForTimeIntervalFrom_FUN aphySetCharacterControllerVelocityForTimeIntervalFrom;
+	aphyWarpCharacterController_FUN aphyWarpCharacterController;
+	aphyWarpCharacterControllerWithOriginFrom_FUN aphyWarpCharacterControllerWithOriginFrom;
+	aphyCanCharacterControllerJump_FUN aphyCanCharacterControllerJump;
+	aphyCharacterControllerJump_FUN aphyCharacterControllerJump;
+	aphyIsCharacterControllerOnGround_FUN aphyIsCharacterControllerOnGround;
+	aphySetCharacterMaxJumpHeight_FUN aphySetCharacterMaxJumpHeight;
+	aphySetCharacterJumpSpeed_FUN aphySetCharacterJumpSpeed;
+	aphySetCharacterGravity_FUN aphySetCharacterGravity;
 	aphyAddCollisionObjectReference_FUN aphyAddCollisionObjectReference;
 	aphyReleaseCollisionObjectReference_FUN aphyReleaseCollisionObjectReference;
 	aphyGetCollisionObjectTransform_FUN aphyGetCollisionObjectTransform;
@@ -400,6 +463,7 @@ typedef struct _aphy_icd_dispatch {
 	aphySetCollisionObjectMatrixFrom_FUN aphySetCollisionObjectMatrixFrom;
 	aphySetCollisionObjectQuaternion_FUN aphySetCollisionObjectQuaternion;
 	aphySetCollisionObjectQuaternionFrom_FUN aphySetCollisionObjectQuaternionFrom;
+	aphySetCollisionObjectShape_FUN aphySetCollisionObjectShape;
 	aphyAddCollisionShapeReference_FUN aphyAddCollisionShapeReference;
 	aphyReleaseCollisionShapeReference_FUN aphyReleaseCollisionShapeReference;
 	aphySetShapeMargin_FUN aphySetShapeMargin;

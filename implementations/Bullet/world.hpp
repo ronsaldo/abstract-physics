@@ -20,6 +20,8 @@ public:
     void lostReferences();
     void addedCollisionObject(aphy_collision_object *object);
     void removedCollisionObject(aphy_collision_object *object);
+    void addedCharacterController ( aphy_character_controller* character );
+    void removedCharacterController ( aphy_character_controller* character );
 
     aphy_size encodeDebugDrawing();
     aphy_error getDebugDrawingData(aphy_size buffer_size, aphy_pointer buffer );
@@ -31,6 +33,7 @@ public:
     aphy_collision_configuration* collisionConfiguration;
 
     std::unordered_set<aphy_collision_object*> collisionObjects;
+    std::unordered_set<aphy_character_controller*> characterControllers;
     std::shared_ptr<aphy_bullet_world_debug_drawer> debugDrawer;
 };
 

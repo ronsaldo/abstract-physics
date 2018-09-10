@@ -232,6 +232,19 @@
                 <arg name="local_inertia" type="vector3*" />
             </method>
 
+            <method name="createGhostObject" cname="CreateGhostObject" returnType="collision_object*">
+            </method>
+
+            <method name="createPairCachingGhostObject" cname="CreatePairCachingGhostObject" returnType="collision_object*">
+            </method>
+
+            <method name="createKinematicCharacterController" cname="CreateKinematicCharacterController" returnType="character_controller*">
+                <arg name="ghost_object" type="collision_object*" />
+                <arg name="convex_shape" type="collision_shape*" />
+                <arg name="step_height" type="scalar" />
+                <arg name="up_axis" type="axis" />
+            </method>
+
         </interface>
 
         <interface name="collision_configuration">
@@ -297,6 +310,14 @@
                 <arg name="object" type="collision_object*" />
             </method>
 
+            <method name="addCharacterController" cname="AddCharacterController" returnType="error">
+                <arg name="character" type="character_controller*" />
+            </method>
+
+            <method name="removeCharacterController" cname="RemoveCharacterController" returnType="error">
+                <arg name="character" type="character_controller*" />
+            </method>
+
             <method name="addRigidBodyWithFilter" cname="AddRigidBodyWithFilter" returnType="error">
                 <arg name="object" type="collision_object*" />
                 <arg name="collision_filter_group" type="short" />
@@ -315,12 +336,68 @@
                 <arg name="z" type="scalar" />
             </method>
 
-            <method name="encodeDebugDrawingData" cname="EncodeDebugDrawing" returnType="size">
+            <method name="encodeDebugDrawing" cname="EncodeDebugDrawing" returnType="size">
             </method>
 
             <method name="getDebugDrawingData" cname="GetDebugDrawingData" returnType="error">
                 <arg name="buffer_size" type="size" />
                 <arg name="buffer" type="pointer" />
+            </method>
+
+        </interface>
+
+        <interface name="character_controller">
+            <method name="addReference" cname="AddCharacterControllerReference" returnType="error">
+            </method>
+
+            <method name="release" cname="ReleaseCharacterControllerReference" returnType="error">
+            </method>
+
+            <method name="setWalkDirection" cname="SetCharacterControllerWalkDirection" returnType="error">
+                <arg name="direction" type="vector3" />
+            </method>
+
+            <method name="setWalkDirectionFrom" cname="SetCharacterControllerWalkDirectionFrom" returnType="error">
+                <arg name="direction" type="vector3*" />
+            </method>
+
+            <method name="setVelocityForTimeInterval" cname="SetCharacterControllerVelocityForTimeInterval" returnType="error">
+                <arg name="velocity" type="vector3" />
+                <arg name="time_interval" type="scalar" />
+            </method>
+
+            <method name="setVelocityForTimeIntervalFrom" cname="SetCharacterControllerVelocityForTimeIntervalFrom" returnType="error">
+                <arg name="velocity" type="vector3*" />
+                <arg name="time_interval" type="scalar" />
+            </method>
+
+            <method name="warp" cname="WarpCharacterController" returnType="error">
+                <arg name="origin" type="vector3" />
+            </method>
+
+            <method name="warpWithOriginFrom" cname="WarpCharacterControllerWithOriginFrom" returnType="error">
+                <arg name="origin" type="vector3*" />
+            </method>
+
+            <method name="canJump" cname="CanCharacterControllerJump" returnType="bool">
+            </method>
+
+            <method name="jump" cname="CharacterControllerJump" returnType="error">
+            </method>
+
+            <method name="isOnGround" cname="IsCharacterControllerOnGround" returnType="bool">
+            </method>
+
+            <method name="setMaxJumpHeight" cname="SetCharacterMaxJumpHeight" returnType="error">
+                <arg name="height" type="scalar" />
+            </method>
+
+            <method name="setJumpSpeed" cname="SetCharacterJumpSpeed" returnType="error">
+                <arg name="speed" type="scalar" />
+            </method>
+
+            <method name="setGravity" cname="SetCharacterGravity" returnType="error">
+                <arg name="gravity" type="scalar" />
             </method>
 
         </interface>
@@ -390,6 +467,10 @@
 
             <method name="setQuaternion" cname="SetCollisionObjectQuaternionFrom" returnType="error">
                 <arg name="value" type="quaternion*" />
+            </method>
+
+            <method name="setCollisionShape" cname="SetCollisionObjectShape" returnType="error">
+                <arg name="shape" type="collision_shape*" />
             </method>
         </interface>
 

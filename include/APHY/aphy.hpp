@@ -251,6 +251,21 @@ public:
 		return aphyCreateSimpleRigidBodyFrom( this, mass, motion_state, collision_shape, local_inertia );
 	}
 
+	inline aphy_collision_object* createGhostObject (  )
+	{
+		return aphyCreateGhostObject( this );
+	}
+
+	inline aphy_collision_object* createPairCachingGhostObject (  )
+	{
+		return aphyCreatePairCachingGhostObject( this );
+	}
+
+	inline aphy_character_controller* createKinematicCharacterController ( aphy_collision_object* ghost_object, aphy_collision_shape* convex_shape, aphy_scalar step_height, aphy_axis up_axis )
+	{
+		return aphyCreateKinematicCharacterController( this, ghost_object, convex_shape, step_height, up_axis );
+	}
+
 };
 
 typedef aphy_ref<aphy_engine> aphy_engine_ref;
@@ -386,6 +401,16 @@ public:
 		APhyThrowIfFailed(aphyRemoveRigidBody( this, object ));
 	}
 
+	inline void addCharacterController ( aphy_character_controller* character )
+	{
+		APhyThrowIfFailed(aphyAddCharacterController( this, character ));
+	}
+
+	inline void removeCharacterController ( aphy_character_controller* character )
+	{
+		APhyThrowIfFailed(aphyRemoveCharacterController( this, character ));
+	}
+
 	inline void addRigidBodyWithFilter ( aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask )
 	{
 		APhyThrowIfFailed(aphyAddRigidBodyWithFilter( this, object, collision_filter_group, collision_filter_mask ));
@@ -401,7 +426,7 @@ public:
 		APhyThrowIfFailed(aphySetGravity( this, x, y, z ));
 	}
 
-	inline aphy_size encodeDebugDrawingData (  )
+	inline aphy_size encodeDebugDrawing (  )
 	{
 		return aphyEncodeDebugDrawing( this );
 	}
@@ -414,6 +439,87 @@ public:
 };
 
 typedef aphy_ref<aphy_world> aphy_world_ref;
+
+// Interface wrapper for aphy_character_controller.
+struct _aphy_character_controller
+{
+private:
+	_aphy_character_controller() {}
+
+public:
+	inline void addReference (  )
+	{
+		APhyThrowIfFailed(aphyAddCharacterControllerReference( this ));
+	}
+
+	inline void release (  )
+	{
+		APhyThrowIfFailed(aphyReleaseCharacterControllerReference( this ));
+	}
+
+	inline void setWalkDirection ( aphy_vector3 direction )
+	{
+		APhyThrowIfFailed(aphySetCharacterControllerWalkDirection( this, direction ));
+	}
+
+	inline void setWalkDirectionFrom ( aphy_vector3* direction )
+	{
+		APhyThrowIfFailed(aphySetCharacterControllerWalkDirectionFrom( this, direction ));
+	}
+
+	inline void setVelocityForTimeInterval ( aphy_vector3 velocity, aphy_scalar time_interval )
+	{
+		APhyThrowIfFailed(aphySetCharacterControllerVelocityForTimeInterval( this, velocity, time_interval ));
+	}
+
+	inline void setVelocityForTimeIntervalFrom ( aphy_vector3* velocity, aphy_scalar time_interval )
+	{
+		APhyThrowIfFailed(aphySetCharacterControllerVelocityForTimeIntervalFrom( this, velocity, time_interval ));
+	}
+
+	inline void warp ( aphy_vector3 origin )
+	{
+		APhyThrowIfFailed(aphyWarpCharacterController( this, origin ));
+	}
+
+	inline void warpWithOriginFrom ( aphy_vector3* origin )
+	{
+		APhyThrowIfFailed(aphyWarpCharacterControllerWithOriginFrom( this, origin ));
+	}
+
+	inline aphy_bool canJump (  )
+	{
+		return aphyCanCharacterControllerJump( this );
+	}
+
+	inline void jump (  )
+	{
+		APhyThrowIfFailed(aphyCharacterControllerJump( this ));
+	}
+
+	inline aphy_bool isOnGround (  )
+	{
+		return aphyIsCharacterControllerOnGround( this );
+	}
+
+	inline void setMaxJumpHeight ( aphy_scalar height )
+	{
+		APhyThrowIfFailed(aphySetCharacterMaxJumpHeight( this, height ));
+	}
+
+	inline void setJumpSpeed ( aphy_scalar speed )
+	{
+		APhyThrowIfFailed(aphySetCharacterJumpSpeed( this, speed ));
+	}
+
+	inline void setGravity ( aphy_scalar gravity )
+	{
+		APhyThrowIfFailed(aphySetCharacterGravity( this, gravity ));
+	}
+
+};
+
+typedef aphy_ref<aphy_character_controller> aphy_character_controller_ref;
 
 // Interface wrapper for aphy_collision_object.
 struct _aphy_collision_object
@@ -510,6 +616,11 @@ public:
 	inline void setQuaternion ( aphy_quaternion* value )
 	{
 		APhyThrowIfFailed(aphySetCollisionObjectQuaternionFrom( this, value ));
+	}
+
+	inline void setCollisionShape ( aphy_collision_shape* shape )
+	{
+		APhyThrowIfFailed(aphySetCollisionObjectShape( this, shape ));
 	}
 
 };

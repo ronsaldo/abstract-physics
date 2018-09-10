@@ -8,9 +8,11 @@
 #include "constraint_solver.hpp"
 #include "motion_state.hpp"
 #include "world.hpp"
+#include "character_controller.hpp"
 #include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
 
-inline int mapHeightUpAxis(aphy_axis axis)
+inline int mapAxis(aphy_axis axis)
 {
     switch(axis)
     {
@@ -111,7 +113,9 @@ APHY_EXPORT aphy_broadphase* aphyCreateDefaultBroadphase ( aphy_engine* engine )
     if(!engine)
         return nullptr;
 
-    return new aphy_broadphase(new btDbvtBroadphase());
+    auto handle = new btDbvtBroadphase();
+    //handle->getOverlappingPairCache()->setInternalGhostPairCallback( new btGhostPairCallback() );
+    return new aphy_broadphase(handle);
 }
 
 APHY_EXPORT aphy_constraint_solver* aphyCreateDefaultConstraintSolver ( aphy_engine* engine )
@@ -248,7 +252,7 @@ APHY_EXPORT aphy_collision_shape* aphyCreateHeightfieldTerrainShape ( aphy_engin
     if(!engine)
         return nullptr;
     auto shape = new btHeightfieldTerrainShape(height_stick_width, height_stick_length, heightfield_data,
-        height_scale, min_height, max_height, mapHeightUpAxis(up_axis),
+        height_scale, min_height, max_height, mapAxis(up_axis),
         mapHeightDataType(height_data_type), flip_quad_edges);
 
     shape->setLocalScaling(btVector3(local_scale_x, local_scale_y, local_scale_z));
@@ -275,7 +279,7 @@ APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBody ( aphy_engine* engi
         return nullptr;
 
     auto inertia = btVector3(local_inertia.x, local_inertia.y, local_inertia.z);
-    auto result = new aphy_collision_object(new btRigidBody(mass, motion_state->handle, collision_shape->handle, inertia), true);
+    auto result = new aphy_collision_object(new btRigidBody(mass, motion_state->handle, collision_shape->handle, inertia), APhyCollisionObjectType::RigidBody);
     motion_state->retain();     result->motionState = motion_state;
     collision_shape->retain();  result->collisionShape = collision_shape;
     return result;
@@ -287,6 +291,34 @@ APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBodyFrom ( aphy_engine* 
         return nullptr;
 
     return aphyCreateSimpleRigidBody(engine, mass, motion_state, collision_shape, *local_inertia);
+}
+
+APHY_EXPORT aphy_collision_object* aphyCreateGhostObject ( aphy_engine* engine )
+{
+    if(!engine)
+        return nullptr;
+    return new aphy_collision_object(new btGhostObject(), APhyCollisionObjectType::GhostObject);
+}
+
+APHY_EXPORT aphy_collision_object* aphyCreatePairCachingGhostObject ( aphy_engine* engine )
+{
+    if(!engine)
+        return nullptr;
+    return new aphy_collision_object(new btPairCachingGhostObject(), APhyCollisionObjectType::PairCachingGhostObject);
+}
+
+APHY_EXPORT aphy_character_controller* aphyCreateKinematicCharacterController ( aphy_engine* engine, aphy_collision_object* ghost_object, aphy_collision_shape* convex_shape, aphy_scalar step_height, aphy_axis up_axis )
+{
+    if(!engine)
+        return nullptr;
+    if(!ghost_object || ghost_object->type != APhyCollisionObjectType::PairCachingGhostObject)
+        return nullptr;
+    if(!convex_shape)
+        return nullptr;
+
+    auto handle = new btKinematicCharacterController (static_cast<btPairCachingGhostObject*> (ghost_object->handle), static_cast<btConvexShape*> (convex_shape->handle), step_height, mapAxis(up_axis));
+    handle->setUseGhostSweepTest(false);
+    return new aphy_character_controller(handle);
 }
 
 #if defined(_WIN32)

@@ -3,6 +3,7 @@
 #include "collision_dispatcher.hpp"
 #include "collision_object.hpp"
 #include "constraint_solver.hpp"
+#include "character_controller.hpp"
 #include "world.hpp"
 #include <vector>
 
@@ -14,7 +15,7 @@ public:
     {
         instructions.clear();
     }
-    
+
     void putOpcode(aphy_debug_draw_opcode opcode)
     {
         instructions.push_back(opcode);
@@ -28,7 +29,7 @@ public:
         instructions.push_back(0);
         *reinterpret_cast<int32_t*> (&instructions[instructions.size() - 4]) = value;
     }
-    
+
     void putScalar(float scalar)
     {
         instructions.push_back(0);
@@ -37,14 +38,14 @@ public:
         instructions.push_back(0);
         *reinterpret_cast<float*> (&instructions[instructions.size() - 4]) = scalar;
     }
-    
+
     void putVector3(const btVector3 &vector)
     {
         putScalar(vector.x());
         putScalar(vector.y());
         putScalar(vector.z());
     }
-    
+
     virtual void drawLine(const btVector3& from,const btVector3& to,const btVector3& color) override
     {
         putOpcode(APHY_DEBUG_DRAW_OP_LINE);
@@ -97,25 +98,25 @@ public:
 
     virtual void reportErrorWarning(const char* warningString) override
     {
-        
+
     }
 
     virtual void draw3dText(const btVector3& location,const char* textString) override
     {
-        
+
     }
-    
+
     virtual void setDebugMode(int debugMode) override
     {
         currentDebugMode = debugMode;
     }
-    
+
     virtual int	getDebugMode() const override
     {
         return currentDebugMode;
     }
 
-    
+
     int currentDebugMode = 0;
     std::vector<uint8_t> instructions;
 };
@@ -143,6 +144,12 @@ void _aphy_world::lostReferences()
         if(obj)
             obj->release();
     }
+
+    for(auto obj : characterControllers)
+    {
+        if(obj)
+            obj->release();
+    }
 }
 
 void _aphy_world::addedCollisionObject(aphy_collision_object *object)
@@ -161,6 +168,22 @@ void _aphy_world::removedCollisionObject(aphy_collision_object *object)
     }
 }
 
+void _aphy_world::addedCharacterController ( aphy_character_controller* character )
+{
+    character->retain();
+    characterControllers.insert(character);
+}
+
+void _aphy_world::removedCharacterController ( aphy_character_controller* character )
+{
+    auto it = characterControllers.find(character);
+    if(it != characterControllers.end())
+    {
+        character->release();
+        characterControllers.erase(it);
+    }
+}
+
 aphy_size _aphy_world::encodeDebugDrawing()
 {
     if(!debugDrawer)
@@ -168,8 +191,9 @@ aphy_size _aphy_world::encodeDebugDrawing()
         debugDrawer = std::make_shared<aphy_bullet_world_debug_drawer> ();
         handle->setDebugDrawer(debugDrawer.get());
     }
-    
+
     debugDrawer->reset();
+    debugDrawer->setDebugMode(btIDebugDraw::DBG_DrawWireframe | btIDebugDraw::DBG_DrawAabb);
     handle->debugDrawWorld();
     return aphy_size(debugDrawer->instructions.size());
 }
@@ -177,7 +201,7 @@ aphy_size _aphy_world::encodeDebugDrawing()
 aphy_error _aphy_world::getDebugDrawingData(aphy_size buffer_size, aphy_pointer buffer )
 {
     CHECK_POINTER(buffer);
-    
+
     if(!debugDrawer || buffer_size < debugDrawer->instructions.size())
         return APHY_INVALID_OPERATION;
 
@@ -217,6 +241,7 @@ APHY_EXPORT aphy_uint aphyGetNumberOfConstraints ( aphy_world* world )
 APHY_EXPORT aphy_error aphyAddCollisionObject ( aphy_world* world, aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask )
 {
     CHECK_POINTER(world);
+    printf("Add collision group %d mask %d\n", collision_filter_group, collision_filter_mask);
     world->handle->addCollisionObject(object->handle, collision_filter_group, collision_filter_mask);
     world->addedCollisionObject(object);
     return APHY_OK;
@@ -259,6 +284,26 @@ APHY_EXPORT aphy_error aphyRemoveRigidBody ( aphy_world* world, aphy_collision_o
     return APHY_OK;
 }
 
+APHY_EXPORT aphy_error aphyAddCharacterController ( aphy_world* world, aphy_character_controller* character )
+{
+    CHECK_POINTER(world);
+    CHECK_POINTER(character);
+
+    world->handle->addAction(character->handle);
+    world->addedCharacterController(character);
+    return APHY_OK;
+}
+
+APHY_EXPORT aphy_error aphyRemoveCharacterController ( aphy_world* world, aphy_character_controller* character )
+{
+    CHECK_POINTER(world);
+    CHECK_POINTER(character);
+
+    world->handle->removeAction(character->handle);
+    world->removedCharacterController(character);
+    return APHY_OK;
+}
+
 APHY_EXPORT aphy_error aphyAddRigidBodyWithFilter ( aphy_world* world, aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask )
 {
     CHECK_POINTER(world);
@@ -291,7 +336,7 @@ APHY_EXPORT aphy_size aphyEncodeDebugDrawing ( aphy_world* world )
 {
     if(!world)
         return 0;
-        
+
     return world->encodeDebugDrawing();
 }
 

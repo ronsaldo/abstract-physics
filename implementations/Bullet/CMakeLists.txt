@@ -17,6 +17,8 @@ set(APHY_Bullet_SOURCES
     collision_dispatcher.cpp
     collision_dispatcher.hpp
     common.hpp
+    character_controller.cpp
+    character_controller.hpp
     collision_object.cpp
     collision_object.hpp
     collision_shape.cpp

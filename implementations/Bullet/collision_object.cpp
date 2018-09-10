@@ -3,8 +3,8 @@
 #include "collision_shape.hpp"
 #include "utility.hpp"
 
-_aphy_collision_object::_aphy_collision_object(btCollisionObject *handle, bool isRigidBody)
-    : handle(handle), motionState(nullptr), collisionShape(nullptr), isRigidBody(isRigidBody)
+_aphy_collision_object::_aphy_collision_object(btCollisionObject *handle, APhyCollisionObjectType type)
+    : handle(handle), motionState(nullptr), collisionShape(nullptr), type(type)
 {
 }
 
@@ -49,7 +49,7 @@ APHY_EXPORT aphy_error aphyGetCollisionObjectTransformInto ( aphy_collision_obje
 
 APHY_EXPORT aphy_vector3 aphyGetCollisionObjectTranslation ( aphy_collision_object* collision_object )
 {
-    if(collision_object)
+    if(!collision_object)
         return aphy_vector3();
 
     return convertVector(collision_object->handle->getWorldTransform().getOrigin());
@@ -60,6 +60,7 @@ APHY_EXPORT aphy_error aphyGetCollisionObjectTranslationInto ( aphy_collision_ob
     CHECK_POINTER(collision_object);
     CHECK_POINTER(result);
     *result = aphyGetCollisionObjectTranslation(collision_object);
+
     return APHY_OK;
 }
 
@@ -112,7 +113,9 @@ APHY_EXPORT aphy_error aphySetCollisionObjectTransformFrom ( aphy_collision_obje
 APHY_EXPORT aphy_error aphySetCollisionObjectTranslation ( aphy_collision_object* collision_object, aphy_vector3 value )
 {
     CHECK_POINTER(collision_object);
-    collision_object->handle->getWorldTransform().setOrigin(convertAPhyVector(value));
+    auto transform = collision_object->handle->getWorldTransform();
+    transform.setOrigin(convertAPhyVector(value));
+    collision_object->handle->setWorldTransform(transform);
     return APHY_OK;
 }
 
@@ -149,4 +152,17 @@ APHY_EXPORT aphy_error aphySetCollisionObjectQuaternionFrom ( aphy_collision_obj
     CHECK_POINTER(collision_object);
     CHECK_POINTER(value);
     return aphySetCollisionObjectQuaternion(collision_object, *value);
+}
+
+APHY_EXPORT aphy_error aphySetCollisionObjectShape ( aphy_collision_object* collision_object, aphy_collision_shape* shape )
+{
+    CHECK_POINTER(collision_object);
+    CHECK_POINTER(shape);
+
+    shape->retain();
+    if(collision_object->collisionShape)
+        collision_object->collisionShape->release();
+    collision_object->collisionShape = shape;
+    collision_object->handle->setCollisionShape(shape->handle);
+    return APHY_OK;
 }
