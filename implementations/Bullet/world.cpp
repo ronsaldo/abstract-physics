@@ -241,7 +241,6 @@ APHY_EXPORT aphy_uint aphyGetNumberOfConstraints ( aphy_world* world )
 APHY_EXPORT aphy_error aphyAddCollisionObject ( aphy_world* world, aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask )
 {
     CHECK_POINTER(world);
-    printf("Add collision group %d mask %d\n", collision_filter_group, collision_filter_mask);
     world->handle->addCollisionObject(object->handle, collision_filter_group, collision_filter_mask);
     world->addedCollisionObject(object);
     return APHY_OK;
