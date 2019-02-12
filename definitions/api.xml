@@ -1,4 +1,23 @@
 <api name="Abstract Physics" headerFile="aphy.h" constantPrefix="APHY_" typePrefix="aphy_" functionPrefix="aphy" >
+<bindings>
+    <language name="C">
+        <property key="headerFile" value="aphy.h" />
+        <property key="constantPrefix" value="APHY_" />
+        <property key="typePrefix" value="aphy_" />
+        <property key="functionPrefix" value="aphy" />
+        <property key="headerInclude" value="&lt;APHY/aphy.h&gt;" />
+        <property key="icdIncludeFile" value="aphy_icd.10.inc" />
+    </language>
+
+    <language name="C++">
+        <property key="headerFile" value="aphy.hpp" />
+    </language>
+
+    <language name="Pharo">
+        <property key="namespacePrefix" value="APHY" />
+        <property key="package" value="AbstractPhysics-Generated" />
+    </language>
+</bindings>
 <version name="1.0">
     <types>
         <typedef name="byte" ctype="unsigned char" />

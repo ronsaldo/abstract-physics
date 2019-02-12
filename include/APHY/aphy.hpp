@@ -3,7 +3,7 @@
 #define APHY_HPP_
 
 #include <stdexcept>
-#include "APHY/aphy.h"
+#include "aphy.h"
 
 /**
  * Abstract Physics exception.
@@ -12,7 +12,7 @@ class aphy_exception : public std::runtime_error
 {
 public:
     explicit aphy_exception(aphy_error error)
-        : std::runtime_error("AGPU Error"), errorCode(error)
+        : std::runtime_error("Abstract Physics Error"), errorCode(error)
     {
     }
 
@@ -103,7 +103,7 @@ private:
 /**
  * Helper function to convert an error code into an exception.
  */
-inline void APhyThrowIfFailed(aphy_error error)
+inline void aphyThrowIfFailed(aphy_error error)
 {
     if(error < 0)
         throw aphy_exception(error);
@@ -118,12 +118,12 @@ private:
 public:
 	inline void addReference (  )
 	{
-		APhyThrowIfFailed(aphyAddEngineReference( this ));
+		aphyThrowIfFailed(aphyAddEngineReference( this ));
 	}
 
 	inline void release (  )
 	{
-		APhyThrowIfFailed(aphyReleaseEngine( this ));
+		aphyThrowIfFailed(aphyReleaseEngine( this ));
 	}
 
 	inline aphy_cstring getName (  )
@@ -279,12 +279,12 @@ private:
 public:
 	inline void addReference (  )
 	{
-		APhyThrowIfFailed(aphyAddCollisionConfigurationReference( this ));
+		aphyThrowIfFailed(aphyAddCollisionConfigurationReference( this ));
 	}
 
 	inline void release (  )
 	{
-		APhyThrowIfFailed(aphyReleaseCollisionConfiguration( this ));
+		aphyThrowIfFailed(aphyReleaseCollisionConfiguration( this ));
 	}
 
 };
@@ -300,12 +300,12 @@ private:
 public:
 	inline void addReference (  )
 	{
-		APhyThrowIfFailed(aphyAddCollisionDispatcherReference( this ));
+		aphyThrowIfFailed(aphyAddCollisionDispatcherReference( this ));
 	}
 
 	inline void release (  )
 	{
-		APhyThrowIfFailed(aphyReleaseCollisionDispatcher( this ));
+		aphyThrowIfFailed(aphyReleaseCollisionDispatcher( this ));
 	}
 
 };
@@ -321,12 +321,12 @@ private:
 public:
 	inline void addReference (  )
 	{
-		APhyThrowIfFailed(aphyAddBroadphaseReference( this ));
+		aphyThrowIfFailed(aphyAddBroadphaseReference( this ));
 	}
 
 	inline void release (  )
 	{
-		APhyThrowIfFailed(aphyReleaseBroadphaseReference( this ));
+		aphyThrowIfFailed(aphyReleaseBroadphaseReference( this ));
 	}
 
 };
@@ -342,12 +342,12 @@ private:
 public:
 	inline void addReference (  )
 	{
-		APhyThrowIfFailed(aphyAddConstraintSolverReference( this ));
+		aphyThrowIfFailed(aphyAddConstraintSolverReference( this ));
 	}
 
 	inline void release (  )
 	{
-		APhyThrowIfFailed(aphyReleaseConstraintSolverReference( this ));
+		aphyThrowIfFailed(aphyReleaseConstraintSolverReference( this ));
 	}
 
 };
@@ -363,12 +363,12 @@ private:
 public:
 	inline void addReference (  )
 	{
-		APhyThrowIfFailed(aphyAddWorldReference( this ));
+		aphyThrowIfFailed(aphyAddWorldReference( this ));
 	}
 
 	inline void release (  )
 	{
-		APhyThrowIfFailed(aphyReleaseWorldReference( this ));
+		aphyThrowIfFailed(aphyReleaseWorldReference( this ));
 	}
 
 	inline aphy_uint getNumberOfCollisionObject (  )
@@ -383,47 +383,47 @@ public:
 
 	inline void addCollisionObject ( aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask )
 	{
-		APhyThrowIfFailed(aphyAddCollisionObject( this, object, collision_filter_group, collision_filter_mask ));
+		aphyThrowIfFailed(aphyAddCollisionObject( this, object, collision_filter_group, collision_filter_mask ));
 	}
 
 	inline void removeCollisionObject ( aphy_collision_object* object )
 	{
-		APhyThrowIfFailed(aphyRemoveCollisionObject( this, object ));
+		aphyThrowIfFailed(aphyRemoveCollisionObject( this, object ));
 	}
 
 	inline void addRigidBody ( aphy_collision_object* object )
 	{
-		APhyThrowIfFailed(aphyAddRigidBody( this, object ));
+		aphyThrowIfFailed(aphyAddRigidBody( this, object ));
 	}
 
 	inline void removeRigidBody ( aphy_collision_object* object )
 	{
-		APhyThrowIfFailed(aphyRemoveRigidBody( this, object ));
+		aphyThrowIfFailed(aphyRemoveRigidBody( this, object ));
 	}
 
 	inline void addCharacterController ( aphy_character_controller* character )
 	{
-		APhyThrowIfFailed(aphyAddCharacterController( this, character ));
+		aphyThrowIfFailed(aphyAddCharacterController( this, character ));
 	}
 
 	inline void removeCharacterController ( aphy_character_controller* character )
 	{
-		APhyThrowIfFailed(aphyRemoveCharacterController( this, character ));
+		aphyThrowIfFailed(aphyRemoveCharacterController( this, character ));
 	}
 
 	inline void addRigidBodyWithFilter ( aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask )
 	{
-		APhyThrowIfFailed(aphyAddRigidBodyWithFilter( this, object, collision_filter_group, collision_filter_mask ));
+		aphyThrowIfFailed(aphyAddRigidBodyWithFilter( this, object, collision_filter_group, collision_filter_mask ));
 	}
 
 	inline void stepSimulation ( aphy_scalar time_step, aphy_int max_sub_steps, aphy_scalar fixed_time_step )
 	{
-		APhyThrowIfFailed(aphyStepSimulation( this, time_step, max_sub_steps, fixed_time_step ));
+		aphyThrowIfFailed(aphyStepSimulation( this, time_step, max_sub_steps, fixed_time_step ));
 	}
 
 	inline void setGravity ( aphy_scalar x, aphy_scalar y, aphy_scalar z )
 	{
-		APhyThrowIfFailed(aphySetGravity( this, x, y, z ));
+		aphyThrowIfFailed(aphySetGravity( this, x, y, z ));
 	}
 
 	inline aphy_size encodeDebugDrawing (  )
@@ -433,7 +433,7 @@ public:
 
 	inline void getDebugDrawingData ( aphy_size buffer_size, aphy_pointer buffer )
 	{
-		APhyThrowIfFailed(aphyGetDebugDrawingData( this, buffer_size, buffer ));
+		aphyThrowIfFailed(aphyGetDebugDrawingData( this, buffer_size, buffer ));
 	}
 
 };
@@ -449,42 +449,42 @@ private:
 public:
 	inline void addReference (  )
 	{
-		APhyThrowIfFailed(aphyAddCharacterControllerReference( this ));
+		aphyThrowIfFailed(aphyAddCharacterControllerReference( this ));
 	}
 
 	inline void release (  )
 	{
-		APhyThrowIfFailed(aphyReleaseCharacterControllerReference( this ));
+		aphyThrowIfFailed(aphyReleaseCharacterControllerReference( this ));
 	}
 
 	inline void setWalkDirection ( aphy_vector3 direction )
 	{
-		APhyThrowIfFailed(aphySetCharacterControllerWalkDirection( this, direction ));
+		aphyThrowIfFailed(aphySetCharacterControllerWalkDirection( this, direction ));
 	}
 
 	inline void setWalkDirectionFrom ( aphy_vector3* direction )
 	{
-		APhyThrowIfFailed(aphySetCharacterControllerWalkDirectionFrom( this, direction ));
+		aphyThrowIfFailed(aphySetCharacterControllerWalkDirectionFrom( this, direction ));
 	}
 
 	inline void setVelocityForTimeInterval ( aphy_vector3 velocity, aphy_scalar time_interval )
 	{
-		APhyThrowIfFailed(aphySetCharacterControllerVelocityForTimeInterval( this, velocity, time_interval ));
+		aphyThrowIfFailed(aphySetCharacterControllerVelocityForTimeInterval( this, velocity, time_interval ));
 	}
 
 	inline void setVelocityForTimeIntervalFrom ( aphy_vector3* velocity, aphy_scalar time_interval )
 	{
-		APhyThrowIfFailed(aphySetCharacterControllerVelocityForTimeIntervalFrom( this, velocity, time_interval ));
+		aphyThrowIfFailed(aphySetCharacterControllerVelocityForTimeIntervalFrom( this, velocity, time_interval ));
 	}
 
 	inline void warp ( aphy_vector3 origin )
 	{
-		APhyThrowIfFailed(aphyWarpCharacterController( this, origin ));
+		aphyThrowIfFailed(aphyWarpCharacterController( this, origin ));
 	}
 
 	inline void warpWithOriginFrom ( aphy_vector3* origin )
 	{
-		APhyThrowIfFailed(aphyWarpCharacterControllerWithOriginFrom( this, origin ));
+		aphyThrowIfFailed(aphyWarpCharacterControllerWithOriginFrom( this, origin ));
 	}
 
 	inline aphy_bool canJump (  )
@@ -494,7 +494,7 @@ public:
 
 	inline void jump (  )
 	{
-		APhyThrowIfFailed(aphyCharacterControllerJump( this ));
+		aphyThrowIfFailed(aphyCharacterControllerJump( this ));
 	}
 
 	inline aphy_bool isOnGround (  )
@@ -504,17 +504,17 @@ public:
 
 	inline void setMaxJumpHeight ( aphy_scalar height )
 	{
-		APhyThrowIfFailed(aphySetCharacterMaxJumpHeight( this, height ));
+		aphyThrowIfFailed(aphySetCharacterMaxJumpHeight( this, height ));
 	}
 
 	inline void setJumpSpeed ( aphy_scalar speed )
 	{
-		APhyThrowIfFailed(aphySetCharacterJumpSpeed( this, speed ));
+		aphyThrowIfFailed(aphySetCharacterJumpSpeed( this, speed ));
 	}
 
 	inline void setGravity ( aphy_scalar gravity )
 	{
-		APhyThrowIfFailed(aphySetCharacterGravity( this, gravity ));
+		aphyThrowIfFailed(aphySetCharacterGravity( this, gravity ));
 	}
 
 };
@@ -530,12 +530,12 @@ private:
 public:
 	inline void addReference (  )
 	{
-		APhyThrowIfFailed(aphyAddCollisionObjectReference( this ));
+		aphyThrowIfFailed(aphyAddCollisionObjectReference( this ));
 	}
 
 	inline void release (  )
 	{
-		APhyThrowIfFailed(aphyReleaseCollisionObjectReference( this ));
+		aphyThrowIfFailed(aphyReleaseCollisionObjectReference( this ));
 	}
 
 	inline aphy_transform getTransform (  )
@@ -545,7 +545,7 @@ public:
 
 	inline void getTransformInto ( aphy_transform* result )
 	{
-		APhyThrowIfFailed(aphyGetCollisionObjectTransformInto( this, result ));
+		aphyThrowIfFailed(aphyGetCollisionObjectTransformInto( this, result ));
 	}
 
 	inline aphy_vector3 getTranslation (  )
@@ -555,7 +555,7 @@ public:
 
 	inline void getTranslationInto ( aphy_vector3* result )
 	{
-		APhyThrowIfFailed(aphyGetCollisionObjectTranslationInto( this, result ));
+		aphyThrowIfFailed(aphyGetCollisionObjectTranslationInto( this, result ));
 	}
 
 	inline aphy_matrix3x3 getMatrix (  )
@@ -565,7 +565,7 @@ public:
 
 	inline void getMatrixInto ( aphy_matrix3x3* result )
 	{
-		APhyThrowIfFailed(aphyGetCollisionObjectMatrixInto( this, result ));
+		aphyThrowIfFailed(aphyGetCollisionObjectMatrixInto( this, result ));
 	}
 
 	inline aphy_quaternion getQuaternion (  )
@@ -575,52 +575,52 @@ public:
 
 	inline void getQuaternionInto ( aphy_quaternion* result )
 	{
-		APhyThrowIfFailed(aphyGetCollisionObjectQuaternionInto( this, result ));
+		aphyThrowIfFailed(aphyGetCollisionObjectQuaternionInto( this, result ));
 	}
 
 	inline void setTransform ( aphy_transform value )
 	{
-		APhyThrowIfFailed(aphySetCollisionObjectTransform( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectTransform( this, value ));
 	}
 
 	inline void setTransformFrom ( aphy_transform* value )
 	{
-		APhyThrowIfFailed(aphySetCollisionObjectTransformFrom( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectTransformFrom( this, value ));
 	}
 
 	inline void setTranslation ( aphy_vector3 value )
 	{
-		APhyThrowIfFailed(aphySetCollisionObjectTranslation( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectTranslation( this, value ));
 	}
 
 	inline void setTranslationFrom ( aphy_vector3* value )
 	{
-		APhyThrowIfFailed(aphySetCollisionObjectTranslationFrom( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectTranslationFrom( this, value ));
 	}
 
 	inline void setMatrix ( aphy_matrix3x3 value )
 	{
-		APhyThrowIfFailed(aphySetCollisionObjectMatrix( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectMatrix( this, value ));
 	}
 
 	inline void setMatrixFrom ( aphy_matrix3x3* value )
 	{
-		APhyThrowIfFailed(aphySetCollisionObjectMatrixFrom( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectMatrixFrom( this, value ));
 	}
 
 	inline void setQuaternion ( aphy_quaternion value )
 	{
-		APhyThrowIfFailed(aphySetCollisionObjectQuaternion( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectQuaternion( this, value ));
 	}
 
 	inline void setQuaternion ( aphy_quaternion* value )
 	{
-		APhyThrowIfFailed(aphySetCollisionObjectQuaternionFrom( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectQuaternionFrom( this, value ));
 	}
 
 	inline void setCollisionShape ( aphy_collision_shape* shape )
 	{
-		APhyThrowIfFailed(aphySetCollisionObjectShape( this, shape ));
+		aphyThrowIfFailed(aphySetCollisionObjectShape( this, shape ));
 	}
 
 };
@@ -636,17 +636,17 @@ private:
 public:
 	inline void addReference (  )
 	{
-		APhyThrowIfFailed(aphyAddCollisionShapeReference( this ));
+		aphyThrowIfFailed(aphyAddCollisionShapeReference( this ));
 	}
 
 	inline void release (  )
 	{
-		APhyThrowIfFailed(aphyReleaseCollisionShapeReference( this ));
+		aphyThrowIfFailed(aphyReleaseCollisionShapeReference( this ));
 	}
 
 	inline void setMargin ( aphy_scalar margin )
 	{
-		APhyThrowIfFailed(aphySetShapeMargin( this, margin ));
+		aphyThrowIfFailed(aphySetShapeMargin( this, margin ));
 	}
 
 	inline aphy_scalar getMargin (  )
@@ -661,17 +661,17 @@ public:
 
 	inline void computeLocalInertiaInto ( aphy_scalar mass, aphy_vector3* result )
 	{
-		APhyThrowIfFailed(aphyComputeLocalInertiaInto( this, mass, result ));
+		aphyThrowIfFailed(aphyComputeLocalInertiaInto( this, mass, result ));
 	}
 
 	inline void addLocalShapeWithTransform ( aphy_collision_shape* shape, aphy_transform transform )
 	{
-		APhyThrowIfFailed(aphyAddLocalShapeWithTransform( this, shape, transform ));
+		aphyThrowIfFailed(aphyAddLocalShapeWithTransform( this, shape, transform ));
 	}
 
 	inline void addLocalShapeWithTransformFrom ( aphy_collision_shape* shape, aphy_transform* transform )
 	{
-		APhyThrowIfFailed(aphyAddLocalShapeWithTransformFrom( this, shape, transform ));
+		aphyThrowIfFailed(aphyAddLocalShapeWithTransformFrom( this, shape, transform ));
 	}
 
 };
@@ -687,12 +687,12 @@ private:
 public:
 	inline void addReference (  )
 	{
-		APhyThrowIfFailed(aphyAddMotionStateReference( this ));
+		aphyThrowIfFailed(aphyAddMotionStateReference( this ));
 	}
 
 	inline void release (  )
 	{
-		APhyThrowIfFailed(aphyReleaseMotionStateReference( this ));
+		aphyThrowIfFailed(aphyReleaseMotionStateReference( this ));
 	}
 
 	inline aphy_transform getTransform (  )
@@ -702,7 +702,7 @@ public:
 
 	inline void getTransformInto ( aphy_transform* result )
 	{
-		APhyThrowIfFailed(aphyGetMotionStateTransformInto( this, result ));
+		aphyThrowIfFailed(aphyGetMotionStateTransformInto( this, result ));
 	}
 
 	inline aphy_vector3 getTranslation (  )
@@ -712,7 +712,7 @@ public:
 
 	inline void getTranslationInto ( aphy_vector3* result )
 	{
-		APhyThrowIfFailed(aphyGetMotionStateTranslationInto( this, result ));
+		aphyThrowIfFailed(aphyGetMotionStateTranslationInto( this, result ));
 	}
 
 	inline aphy_matrix3x3 getMatrix (  )
@@ -722,7 +722,7 @@ public:
 
 	inline void getMatrixInto ( aphy_matrix3x3* result )
 	{
-		APhyThrowIfFailed(aphyGetMotionStateMatrixInto( this, result ));
+		aphyThrowIfFailed(aphyGetMotionStateMatrixInto( this, result ));
 	}
 
 	inline aphy_quaternion getQuaternion (  )
@@ -732,47 +732,47 @@ public:
 
 	inline void getQuaternionInto ( aphy_quaternion* result )
 	{
-		APhyThrowIfFailed(aphyGetMotionStateQuaternionInto( this, result ));
+		aphyThrowIfFailed(aphyGetMotionStateQuaternionInto( this, result ));
 	}
 
 	inline void setTransform ( aphy_transform value )
 	{
-		APhyThrowIfFailed(aphySetMotionStateTransform( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateTransform( this, value ));
 	}
 
 	inline void setTransformFrom ( aphy_transform* value )
 	{
-		APhyThrowIfFailed(aphySetMotionStateTransformFrom( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateTransformFrom( this, value ));
 	}
 
 	inline void setTranslation ( aphy_vector3 value )
 	{
-		APhyThrowIfFailed(aphySetMotionStateTranslation( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateTranslation( this, value ));
 	}
 
 	inline void setTranslationFrom ( aphy_vector3* value )
 	{
-		APhyThrowIfFailed(aphySetMotionStateTranslationFrom( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateTranslationFrom( this, value ));
 	}
 
 	inline void setMatrix ( aphy_matrix3x3 value )
 	{
-		APhyThrowIfFailed(aphySetMotionStateMatrix( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateMatrix( this, value ));
 	}
 
 	inline void setMatrixFrom ( aphy_matrix3x3* value )
 	{
-		APhyThrowIfFailed(aphySetMotionStateMatrixFrom( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateMatrixFrom( this, value ));
 	}
 
 	inline void setQuaternion ( aphy_quaternion value )
 	{
-		APhyThrowIfFailed(aphySetMotionStateQuaternion( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateQuaternion( this, value ));
 	}
 
 	inline void setQuaternionFrom ( aphy_quaternion* value )
 	{
-		APhyThrowIfFailed(aphySetMotionStateQuaternionFrom( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateQuaternionFrom( this, value ));
 	}
 
 };
