@@ -1,10 +1,6 @@
 Class {
 	#name : #APHYBindingsCommon,
 	#superclass : #Object,
-	#classVars : [
-		'ModuleName',
-		'ModuleSession'
-	],
 	#category : #'AbstractPhysics-Core'
 }
 
