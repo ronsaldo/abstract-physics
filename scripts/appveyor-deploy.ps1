@@ -24,7 +24,7 @@ function deploy_variant($VARIANT)
     cd deploy
 
     # Create the zip
-    Compress-Archive -Path $PROJECT_NAME -DestinationPath $ARCHIVE_NAME
+    7z a -tzip $ARCHIVE_NAME $PROJECT_NAME
 
     if($BINTRAY_APIKEY)
     {
