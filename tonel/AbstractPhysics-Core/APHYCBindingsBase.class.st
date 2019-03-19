@@ -1,20 +1,16 @@
 Class {
 	#name : #APHYCBindingsBase,
-	#superclass : #FFILibrary,
+	#superclass : #PhaNAPILibrary,
 	#category : #'AbstractPhysics-Core'
 }
 
-{ #category : #'accessing platform' }
-APHYCBindingsBase >> macModuleName [
-	^ 'libAPhyBullet.dylib'
+{ #category : #'library downloading' }
+APHYCBindingsBase >> fetchLibrary [
+	PhaNAPIBintray fetchLibrary: 'APhyBullet' fromUser: 'ronsaldo' repository: 'abstract-physics' package: 'lib'.
+
 ]
 
-{ #category : #'accessing platform' }
-APHYCBindingsBase >> unixModuleName [
-	^ 'libAPhyBullet.so'
-]
-
-{ #category : #'accessing platform' }
-APHYCBindingsBase >> win32ModuleName [
-	^ 'APhyBullet.dll'
+{ #category : #'library downloading' }
+APHYCBindingsBase >> findLibraryPath [
+	^ PhaNAPI fullLibraryPathForCurrentPlatform: 'APhyBullet' package: 'abstract-physics'
 ]

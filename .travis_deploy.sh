@@ -27,7 +27,7 @@ if test "$OS_NAME" = "darwin"; then
     OS_NAME="osx"
 fi
 
-# Rename x86_64 into x64 to distinguis between x86 and x86_64 with grep.
+# Rename x86_64 into x64 to distinguish between x86 and x86_64 with grep.
 if test "$ARCH" = "x86_64"; then
     ARCH="x64"
 fi
