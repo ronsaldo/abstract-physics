@@ -58,7 +58,7 @@ APHY >> engines [
 		[
 			self getEngines: engineCount engines: enginePointers ret_numengines: engineCountRet.
 			engineCount := engineCountRet unsignedLongAt: 1.
-			^ (1 to: engineCount) collect: [ :i | (Smalltalk at: #APHYEngine) forManualHandle: (enginePointers pointerAt: i*pointerSize - 3)]
+			^ (1 to: engineCount) collect: [ :i | (Smalltalk at: #APHYEngine) forManualHandle: (enginePointers pointerAt: (i-1)*pointerSize + 1)]
 		] ensure: [ enginePointers free ]
 	] ensure: [ engineCountRet free ].
 ]

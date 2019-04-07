@@ -13,6 +13,12 @@
         <property key="headerFile" value="aphy.hpp" />
     </language>
 
+    <language name="C++/Impl">
+        <property key="headerFile" value="aphy_impl.hpp" />
+        <property key="dispatchIncludeFile" value="aphy_impl_dispatch.inc" />
+        <property key="namespace" value="aphy" />
+    </language>
+
     <language name="Pharo">
         <property key="namespacePrefix" value="APHY" />
         <property key="package" value="AbstractPhysics-Generated" />

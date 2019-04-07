@@ -1,8 +1,11 @@
 #ifndef APHY_UTILITY_HPP
 #define APHY_UTILITY_HPP
 
-#include "common.hpp"
+#include "Common.hpp"
 #include "btBulletDynamicsCommon.h"
+
+namespace APhyBullet
+{
 
 inline aphy_vector3 convertVector(const btVector3 &vector)
 {
@@ -46,5 +49,7 @@ inline btTransform convertAPhyTransform(const aphy_transform &transform)
 {
     return btTransform(convertAPhyMatrix(transform.rotation), convertAPhyVector(transform.origin));
 }
+
+} // End of namespace APhyBullet
 
 #endif //APHY_UTILITY_HPP

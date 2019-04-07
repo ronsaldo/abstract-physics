@@ -45,8 +45,9 @@ public:
     }
 
     aphy_ref(T* pointer)
-        : pointer(pointer)
+        : pointer(0)
     {
+		reset(pointer);
     }
 
     ~aphy_ref()
@@ -75,6 +76,13 @@ public:
         }
         return *this;
     }
+
+	void reset(T *newPointer = nullptr)
+	{
+		if(pointer)
+			pointer->release();
+		pointer = newPointer;
+	}
 
     operator bool() const
     {
@@ -116,154 +124,154 @@ private:
 	_aphy_engine() {}
 
 public:
-	inline void addReference (  )
+	inline void addReference()
 	{
-		aphyThrowIfFailed(aphyAddEngineReference( this ));
+		aphyThrowIfFailed(aphyAddEngineReference(this));
 	}
 
-	inline void release (  )
+	inline void release()
 	{
-		aphyThrowIfFailed(aphyReleaseEngine( this ));
+		aphyThrowIfFailed(aphyReleaseEngine(this));
 	}
 
-	inline aphy_cstring getName (  )
+	inline aphy_cstring getName()
 	{
-		return aphyGetEngineName( this );
+		return aphyGetEngineName(this);
 	}
 
-	inline aphy_int getVersion (  )
+	inline aphy_int getVersion()
 	{
-		return aphyGetEngineVersion( this );
+		return aphyGetEngineVersion(this);
 	}
 
-	inline aphy_collision_configuration* createDefaultCollisionConfiguration (  )
+	inline aphy_collision_configuration* createDefaultCollisionConfiguration()
 	{
-		return aphyCreateDefaultCollisionConfiguration( this );
+		return aphyCreateDefaultCollisionConfiguration(this);
 	}
 
-	inline aphy_collision_dispatcher* createDefaultCollisionDispatcher ( aphy_collision_configuration* collision_configuration )
+	inline aphy_collision_dispatcher* createDefaultCollisionDispatcher(aphy_collision_configuration* collision_configuration)
 	{
-		return aphyCreateDefaultCollisionDispatcher( this, collision_configuration );
+		return aphyCreateDefaultCollisionDispatcher(this, collision_configuration);
 	}
 
-	inline aphy_broadphase* createDefaultBroadphase (  )
+	inline aphy_broadphase* createDefaultBroadphase()
 	{
-		return aphyCreateDefaultBroadphase( this );
+		return aphyCreateDefaultBroadphase(this);
 	}
 
-	inline aphy_constraint_solver* createDefaultConstraintSolver (  )
+	inline aphy_constraint_solver* createDefaultConstraintSolver()
 	{
-		return aphyCreateDefaultConstraintSolver( this );
+		return aphyCreateDefaultConstraintSolver(this);
 	}
 
-	inline aphy_motion_state* createDefaultMotionState (  )
+	inline aphy_motion_state* createDefaultMotionState()
 	{
-		return aphyCreateDefaultMotionStte( this );
+		return aphyCreateDefaultMotionStte(this);
 	}
 
-	inline aphy_world* createDynamicsWorld ( aphy_collision_dispatcher* collision_dispatcher, aphy_broadphase* broadphase, aphy_constraint_solver* constraint_solver, aphy_collision_configuration* collision_configuration )
+	inline aphy_world* createDynamicsWorld(aphy_collision_dispatcher* collision_dispatcher, aphy_broadphase* broadphase, aphy_constraint_solver* constraint_solver, aphy_collision_configuration* collision_configuration)
 	{
-		return aphyCreateDynamicsWorld( this, collision_dispatcher, broadphase, constraint_solver, collision_configuration );
+		return aphyCreateDynamicsWorld(this, collision_dispatcher, broadphase, constraint_solver, collision_configuration);
 	}
 
-	inline aphy_collision_shape* createBoxShape ( aphy_scalar half_width, aphy_scalar half_height, aphy_scalar half_depth )
+	inline aphy_collision_shape* createBoxShape(aphy_scalar half_width, aphy_scalar half_height, aphy_scalar half_depth)
 	{
-		return aphyCreateBoxShape( this, half_width, half_height, half_depth );
+		return aphyCreateBoxShape(this, half_width, half_height, half_depth);
 	}
 
-	inline aphy_collision_shape* createCylinderX ( aphy_scalar half_width, aphy_scalar half_height, aphy_scalar half_depth )
+	inline aphy_collision_shape* createCylinderX(aphy_scalar half_width, aphy_scalar half_height, aphy_scalar half_depth)
 	{
-		return aphyCreateCylinderX( this, half_width, half_height, half_depth );
+		return aphyCreateCylinderX(this, half_width, half_height, half_depth);
 	}
 
-	inline aphy_collision_shape* createCylinderY ( aphy_scalar half_width, aphy_scalar half_height, aphy_scalar half_depth )
+	inline aphy_collision_shape* createCylinderY(aphy_scalar half_width, aphy_scalar half_height, aphy_scalar half_depth)
 	{
-		return aphyCreateCylinderY( this, half_width, half_height, half_depth );
+		return aphyCreateCylinderY(this, half_width, half_height, half_depth);
 	}
 
-	inline aphy_collision_shape* createCylinderZ ( aphy_scalar half_width, aphy_scalar half_height, aphy_scalar half_depth )
+	inline aphy_collision_shape* createCylinderZ(aphy_scalar half_width, aphy_scalar half_height, aphy_scalar half_depth)
 	{
-		return aphyCreateCylinderZ( this, half_width, half_height, half_depth );
+		return aphyCreateCylinderZ(this, half_width, half_height, half_depth);
 	}
 
-	inline aphy_collision_shape* createConvexHullShape ( aphy_scalar* coordinates, aphy_size num_points, aphy_size stride )
+	inline aphy_collision_shape* createConvexHullShape(aphy_scalar* coordinates, aphy_size num_points, aphy_size stride)
 	{
-		return aphyCreateConvexHullShape( this, coordinates, num_points, stride );
+		return aphyCreateConvexHullShape(this, coordinates, num_points, stride);
 	}
 
-	inline aphy_collision_shape* createCapsuleShapeX ( aphy_scalar radius, aphy_scalar height )
+	inline aphy_collision_shape* createCapsuleShapeX(aphy_scalar radius, aphy_scalar height)
 	{
-		return aphyCreateCapsuleShapeX( this, radius, height );
+		return aphyCreateCapsuleShapeX(this, radius, height);
 	}
 
-	inline aphy_collision_shape* createCapsuleShapeY ( aphy_scalar radius, aphy_scalar height )
+	inline aphy_collision_shape* createCapsuleShapeY(aphy_scalar radius, aphy_scalar height)
 	{
-		return aphyCreateCapsuleShapeY( this, radius, height );
+		return aphyCreateCapsuleShapeY(this, radius, height);
 	}
 
-	inline aphy_collision_shape* createCapsuleShapeZ ( aphy_scalar radius, aphy_scalar height )
+	inline aphy_collision_shape* createCapsuleShapeZ(aphy_scalar radius, aphy_scalar height)
 	{
-		return aphyCreateCapsuleShapeZ( this, radius, height );
+		return aphyCreateCapsuleShapeZ(this, radius, height);
 	}
 
-	inline aphy_collision_shape* createCompoundShape (  )
+	inline aphy_collision_shape* createCompoundShape()
 	{
-		return aphyCreateCompoundShape( this );
+		return aphyCreateCompoundShape(this);
 	}
 
-	inline aphy_collision_shape* createConeX ( aphy_scalar radius, aphy_scalar height )
+	inline aphy_collision_shape* createConeX(aphy_scalar radius, aphy_scalar height)
 	{
-		return aphyCreateConeX( this, radius, height );
+		return aphyCreateConeX(this, radius, height);
 	}
 
-	inline aphy_collision_shape* createConeY ( aphy_scalar radius, aphy_scalar height )
+	inline aphy_collision_shape* createConeY(aphy_scalar radius, aphy_scalar height)
 	{
-		return aphyCreateConeY( this, radius, height );
+		return aphyCreateConeY(this, radius, height);
 	}
 
-	inline aphy_collision_shape* createConeZ ( aphy_scalar radius, aphy_scalar height )
+	inline aphy_collision_shape* createConeZ(aphy_scalar radius, aphy_scalar height)
 	{
-		return aphyCreateConeZ( this, radius, height );
+		return aphyCreateConeZ(this, radius, height);
 	}
 
-	inline aphy_collision_shape* createEmptyShape (  )
+	inline aphy_collision_shape* createEmptyShape()
 	{
-		return aphyCreateEmptyShape( this );
+		return aphyCreateEmptyShape(this);
 	}
 
-	inline aphy_collision_shape* createHeightfieldTerrainShape ( aphy_int height_stick_width, aphy_int height_stick_length, aphy_pointer heightfield_data, aphy_scalar height_scale, aphy_scalar min_height, aphy_scalar max_height, aphy_axis up_axis, aphy_scalar_type height_data_type, aphy_bool flip_quad_edges, aphy_scalar local_scale_x, aphy_scalar local_scale_y, aphy_scalar local_scale_z )
+	inline aphy_collision_shape* createHeightfieldTerrainShape(aphy_int height_stick_width, aphy_int height_stick_length, aphy_pointer heightfield_data, aphy_scalar height_scale, aphy_scalar min_height, aphy_scalar max_height, aphy_axis up_axis, aphy_scalar_type height_data_type, aphy_bool flip_quad_edges, aphy_scalar local_scale_x, aphy_scalar local_scale_y, aphy_scalar local_scale_z)
 	{
-		return aphyCreateHeightfieldTerrainShape( this, height_stick_width, height_stick_length, heightfield_data, height_scale, min_height, max_height, up_axis, height_data_type, flip_quad_edges, local_scale_x, local_scale_y, local_scale_z );
+		return aphyCreateHeightfieldTerrainShape(this, height_stick_width, height_stick_length, heightfield_data, height_scale, min_height, max_height, up_axis, height_data_type, flip_quad_edges, local_scale_x, local_scale_y, local_scale_z);
 	}
 
-	inline aphy_collision_shape* createSphere ( aphy_scalar radius )
+	inline aphy_collision_shape* createSphere(aphy_scalar radius)
 	{
-		return aphyCreateSphere( this, radius );
+		return aphyCreateSphere(this, radius);
 	}
 
-	inline aphy_collision_object* createSimpleRigidBody ( aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia )
+	inline aphy_collision_object* createSimpleRigidBody(aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia)
 	{
-		return aphyCreateSimpleRigidBody( this, mass, motion_state, collision_shape, local_inertia );
+		return aphyCreateSimpleRigidBody(this, mass, motion_state, collision_shape, local_inertia);
 	}
 
-	inline aphy_collision_object* createSimpleRigidBodyFrom ( aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3* local_inertia )
+	inline aphy_collision_object* createSimpleRigidBodyFrom(aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3* local_inertia)
 	{
-		return aphyCreateSimpleRigidBodyFrom( this, mass, motion_state, collision_shape, local_inertia );
+		return aphyCreateSimpleRigidBodyFrom(this, mass, motion_state, collision_shape, local_inertia);
 	}
 
-	inline aphy_collision_object* createGhostObject (  )
+	inline aphy_collision_object* createGhostObject()
 	{
-		return aphyCreateGhostObject( this );
+		return aphyCreateGhostObject(this);
 	}
 
-	inline aphy_collision_object* createPairCachingGhostObject (  )
+	inline aphy_collision_object* createPairCachingGhostObject()
 	{
-		return aphyCreatePairCachingGhostObject( this );
+		return aphyCreatePairCachingGhostObject(this);
 	}
 
-	inline aphy_character_controller* createKinematicCharacterController ( aphy_collision_object* ghost_object, aphy_collision_shape* convex_shape, aphy_scalar step_height, aphy_axis up_axis )
+	inline aphy_character_controller* createKinematicCharacterController(aphy_collision_object* ghost_object, aphy_collision_shape* convex_shape, aphy_scalar step_height, aphy_axis up_axis)
 	{
-		return aphyCreateKinematicCharacterController( this, ghost_object, convex_shape, step_height, up_axis );
+		return aphyCreateKinematicCharacterController(this, ghost_object, convex_shape, step_height, up_axis);
 	}
 
 };
@@ -277,14 +285,14 @@ private:
 	_aphy_collision_configuration() {}
 
 public:
-	inline void addReference (  )
+	inline void addReference()
 	{
-		aphyThrowIfFailed(aphyAddCollisionConfigurationReference( this ));
+		aphyThrowIfFailed(aphyAddCollisionConfigurationReference(this));
 	}
 
-	inline void release (  )
+	inline void release()
 	{
-		aphyThrowIfFailed(aphyReleaseCollisionConfiguration( this ));
+		aphyThrowIfFailed(aphyReleaseCollisionConfiguration(this));
 	}
 
 };
@@ -298,14 +306,14 @@ private:
 	_aphy_collision_dispatcher() {}
 
 public:
-	inline void addReference (  )
+	inline void addReference()
 	{
-		aphyThrowIfFailed(aphyAddCollisionDispatcherReference( this ));
+		aphyThrowIfFailed(aphyAddCollisionDispatcherReference(this));
 	}
 
-	inline void release (  )
+	inline void release()
 	{
-		aphyThrowIfFailed(aphyReleaseCollisionDispatcher( this ));
+		aphyThrowIfFailed(aphyReleaseCollisionDispatcher(this));
 	}
 
 };
@@ -319,14 +327,14 @@ private:
 	_aphy_broadphase() {}
 
 public:
-	inline void addReference (  )
+	inline void addReference()
 	{
-		aphyThrowIfFailed(aphyAddBroadphaseReference( this ));
+		aphyThrowIfFailed(aphyAddBroadphaseReference(this));
 	}
 
-	inline void release (  )
+	inline void release()
 	{
-		aphyThrowIfFailed(aphyReleaseBroadphaseReference( this ));
+		aphyThrowIfFailed(aphyReleaseBroadphaseReference(this));
 	}
 
 };
@@ -340,14 +348,14 @@ private:
 	_aphy_constraint_solver() {}
 
 public:
-	inline void addReference (  )
+	inline void addReference()
 	{
-		aphyThrowIfFailed(aphyAddConstraintSolverReference( this ));
+		aphyThrowIfFailed(aphyAddConstraintSolverReference(this));
 	}
 
-	inline void release (  )
+	inline void release()
 	{
-		aphyThrowIfFailed(aphyReleaseConstraintSolverReference( this ));
+		aphyThrowIfFailed(aphyReleaseConstraintSolverReference(this));
 	}
 
 };
@@ -361,79 +369,79 @@ private:
 	_aphy_world() {}
 
 public:
-	inline void addReference (  )
+	inline void addReference()
 	{
-		aphyThrowIfFailed(aphyAddWorldReference( this ));
+		aphyThrowIfFailed(aphyAddWorldReference(this));
 	}
 
-	inline void release (  )
+	inline void release()
 	{
-		aphyThrowIfFailed(aphyReleaseWorldReference( this ));
+		aphyThrowIfFailed(aphyReleaseWorldReference(this));
 	}
 
-	inline aphy_uint getNumberOfCollisionObject (  )
+	inline aphy_uint getNumberOfCollisionObject()
 	{
-		return aphyGetNumberOfCollisionObject( this );
+		return aphyGetNumberOfCollisionObject(this);
 	}
 
-	inline aphy_uint getNumberOfConstraints (  )
+	inline aphy_uint getNumberOfConstraints()
 	{
-		return aphyGetNumberOfConstraints( this );
+		return aphyGetNumberOfConstraints(this);
 	}
 
-	inline void addCollisionObject ( aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask )
+	inline void addCollisionObject(aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask)
 	{
-		aphyThrowIfFailed(aphyAddCollisionObject( this, object, collision_filter_group, collision_filter_mask ));
+		aphyThrowIfFailed(aphyAddCollisionObject(this, object, collision_filter_group, collision_filter_mask));
 	}
 
-	inline void removeCollisionObject ( aphy_collision_object* object )
+	inline void removeCollisionObject(aphy_collision_object* object)
 	{
-		aphyThrowIfFailed(aphyRemoveCollisionObject( this, object ));
+		aphyThrowIfFailed(aphyRemoveCollisionObject(this, object));
 	}
 
-	inline void addRigidBody ( aphy_collision_object* object )
+	inline void addRigidBody(aphy_collision_object* object)
 	{
-		aphyThrowIfFailed(aphyAddRigidBody( this, object ));
+		aphyThrowIfFailed(aphyAddRigidBody(this, object));
 	}
 
-	inline void removeRigidBody ( aphy_collision_object* object )
+	inline void removeRigidBody(aphy_collision_object* object)
 	{
-		aphyThrowIfFailed(aphyRemoveRigidBody( this, object ));
+		aphyThrowIfFailed(aphyRemoveRigidBody(this, object));
 	}
 
-	inline void addCharacterController ( aphy_character_controller* character )
+	inline void addCharacterController(aphy_character_controller* character)
 	{
-		aphyThrowIfFailed(aphyAddCharacterController( this, character ));
+		aphyThrowIfFailed(aphyAddCharacterController(this, character));
 	}
 
-	inline void removeCharacterController ( aphy_character_controller* character )
+	inline void removeCharacterController(aphy_character_controller* character)
 	{
-		aphyThrowIfFailed(aphyRemoveCharacterController( this, character ));
+		aphyThrowIfFailed(aphyRemoveCharacterController(this, character));
 	}
 
-	inline void addRigidBodyWithFilter ( aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask )
+	inline void addRigidBodyWithFilter(aphy_collision_object* object, aphy_short collision_filter_group, aphy_short collision_filter_mask)
 	{
-		aphyThrowIfFailed(aphyAddRigidBodyWithFilter( this, object, collision_filter_group, collision_filter_mask ));
+		aphyThrowIfFailed(aphyAddRigidBodyWithFilter(this, object, collision_filter_group, collision_filter_mask));
 	}
 
-	inline void stepSimulation ( aphy_scalar time_step, aphy_int max_sub_steps, aphy_scalar fixed_time_step )
+	inline void stepSimulation(aphy_scalar time_step, aphy_int max_sub_steps, aphy_scalar fixed_time_step)
 	{
-		aphyThrowIfFailed(aphyStepSimulation( this, time_step, max_sub_steps, fixed_time_step ));
+		aphyThrowIfFailed(aphyStepSimulation(this, time_step, max_sub_steps, fixed_time_step));
 	}
 
-	inline void setGravity ( aphy_scalar x, aphy_scalar y, aphy_scalar z )
+	inline void setGravity(aphy_scalar x, aphy_scalar y, aphy_scalar z)
 	{
-		aphyThrowIfFailed(aphySetGravity( this, x, y, z ));
+		aphyThrowIfFailed(aphySetGravity(this, x, y, z));
 	}
 
-	inline aphy_size encodeDebugDrawing (  )
+	inline aphy_size encodeDebugDrawing()
 	{
-		return aphyEncodeDebugDrawing( this );
+		return aphyEncodeDebugDrawing(this);
 	}
 
-	inline void getDebugDrawingData ( aphy_size buffer_size, aphy_pointer buffer )
+	inline void getDebugDrawingData(aphy_size buffer_size, aphy_pointer buffer)
 	{
-		aphyThrowIfFailed(aphyGetDebugDrawingData( this, buffer_size, buffer ));
+		aphyThrowIfFailed(aphyGetDebugDrawingData(this, buffer_size, buffer));
 	}
 
 };
@@ -447,74 +455,74 @@ private:
 	_aphy_character_controller() {}
 
 public:
-	inline void addReference (  )
+	inline void addReference()
 	{
-		aphyThrowIfFailed(aphyAddCharacterControllerReference( this ));
+		aphyThrowIfFailed(aphyAddCharacterControllerReference(this));
 	}
 
-	inline void release (  )
+	inline void release()
 	{
-		aphyThrowIfFailed(aphyReleaseCharacterControllerReference( this ));
+		aphyThrowIfFailed(aphyReleaseCharacterControllerReference(this));
 	}
 
-	inline void setWalkDirection ( aphy_vector3 direction )
+	inline void setWalkDirection(aphy_vector3 direction)
 	{
-		aphyThrowIfFailed(aphySetCharacterControllerWalkDirection( this, direction ));
+		aphyThrowIfFailed(aphySetCharacterControllerWalkDirection(this, direction));
 	}
 
-	inline void setWalkDirectionFrom ( aphy_vector3* direction )
+	inline void setWalkDirectionFrom(aphy_vector3* direction)
 	{
-		aphyThrowIfFailed(aphySetCharacterControllerWalkDirectionFrom( this, direction ));
+		aphyThrowIfFailed(aphySetCharacterControllerWalkDirectionFrom(this, direction));
 	}
 
-	inline void setVelocityForTimeInterval ( aphy_vector3 velocity, aphy_scalar time_interval )
+	inline void setVelocityForTimeInterval(aphy_vector3 velocity, aphy_scalar time_interval)
 	{
-		aphyThrowIfFailed(aphySetCharacterControllerVelocityForTimeInterval( this, velocity, time_interval ));
+		aphyThrowIfFailed(aphySetCharacterControllerVelocityForTimeInterval(this, velocity, time_interval));
 	}
 
-	inline void setVelocityForTimeIntervalFrom ( aphy_vector3* velocity, aphy_scalar time_interval )
+	inline void setVelocityForTimeIntervalFrom(aphy_vector3* velocity, aphy_scalar time_interval)
 	{
-		aphyThrowIfFailed(aphySetCharacterControllerVelocityForTimeIntervalFrom( this, velocity, time_interval ));
+		aphyThrowIfFailed(aphySetCharacterControllerVelocityForTimeIntervalFrom(this, velocity, time_interval));
 	}
 
-	inline void warp ( aphy_vector3 origin )
+	inline void warp(aphy_vector3 origin)
 	{
-		aphyThrowIfFailed(aphyWarpCharacterController( this, origin ));
+		aphyThrowIfFailed(aphyWarpCharacterController(this, origin));
 	}
 
-	inline void warpWithOriginFrom ( aphy_vector3* origin )
+	inline void warpWithOriginFrom(aphy_vector3* origin)
 	{
-		aphyThrowIfFailed(aphyWarpCharacterControllerWithOriginFrom( this, origin ));
+		aphyThrowIfFailed(aphyWarpCharacterControllerWithOriginFrom(this, origin));
 	}
 
-	inline aphy_bool canJump (  )
+	inline aphy_bool canJump()
 	{
-		return aphyCanCharacterControllerJump( this );
+		return aphyCanCharacterControllerJump(this);
 	}
 
-	inline void jump (  )
+	inline void jump()
 	{
-		aphyThrowIfFailed(aphyCharacterControllerJump( this ));
+		aphyThrowIfFailed(aphyCharacterControllerJump(this));
 	}
 
-	inline aphy_bool isOnGround (  )
+	inline aphy_bool isOnGround()
 	{
-		return aphyIsCharacterControllerOnGround( this );
+		return aphyIsCharacterControllerOnGround(this);
 	}
 
-	inline void setMaxJumpHeight ( aphy_scalar height )
+	inline void setMaxJumpHeight(aphy_scalar height)
 	{
-		aphyThrowIfFailed(aphySetCharacterMaxJumpHeight( this, height ));
+		aphyThrowIfFailed(aphySetCharacterMaxJumpHeight(this, height));
 	}
 
-	inline void setJumpSpeed ( aphy_scalar speed )
+	inline void setJumpSpeed(aphy_scalar speed)
 	{
-		aphyThrowIfFailed(aphySetCharacterJumpSpeed( this, speed ));
+		aphyThrowIfFailed(aphySetCharacterJumpSpeed(this, speed));
 	}
 
-	inline void setGravity ( aphy_scalar gravity )
+	inline void setGravity(aphy_scalar gravity)
 	{
-		aphyThrowIfFailed(aphySetCharacterGravity( this, gravity ));
+		aphyThrowIfFailed(aphySetCharacterGravity(this, gravity));
 	}
 
 };
@@ -528,99 +536,99 @@ private:
 	_aphy_collision_object() {}
 
 public:
-	inline void addReference (  )
+	inline void addReference()
 	{
-		aphyThrowIfFailed(aphyAddCollisionObjectReference( this ));
+		aphyThrowIfFailed(aphyAddCollisionObjectReference(this));
 	}
 
-	inline void release (  )
+	inline void release()
 	{
-		aphyThrowIfFailed(aphyReleaseCollisionObjectReference( this ));
+		aphyThrowIfFailed(aphyReleaseCollisionObjectReference(this));
 	}
 
-	inline aphy_transform getTransform (  )
+	inline aphy_transform getTransform()
 	{
-		return aphyGetCollisionObjectTransform( this );
+		return aphyGetCollisionObjectTransform(this);
 	}
 
-	inline void getTransformInto ( aphy_transform* result )
+	inline void getTransformInto(aphy_transform* result)
 	{
-		aphyThrowIfFailed(aphyGetCollisionObjectTransformInto( this, result ));
+		aphyThrowIfFailed(aphyGetCollisionObjectTransformInto(this, result));
 	}
 
-	inline aphy_vector3 getTranslation (  )
+	inline aphy_vector3 getTranslation()
 	{
-		return aphyGetCollisionObjectTranslation( this );
+		return aphyGetCollisionObjectTranslation(this);
 	}
 
-	inline void getTranslationInto ( aphy_vector3* result )
+	inline void getTranslationInto(aphy_vector3* result)
 	{
-		aphyThrowIfFailed(aphyGetCollisionObjectTranslationInto( this, result ));
+		aphyThrowIfFailed(aphyGetCollisionObjectTranslationInto(this, result));
 	}
 
-	inline aphy_matrix3x3 getMatrix (  )
+	inline aphy_matrix3x3 getMatrix()
 	{
-		return aphyGetCollisionObjectMatrix( this );
+		return aphyGetCollisionObjectMatrix(this);
 	}
 
-	inline void getMatrixInto ( aphy_matrix3x3* result )
+	inline void getMatrixInto(aphy_matrix3x3* result)
 	{
-		aphyThrowIfFailed(aphyGetCollisionObjectMatrixInto( this, result ));
+		aphyThrowIfFailed(aphyGetCollisionObjectMatrixInto(this, result));
 	}
 
-	inline aphy_quaternion getQuaternion (  )
+	inline aphy_quaternion getQuaternion()
 	{
-		return aphyGetCollisionObjectQuaternion( this );
+		return aphyGetCollisionObjectQuaternion(this);
 	}
 
-	inline void getQuaternionInto ( aphy_quaternion* result )
+	inline void getQuaternionInto(aphy_quaternion* result)
 	{
-		aphyThrowIfFailed(aphyGetCollisionObjectQuaternionInto( this, result ));
+		aphyThrowIfFailed(aphyGetCollisionObjectQuaternionInto(this, result));
 	}
 
-	inline void setTransform ( aphy_transform value )
+	inline void setTransform(aphy_transform value)
 	{
-		aphyThrowIfFailed(aphySetCollisionObjectTransform( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectTransform(this, value));
 	}
 
-	inline void setTransformFrom ( aphy_transform* value )
+	inline void setTransformFrom(aphy_transform* value)
 	{
-		aphyThrowIfFailed(aphySetCollisionObjectTransformFrom( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectTransformFrom(this, value));
 	}
 
-	inline void setTranslation ( aphy_vector3 value )
+	inline void setTranslation(aphy_vector3 value)
 	{
-		aphyThrowIfFailed(aphySetCollisionObjectTranslation( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectTranslation(this, value));
 	}
 
-	inline void setTranslationFrom ( aphy_vector3* value )
+	inline void setTranslationFrom(aphy_vector3* value)
 	{
-		aphyThrowIfFailed(aphySetCollisionObjectTranslationFrom( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectTranslationFrom(this, value));
 	}
 
-	inline void setMatrix ( aphy_matrix3x3 value )
+	inline void setMatrix(aphy_matrix3x3 value)
 	{
-		aphyThrowIfFailed(aphySetCollisionObjectMatrix( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectMatrix(this, value));
 	}
 
-	inline void setMatrixFrom ( aphy_matrix3x3* value )
+	inline void setMatrixFrom(aphy_matrix3x3* value)
 	{
-		aphyThrowIfFailed(aphySetCollisionObjectMatrixFrom( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectMatrixFrom(this, value));
 	}
 
-	inline void setQuaternion ( aphy_quaternion value )
+	inline void setQuaternion(aphy_quaternion value)
 	{
-		aphyThrowIfFailed(aphySetCollisionObjectQuaternion( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectQuaternion(this, value));
 	}
 
-	inline void setQuaternion ( aphy_quaternion* value )
+	inline void setQuaternion(aphy_quaternion* value)
 	{
-		aphyThrowIfFailed(aphySetCollisionObjectQuaternionFrom( this, value ));
+		aphyThrowIfFailed(aphySetCollisionObjectQuaternionFrom(this, value));
 	}
 
-	inline void setCollisionShape ( aphy_collision_shape* shape )
+	inline void setCollisionShape(aphy_collision_shape* shape)
 	{
-		aphyThrowIfFailed(aphySetCollisionObjectShape( this, shape ));
+		aphyThrowIfFailed(aphySetCollisionObjectShape(this, shape));
 	}
 
 };
@@ -634,44 +642,44 @@ private:
 	_aphy_collision_shape() {}
 
 public:
-	inline void addReference (  )
+	inline void addReference()
 	{
-		aphyThrowIfFailed(aphyAddCollisionShapeReference( this ));
+		aphyThrowIfFailed(aphyAddCollisionShapeReference(this));
 	}
 
-	inline void release (  )
+	inline void release()
 	{
-		aphyThrowIfFailed(aphyReleaseCollisionShapeReference( this ));
+		aphyThrowIfFailed(aphyReleaseCollisionShapeReference(this));
 	}
 
-	inline void setMargin ( aphy_scalar margin )
+	inline void setMargin(aphy_scalar margin)
 	{
-		aphyThrowIfFailed(aphySetShapeMargin( this, margin ));
+		aphyThrowIfFailed(aphySetShapeMargin(this, margin));
 	}
 
-	inline aphy_scalar getMargin (  )
+	inline aphy_scalar getMargin()
 	{
-		return aphyGetShapeMargin( this );
+		return aphyGetShapeMargin(this);
 	}
 
-	inline aphy_vector3 computeLocalInertia ( aphy_scalar mass )
+	inline aphy_vector3 computeLocalInertia(aphy_scalar mass)
 	{
-		return aphyComputeLocalInertia( this, mass );
+		return aphyComputeLocalInertia(this, mass);
 	}
 
-	inline void computeLocalInertiaInto ( aphy_scalar mass, aphy_vector3* result )
+	inline void computeLocalInertiaInto(aphy_scalar mass, aphy_vector3* result)
 	{
-		aphyThrowIfFailed(aphyComputeLocalInertiaInto( this, mass, result ));
+		aphyThrowIfFailed(aphyComputeLocalInertiaInto(this, mass, result));
 	}
 
-	inline void addLocalShapeWithTransform ( aphy_collision_shape* shape, aphy_transform transform )
+	inline void addLocalShapeWithTransform(aphy_collision_shape* shape, aphy_transform transform)
 	{
-		aphyThrowIfFailed(aphyAddLocalShapeWithTransform( this, shape, transform ));
+		aphyThrowIfFailed(aphyAddLocalShapeWithTransform(this, shape, transform));
 	}
 
-	inline void addLocalShapeWithTransformFrom ( aphy_collision_shape* shape, aphy_transform* transform )
+	inline void addLocalShapeWithTransformFrom(aphy_collision_shape* shape, aphy_transform* transform)
 	{
-		aphyThrowIfFailed(aphyAddLocalShapeWithTransformFrom( this, shape, transform ));
+		aphyThrowIfFailed(aphyAddLocalShapeWithTransformFrom(this, shape, transform));
 	}
 
 };
@@ -685,94 +693,94 @@ private:
 	_aphy_motion_state() {}
 
 public:
-	inline void addReference (  )
+	inline void addReference()
 	{
-		aphyThrowIfFailed(aphyAddMotionStateReference( this ));
+		aphyThrowIfFailed(aphyAddMotionStateReference(this));
 	}
 
-	inline void release (  )
+	inline void release()
 	{
-		aphyThrowIfFailed(aphyReleaseMotionStateReference( this ));
+		aphyThrowIfFailed(aphyReleaseMotionStateReference(this));
 	}
 
-	inline aphy_transform getTransform (  )
+	inline aphy_transform getTransform()
 	{
-		return aphyGetMotionStateTransform( this );
+		return aphyGetMotionStateTransform(this);
 	}
 
-	inline void getTransformInto ( aphy_transform* result )
+	inline void getTransformInto(aphy_transform* result)
 	{
-		aphyThrowIfFailed(aphyGetMotionStateTransformInto( this, result ));
+		aphyThrowIfFailed(aphyGetMotionStateTransformInto(this, result));
 	}
 
-	inline aphy_vector3 getTranslation (  )
+	inline aphy_vector3 getTranslation()
 	{
-		return aphyGetMotionStateTranslation( this );
+		return aphyGetMotionStateTranslation(this);
 	}
 
-	inline void getTranslationInto ( aphy_vector3* result )
+	inline void getTranslationInto(aphy_vector3* result)
 	{
-		aphyThrowIfFailed(aphyGetMotionStateTranslationInto( this, result ));
+		aphyThrowIfFailed(aphyGetMotionStateTranslationInto(this, result));
 	}
 
-	inline aphy_matrix3x3 getMatrix (  )
+	inline aphy_matrix3x3 getMatrix()
 	{
-		return aphyGetMotionStateMatrix( this );
+		return aphyGetMotionStateMatrix(this);
 	}
 
-	inline void getMatrixInto ( aphy_matrix3x3* result )
+	inline void getMatrixInto(aphy_matrix3x3* result)
 	{
-		aphyThrowIfFailed(aphyGetMotionStateMatrixInto( this, result ));
+		aphyThrowIfFailed(aphyGetMotionStateMatrixInto(this, result));
 	}
 
-	inline aphy_quaternion getQuaternion (  )
+	inline aphy_quaternion getQuaternion()
 	{
-		return aphyGetMotionStateQuaternion( this );
+		return aphyGetMotionStateQuaternion(this);
 	}
 
-	inline void getQuaternionInto ( aphy_quaternion* result )
+	inline void getQuaternionInto(aphy_quaternion* result)
 	{
-		aphyThrowIfFailed(aphyGetMotionStateQuaternionInto( this, result ));
+		aphyThrowIfFailed(aphyGetMotionStateQuaternionInto(this, result));
 	}
 
-	inline void setTransform ( aphy_transform value )
+	inline void setTransform(aphy_transform value)
 	{
-		aphyThrowIfFailed(aphySetMotionStateTransform( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateTransform(this, value));
 	}
 
-	inline void setTransformFrom ( aphy_transform* value )
+	inline void setTransformFrom(aphy_transform* value)
 	{
-		aphyThrowIfFailed(aphySetMotionStateTransformFrom( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateTransformFrom(this, value));
 	}
 
-	inline void setTranslation ( aphy_vector3 value )
+	inline void setTranslation(aphy_vector3 value)
 	{
-		aphyThrowIfFailed(aphySetMotionStateTranslation( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateTranslation(this, value));
 	}
 
-	inline void setTranslationFrom ( aphy_vector3* value )
+	inline void setTranslationFrom(aphy_vector3* value)
 	{
-		aphyThrowIfFailed(aphySetMotionStateTranslationFrom( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateTranslationFrom(this, value));
 	}
 
-	inline void setMatrix ( aphy_matrix3x3 value )
+	inline void setMatrix(aphy_matrix3x3 value)
 	{
-		aphyThrowIfFailed(aphySetMotionStateMatrix( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateMatrix(this, value));
 	}
 
-	inline void setMatrixFrom ( aphy_matrix3x3* value )
+	inline void setMatrixFrom(aphy_matrix3x3* value)
 	{
-		aphyThrowIfFailed(aphySetMotionStateMatrixFrom( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateMatrixFrom(this, value));
 	}
 
-	inline void setQuaternion ( aphy_quaternion value )
+	inline void setQuaternion(aphy_quaternion value)
 	{
-		aphyThrowIfFailed(aphySetMotionStateQuaternion( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateQuaternion(this, value));
 	}
 
-	inline void setQuaternionFrom ( aphy_quaternion* value )
+	inline void setQuaternionFrom(aphy_quaternion* value)
 	{
-		aphyThrowIfFailed(aphySetMotionStateQuaternionFrom( this, value ));
+		aphyThrowIfFailed(aphySetMotionStateQuaternionFrom(this, value));
 	}
 
 };

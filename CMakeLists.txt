@@ -1,5 +1,6 @@
 # Abstract-Physics cmake build script.
 cmake_minimum_required(VERSION 2.8)
+cmake_policy(SET CMP0063 NEW)
 project(APHY)
 
 if(APPLE)
@@ -17,8 +18,10 @@ endif ()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# Output paths.
+# Make symbols hidden by default.
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
+# Output paths.
 set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/dist")
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/;${CMAKE_MODULE_PATH}")
 

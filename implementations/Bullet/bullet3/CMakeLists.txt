@@ -1,5 +1,6 @@
 # CMake script modified to use OBJECT library types.
 cmake_minimum_required(VERSION 3.0)
+cmake_policy(SET CMP0063 NEW)
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
 #this line has to appear before 'PROJECT' in order to be able to disable incremental linking

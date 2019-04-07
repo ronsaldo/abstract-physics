@@ -10,29 +10,28 @@ OPTION(INSTALL_LIBS "" OFF)
 add_subdirectory(bullet3)
 
 set(APHY_Bullet_SOURCES
-    broadphase.cpp
-    broadphase.hpp
-    collision_configuration.cpp
-    collision_configuration.hpp
-    collision_dispatcher.cpp
-    collision_dispatcher.hpp
-    common.hpp
-    character_controller.cpp
-    character_controller.hpp
-    collision_object.cpp
-    collision_object.hpp
-    collision_shape.cpp
-    collision_shape.hpp
-    constraint_solver.cpp
-    constraint_solver.hpp
-    engine.cpp
-    engine.hpp
-    icd.c
-    motion_state.cpp
-    motion_state.hpp
-    object.hpp
-    world.cpp
-    world.hpp
+    Broadphase.cpp
+    Broadphase.hpp
+    CollisionConfiguration.cpp
+    CollisionConfiguration.hpp
+    CollisionDispatcher.cpp
+    CollisionDispatcher.hpp
+    Common.hpp
+    CharacterController.cpp
+    CharacterController.hpp
+    CollisionObject.cpp
+    CollisionObject.hpp
+    CollisionShape.cpp
+    CollisionShape.hpp
+    ConstraintSolver.cpp
+    ConstraintSolver.hpp
+    Engine.cpp
+    Engine.hpp
+    Icd.cpp
+    MotionState.cpp
+    MotionState.hpp
+    World.cpp
+    World.hpp
 )
 
 include_directories(bullet3/src)
