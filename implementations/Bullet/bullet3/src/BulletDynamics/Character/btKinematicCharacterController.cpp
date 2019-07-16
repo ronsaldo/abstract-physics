@@ -655,7 +655,9 @@ void btKinematicCharacterController::playerStep (  btCollisionWorld* collisionWo
 	m_wasOnGround = onGround();
 
 	// Update fall velocity.
+	auto upVector = getUpAxisDirections()[m_upAxis];
 	m_verticalVelocity -= m_gravity * dt;
+	m_verticalVelocity += upVector.dot(m_walkDirection);
 	if(m_verticalVelocity > 0.0 && m_verticalVelocity > m_jumpSpeed)
 	{
 		m_verticalVelocity = m_jumpSpeed;
@@ -670,12 +672,12 @@ void btKinematicCharacterController::playerStep (  btCollisionWorld* collisionWo
 	btTransform xform;
 	xform = m_ghostObject->getWorldTransform ();
 
-//	printf("walkDirection(%f,%f,%f)\n",walkDirection[0],walkDirection[1],walkDirection[2]);
-//	printf("walkSpeed=%f\n",walkSpeed);
+	//printf("m_useWalkDirection %d walkDirection(%f,%f,%f)\n",m_useWalkDirection, m_walkDirection[0],m_walkDirection[1],m_walkDirection[2]);
+	//printf("walkSpeed=%f\n",walkSpeed);
 
 	stepUp (collisionWorld);
 	if (m_useWalkDirection) {
-		stepForwardAndStrafe (collisionWorld, m_walkDirection);
+		stepForwardAndStrafe (collisionWorld, m_walkDirection - upVector.dot(m_walkDirection)*upVector);
 	} else {
 		//printf("  time: %f", m_velocityTimeInterval);
 		// still have some time left for moving!
