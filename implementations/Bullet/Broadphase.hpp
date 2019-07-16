@@ -3,6 +3,7 @@
 
 #include "Common.hpp"
 #include "btBulletDynamicsCommon.h"
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
 
 namespace APhyBullet
 {
@@ -13,10 +14,11 @@ namespace APhyBullet
 struct BulletBroadphase : public aphy::broadphase
 {
 public:
-    BulletBroadphase(btBroadphaseInterface *handle);
+    BulletBroadphase(btBroadphaseInterface *handle, btGhostPairCallback *ghostPairCallback);
     ~BulletBroadphase();
 
     btBroadphaseInterface *handle;
+    btGhostPairCallback *ghostPairCallback;
 };
 
 } // End of namespace APhyBullet

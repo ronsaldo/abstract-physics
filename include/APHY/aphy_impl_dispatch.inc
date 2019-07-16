@@ -520,6 +520,46 @@ APHY_EXPORT aphy_error aphySetCollisionObjectShape(aphy_collision_object* self, 
 	return asRef(aphy::collision_object, self)->setCollisionShape(asRef(aphy::collision_shape, shape));
 }
 
+APHY_EXPORT aphy_error aphySetCollisionObjectHasContactResponse(aphy_collision_object* self, aphy_bool value)
+{
+	if(!self) return APHY_NULL_POINTER;
+	return asRef(aphy::collision_object, self)->setHasContactResponse(value);
+}
+
+APHY_EXPORT aphy_error aphySetCollisionObjectIsStatic(aphy_collision_object* self, aphy_bool value)
+{
+	if(!self) return APHY_NULL_POINTER;
+	return asRef(aphy::collision_object, self)->setIsStaticObject(value);
+}
+
+APHY_EXPORT aphy_error aphySetCollisionObjectIsKinematicObject(aphy_collision_object* self, aphy_bool value)
+{
+	if(!self) return APHY_NULL_POINTER;
+	return asRef(aphy::collision_object, self)->setIsKinematicObject(value);
+}
+
+APHY_EXPORT aphy_error aphySetCollisionObjectIsCharacterObject(aphy_collision_object* self, aphy_bool value)
+{
+	if(!self) return APHY_NULL_POINTER;
+	return asRef(aphy::collision_object, self)->setIsCharacterObject(value);
+}
+
+APHY_EXPORT aphy_error aphySetCollisionObjectDebugDrawingEnabled(aphy_collision_object* self, aphy_bool value)
+{
+	if(!self) return APHY_NULL_POINTER;
+	return asRef(aphy::collision_object, self)->setDebugDrawingEnabled(value);
+}
+
+APHY_EXPORT aphy_size aphyGetGhostCollisionObjectOverlappingObjectCount(aphy_collision_object* self)
+{
+	return asRef(aphy::collision_object, self)->getOverlappingObjectCount();
+}
+
+APHY_EXPORT aphy_collision_object* aphyGetGhostCollisionObjectOverlappingObject(aphy_collision_object* self, aphy_size index)
+{
+	return reinterpret_cast<aphy_collision_object*> (asRef(aphy::collision_object, self)->getOverlappingObject(index));
+}
+
 //==============================================================================
 // collision_shape C dispatching functions.
 //==============================================================================

@@ -13,9 +13,9 @@ APHYTransform class >> fieldsDesc [
 	"
 	self rebuildFieldAccessors
 	"
-	^ #(
+    ^ #(
 		 aphy_matrix3x3 rotation;
 		 aphy_vector3 origin;
-		)
+	)
 ]
 

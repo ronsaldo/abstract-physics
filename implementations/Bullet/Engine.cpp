@@ -89,8 +89,9 @@ collision_dispatcher_ptr BulletEngine::createDefaultCollisionDispatcher(const co
 broadphase_ptr BulletEngine::createDefaultBroadphase()
 {
     auto handle = new btDbvtBroadphase();
-    //handle->getOverlappingPairCache()->setInternalGhostPairCallback( new btGhostPairCallback() );
-    return makeObject<BulletBroadphase> (handle).disown();
+    auto ghostPairCallback = new btGhostPairCallback();
+    handle->getOverlappingPairCache()->setInternalGhostPairCallback(ghostPairCallback);
+    return makeObject<BulletBroadphase> (handle, ghostPairCallback).disown();
 }
 
 constraint_solver_ptr BulletEngine::createDefaultConstraintSolver()
@@ -268,7 +269,7 @@ collision_object_ptr BulletEngine::createSimpleRigidBodyFrom(aphy_scalar mass, c
 
 collision_object_ptr BulletEngine::createGhostObject()
 {
-    return makeObject<BulletCollisionObject> (new btGhostObject(), APhyCollisionObjectType::RigidBody).disown();
+    return makeObject<BulletCollisionObject> (new btGhostObject(), APhyCollisionObjectType::GhostObject).disown();
 }
 
 collision_object_ptr BulletEngine::createPairCachingGhostObject()
@@ -287,7 +288,8 @@ character_controller_ptr BulletEngine::createKinematicCharacterController(const 
             static_cast<btPairCachingGhostObject*> (ghost_object.as<BulletCollisionObject> ()->handle),
             static_cast<btConvexShape*> (convex_shape.as<BulletCollisionShape> ()->handle),
             step_height, mapAxis(up_axis));
-    handle->setUseGhostSweepTest(false);
+    //handle->setUseGhostSweepTest(false);
+    //handle->setMaxSlope(btRadians(70.0));
 
     auto result = makeObject<BulletCharacterController> (handle);
     auto character = result.as<BulletCharacterController> ();

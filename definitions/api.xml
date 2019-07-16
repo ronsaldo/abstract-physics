@@ -497,6 +497,33 @@
             <method name="setCollisionShape" cname="SetCollisionObjectShape" returnType="error">
                 <arg name="shape" type="collision_shape*" />
             </method>
+
+            <method name="setHasContactResponse" cname="SetCollisionObjectHasContactResponse" returnType="error">
+                <arg name="value" type="bool" />
+            </method>
+
+            <method name="setIsStaticObject" cname="SetCollisionObjectIsStatic" returnType="error">
+                <arg name="value" type="bool" />
+            </method>
+
+            <method name="setIsKinematicObject" cname="SetCollisionObjectIsKinematicObject" returnType="error">
+                <arg name="value" type="bool" />
+            </method>
+
+            <method name="setIsCharacterObject" cname="SetCollisionObjectIsCharacterObject" returnType="error">
+                <arg name="value" type="bool" />
+            </method>
+
+            <method name="setDebugDrawingEnabled" cname="SetCollisionObjectDebugDrawingEnabled" returnType="error">
+                <arg name="value" type="bool" />
+            </method>
+
+            <method name="getOverlappingObjectCount" cname="GetGhostCollisionObjectOverlappingObjectCount" returnType="size">
+            </method>
+
+            <method name="getOverlappingObject" cname="GetGhostCollisionObjectOverlappingObject" returnType="collision_object*">
+                <arg name="index" type="size" />
+            </method>
         </interface>
 
         <interface name="collision_shape">

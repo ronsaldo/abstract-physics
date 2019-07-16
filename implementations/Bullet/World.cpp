@@ -249,7 +249,7 @@ aphy_size BulletWorld::encodeDebugDrawing()
     }
 
     debugDrawer->reset();
-    debugDrawer->setDebugMode(btIDebugDraw::DBG_DrawWireframe | btIDebugDraw::DBG_DrawAabb);
+    debugDrawer->setDebugMode(/*btIDebugDraw::DBG_DrawWireframe |*/ btIDebugDraw::DBG_DrawAabb);
     handle->debugDrawWorld();
     return aphy_size(debugDrawer->instructions.size());
 }

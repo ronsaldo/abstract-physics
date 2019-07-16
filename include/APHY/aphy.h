@@ -295,6 +295,13 @@ typedef aphy_error (*aphySetCollisionObjectMatrixFrom_FUN) (aphy_collision_objec
 typedef aphy_error (*aphySetCollisionObjectQuaternion_FUN) (aphy_collision_object* collision_object, aphy_quaternion value);
 typedef aphy_error (*aphySetCollisionObjectQuaternionFrom_FUN) (aphy_collision_object* collision_object, aphy_quaternion* value);
 typedef aphy_error (*aphySetCollisionObjectShape_FUN) (aphy_collision_object* collision_object, aphy_collision_shape* shape);
+typedef aphy_error (*aphySetCollisionObjectHasContactResponse_FUN) (aphy_collision_object* collision_object, aphy_bool value);
+typedef aphy_error (*aphySetCollisionObjectIsStatic_FUN) (aphy_collision_object* collision_object, aphy_bool value);
+typedef aphy_error (*aphySetCollisionObjectIsKinematicObject_FUN) (aphy_collision_object* collision_object, aphy_bool value);
+typedef aphy_error (*aphySetCollisionObjectIsCharacterObject_FUN) (aphy_collision_object* collision_object, aphy_bool value);
+typedef aphy_error (*aphySetCollisionObjectDebugDrawingEnabled_FUN) (aphy_collision_object* collision_object, aphy_bool value);
+typedef aphy_size (*aphyGetGhostCollisionObjectOverlappingObjectCount_FUN) (aphy_collision_object* collision_object);
+typedef aphy_collision_object* (*aphyGetGhostCollisionObjectOverlappingObject_FUN) (aphy_collision_object* collision_object, aphy_size index);
 
 APHY_EXPORT aphy_error aphyAddCollisionObjectReference(aphy_collision_object* collision_object);
 APHY_EXPORT aphy_error aphyReleaseCollisionObjectReference(aphy_collision_object* collision_object);
@@ -315,6 +322,13 @@ APHY_EXPORT aphy_error aphySetCollisionObjectMatrixFrom(aphy_collision_object* c
 APHY_EXPORT aphy_error aphySetCollisionObjectQuaternion(aphy_collision_object* collision_object, aphy_quaternion value);
 APHY_EXPORT aphy_error aphySetCollisionObjectQuaternionFrom(aphy_collision_object* collision_object, aphy_quaternion* value);
 APHY_EXPORT aphy_error aphySetCollisionObjectShape(aphy_collision_object* collision_object, aphy_collision_shape* shape);
+APHY_EXPORT aphy_error aphySetCollisionObjectHasContactResponse(aphy_collision_object* collision_object, aphy_bool value);
+APHY_EXPORT aphy_error aphySetCollisionObjectIsStatic(aphy_collision_object* collision_object, aphy_bool value);
+APHY_EXPORT aphy_error aphySetCollisionObjectIsKinematicObject(aphy_collision_object* collision_object, aphy_bool value);
+APHY_EXPORT aphy_error aphySetCollisionObjectIsCharacterObject(aphy_collision_object* collision_object, aphy_bool value);
+APHY_EXPORT aphy_error aphySetCollisionObjectDebugDrawingEnabled(aphy_collision_object* collision_object, aphy_bool value);
+APHY_EXPORT aphy_size aphyGetGhostCollisionObjectOverlappingObjectCount(aphy_collision_object* collision_object);
+APHY_EXPORT aphy_collision_object* aphyGetGhostCollisionObjectOverlappingObject(aphy_collision_object* collision_object, aphy_size index);
 
 /* Methods for interface aphy_collision_shape. */
 typedef aphy_error (*aphyAddCollisionShapeReference_FUN) (aphy_collision_shape* collision_shape);
@@ -464,6 +478,13 @@ typedef struct _aphy_icd_dispatch {
 	aphySetCollisionObjectQuaternion_FUN aphySetCollisionObjectQuaternion;
 	aphySetCollisionObjectQuaternionFrom_FUN aphySetCollisionObjectQuaternionFrom;
 	aphySetCollisionObjectShape_FUN aphySetCollisionObjectShape;
+	aphySetCollisionObjectHasContactResponse_FUN aphySetCollisionObjectHasContactResponse;
+	aphySetCollisionObjectIsStatic_FUN aphySetCollisionObjectIsStatic;
+	aphySetCollisionObjectIsKinematicObject_FUN aphySetCollisionObjectIsKinematicObject;
+	aphySetCollisionObjectIsCharacterObject_FUN aphySetCollisionObjectIsCharacterObject;
+	aphySetCollisionObjectDebugDrawingEnabled_FUN aphySetCollisionObjectDebugDrawingEnabled;
+	aphyGetGhostCollisionObjectOverlappingObjectCount_FUN aphyGetGhostCollisionObjectOverlappingObjectCount;
+	aphyGetGhostCollisionObjectOverlappingObject_FUN aphyGetGhostCollisionObjectOverlappingObject;
 	aphyAddCollisionShapeReference_FUN aphyAddCollisionShapeReference;
 	aphyReleaseCollisionShapeReference_FUN aphyReleaseCollisionShapeReference;
 	aphySetShapeMargin_FUN aphySetShapeMargin;

@@ -13,10 +13,10 @@ APHYMatrix3x3 class >> fieldsDesc [
 	"
 	self rebuildFieldAccessors
 	"
-	^ #(
+    ^ #(
 		 aphy_vector3 firstRow;
 		 aphy_vector3 secondRow;
 		 aphy_vector3 thirdRow;
-		)
+	)
 ]
 

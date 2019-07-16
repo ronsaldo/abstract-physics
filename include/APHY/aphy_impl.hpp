@@ -22,6 +22,7 @@ public:
     ref_counter(T *cobject)
         : dispatchTable(&cppRefcountedDispatchTable), object(cobject), strongCount(1), weakCount(0)
     {
+        object->setRefCounterPointer(this);
     }
 
     aphy_error retain()
@@ -130,6 +131,14 @@ public:
             counter->release();
     }
 
+    static StrongRef import(void *rawCounter)
+    {
+        auto castedCounter = reinterpret_cast<Counter*> (rawCounter);
+        if(castedCounter)
+            castedCounter->retain();
+        return StrongRef(castedCounter);
+    }
+
     StrongRef &operator=(const StrongRef &other)
     {
         auto newCounter = other.counter;
@@ -155,6 +164,18 @@ public:
         return result;
     }
 
+    Counter *disownedNewRef() const
+    {
+        if(counter)
+            counter->retain();
+        return counter;
+    }
+
+    Counter *asPtrWithoutNewRef() const
+    {
+        return counter;
+    }
+
     template<typename U>
     U *as() const
     {
@@ -163,12 +184,12 @@ public:
 
     T *get() const
     {
-        return counter->object; 
+        return counter ? counter->object : nullptr;
     }
 
     T *operator->() const
     {
-        return get();
+        return counter->object;
     }
 
     operator bool() const
@@ -207,6 +228,9 @@ private:
     Counter *counter;
 
 public:
+    weak_ref()
+        : counter(nullptr) {}
+
     explicit weak_ref(const StrongRef &ref)
     {
         counter = ref.counter;
@@ -294,6 +318,20 @@ class base_interface
 {
 public:
     virtual ~base_interface() {}
+
+    void setRefCounterPointer(void *newPointer)
+    {
+        myRefCounter = newPointer;
+    }
+
+    template<typename T=base_interface>
+    const ref<T> &refFromThis()
+    {
+        return reinterpret_cast<const ref<T> &> (myRefCounter);
+    }
+
+private:
+    void *myRefCounter;
 };
 
 } // End of namespace aphy
@@ -503,6 +541,13 @@ public:
 	virtual aphy_error setQuaternion(aphy_quaternion value) = 0;
 	virtual aphy_error setQuaternion(aphy_quaternion* value) = 0;
 	virtual aphy_error setCollisionShape(const collision_shape_ref & shape) = 0;
+	virtual aphy_error setHasContactResponse(aphy_bool value) = 0;
+	virtual aphy_error setIsStaticObject(aphy_bool value) = 0;
+	virtual aphy_error setIsKinematicObject(aphy_bool value) = 0;
+	virtual aphy_error setIsCharacterObject(aphy_bool value) = 0;
+	virtual aphy_error setDebugDrawingEnabled(aphy_bool value) = 0;
+	virtual aphy_size getOverlappingObjectCount() = 0;
+	virtual collision_object_ptr getOverlappingObject(aphy_size index) = 0;
 };
 
 

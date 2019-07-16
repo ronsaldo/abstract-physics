@@ -15,6 +15,11 @@ enum class APhyCollisionObjectType
     RigidBody,
 };
 
+inline bool isGhostObjectType(APhyCollisionObjectType type)
+{
+    return type == APhyCollisionObjectType::GhostObject || type == APhyCollisionObjectType::PairCachingGhostObject;
+}
+
 /**
 * Bullet broadphase
 */
@@ -41,6 +46,17 @@ public:
 	virtual aphy_error setQuaternion(aphy_quaternion value) override;
 	virtual aphy_error setQuaternion(aphy_quaternion* value) override;
 	virtual aphy_error setCollisionShape(const collision_shape_ref &shape) override;
+
+    virtual aphy_error setHasContactResponse(aphy_bool value) override;
+	virtual aphy_error setIsStaticObject(aphy_bool value) override;
+	virtual aphy_error setIsKinematicObject(aphy_bool value) override;
+	virtual aphy_error setIsCharacterObject(aphy_bool value) override;
+	virtual aphy_error setDebugDrawingEnabled(aphy_bool value) override;
+
+    virtual aphy_size getOverlappingObjectCount() override;
+	virtual collision_object_ptr getOverlappingObject(aphy_size index) override;
+
+    void setHandleCollisionFlagValue(btCollisionObject::CollisionFlags flag, bool value);
 
     btCollisionObject *handle;
 

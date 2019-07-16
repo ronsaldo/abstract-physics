@@ -137,3 +137,52 @@ APHYCollisionObject >> setCollisionShape: shape [
 	self checkErrorCode: resultValue_
 ]
 
+{ #category : #'wrappers' }
+APHYCollisionObject >> setHasContactResponse: value [
+	| resultValue_ |
+	resultValue_ := APHYCBindings uniqueInstance setHasContactResponse_collision_object: (self validHandle) value: value.
+	self checkErrorCode: resultValue_
+]
+
+{ #category : #'wrappers' }
+APHYCollisionObject >> setIsStaticObject: value [
+	| resultValue_ |
+	resultValue_ := APHYCBindings uniqueInstance setIsStaticObject_collision_object: (self validHandle) value: value.
+	self checkErrorCode: resultValue_
+]
+
+{ #category : #'wrappers' }
+APHYCollisionObject >> setIsKinematicObject: value [
+	| resultValue_ |
+	resultValue_ := APHYCBindings uniqueInstance setIsKinematicObject_collision_object: (self validHandle) value: value.
+	self checkErrorCode: resultValue_
+]
+
+{ #category : #'wrappers' }
+APHYCollisionObject >> setIsCharacterObject: value [
+	| resultValue_ |
+	resultValue_ := APHYCBindings uniqueInstance setIsCharacterObject_collision_object: (self validHandle) value: value.
+	self checkErrorCode: resultValue_
+]
+
+{ #category : #'wrappers' }
+APHYCollisionObject >> setDebugDrawingEnabled: value [
+	| resultValue_ |
+	resultValue_ := APHYCBindings uniqueInstance setDebugDrawingEnabled_collision_object: (self validHandle) value: value.
+	self checkErrorCode: resultValue_
+]
+
+{ #category : #'wrappers' }
+APHYCollisionObject >> getOverlappingObjectCount [
+	| resultValue_ |
+	resultValue_ := APHYCBindings uniqueInstance getOverlappingObjectCount_collision_object: (self validHandle).
+	^ resultValue_
+]
+
+{ #category : #'wrappers' }
+APHYCollisionObject >> getOverlappingObject: index [
+	| resultValue_ |
+	resultValue_ := APHYCBindings uniqueInstance getOverlappingObject_collision_object: (self validHandle) index: index.
+	^ APHYCollisionObject forHandle: resultValue_
+]
+

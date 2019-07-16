@@ -438,6 +438,41 @@ APHYCBindings >> setCollisionShape_collision_object: collision_object shape: sha
 	^ self ffiCall: #(aphy_error aphySetCollisionObjectShape (aphy_collision_object* collision_object , aphy_collision_shape* shape) )
 ]
 
+{ #category : #'collision_object' }
+APHYCBindings >> setHasContactResponse_collision_object: collision_object value: value [
+	^ self ffiCall: #(aphy_error aphySetCollisionObjectHasContactResponse (aphy_collision_object* collision_object , aphy_bool value) )
+]
+
+{ #category : #'collision_object' }
+APHYCBindings >> setIsStaticObject_collision_object: collision_object value: value [
+	^ self ffiCall: #(aphy_error aphySetCollisionObjectIsStatic (aphy_collision_object* collision_object , aphy_bool value) )
+]
+
+{ #category : #'collision_object' }
+APHYCBindings >> setIsKinematicObject_collision_object: collision_object value: value [
+	^ self ffiCall: #(aphy_error aphySetCollisionObjectIsKinematicObject (aphy_collision_object* collision_object , aphy_bool value) )
+]
+
+{ #category : #'collision_object' }
+APHYCBindings >> setIsCharacterObject_collision_object: collision_object value: value [
+	^ self ffiCall: #(aphy_error aphySetCollisionObjectIsCharacterObject (aphy_collision_object* collision_object , aphy_bool value) )
+]
+
+{ #category : #'collision_object' }
+APHYCBindings >> setDebugDrawingEnabled_collision_object: collision_object value: value [
+	^ self ffiCall: #(aphy_error aphySetCollisionObjectDebugDrawingEnabled (aphy_collision_object* collision_object , aphy_bool value) )
+]
+
+{ #category : #'collision_object' }
+APHYCBindings >> getOverlappingObjectCount_collision_object: collision_object [
+	^ self ffiCall: #(aphy_size aphyGetGhostCollisionObjectOverlappingObjectCount (aphy_collision_object* collision_object) )
+]
+
+{ #category : #'collision_object' }
+APHYCBindings >> getOverlappingObject_collision_object: collision_object index: index [
+	^ self ffiCall: #(aphy_collision_object* aphyGetGhostCollisionObjectOverlappingObject (aphy_collision_object* collision_object , aphy_size index) )
+]
+
 { #category : #'collision_shape' }
 APHYCBindings >> addReference_collision_shape: collision_shape [
 	^ self ffiCall: #(aphy_error aphyAddCollisionShapeReference (aphy_collision_shape* collision_shape) )
