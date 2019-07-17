@@ -18,6 +18,11 @@ APHYInterface class >> forManualHandle: aHandle [
 	^ self new handle: aHandle
 ]
 
+{ #category : #comparing }
+APHYInterface >> = other [
+	^ self class == other class and: [ handle value = other handle value ]
+]
+
 { #category : #finalization }
 APHYInterface >> autoRelease [
 	^ self class finalizationRegistry add: self
@@ -39,6 +44,11 @@ APHYInterface >> handle [
 { #category : #accessing }
 APHYInterface >> handle: aHandle [
 	handle := aHandle
+]
+
+{ #category : #comparing }
+APHYInterface >> hash [
+	^ handle value hash
 ]
 
 { #category : #testing }
