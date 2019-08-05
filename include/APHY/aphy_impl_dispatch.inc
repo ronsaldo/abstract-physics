@@ -135,6 +135,16 @@ APHY_EXPORT aphy_collision_shape* aphyCreateHeightfieldTerrainShape(aphy_engine*
 	return reinterpret_cast<aphy_collision_shape*> (asRef(aphy::engine, self)->createHeightfieldTerrainShape(height_stick_width, height_stick_length, heightfield_data, height_scale, min_height, max_height, up_axis, height_data_type, flip_quad_edges, local_scale_x, local_scale_y, local_scale_z));
 }
 
+APHY_EXPORT aphy_collision_mesh_collection* aphyCreateCollisionMeshCollection(aphy_engine* self)
+{
+	return reinterpret_cast<aphy_collision_mesh_collection*> (asRef(aphy::engine, self)->createCollisionMeshCollection());
+}
+
+APHY_EXPORT aphy_collision_shape* aphyCreateTriangleMeshCollisionShape(aphy_engine* self, aphy_collision_mesh_collection* mesh_collection)
+{
+	return reinterpret_cast<aphy_collision_shape*> (asRef(aphy::engine, self)->createTriangleMeshCollisionShape(asRef(aphy::collision_mesh_collection, mesh_collection)));
+}
+
 APHY_EXPORT aphy_collision_shape* aphyCreateSphere(aphy_engine* self, aphy_scalar radius)
 {
 	return reinterpret_cast<aphy_collision_shape*> (asRef(aphy::engine, self)->createSphere(radius));
@@ -211,6 +221,28 @@ APHY_EXPORT aphy_error aphyReleaseBroadphaseReference(aphy_broadphase* self)
 {
 	if(!self) return APHY_NULL_POINTER;
 	return asRefCounter(aphy::broadphase, self)->release();
+}
+
+//==============================================================================
+// collision_mesh_collection C dispatching functions.
+//==============================================================================
+
+APHY_EXPORT aphy_error aphyAddCollisionMeshCollectionReference(aphy_collision_mesh_collection* self)
+{
+	if(!self) return APHY_NULL_POINTER;
+	return asRefCounter(aphy::collision_mesh_collection, self)->retain();
+}
+
+APHY_EXPORT aphy_error aphyReleaseCollisionMeshCollectionReference(aphy_collision_mesh_collection* self)
+{
+	if(!self) return APHY_NULL_POINTER;
+	return asRefCounter(aphy::collision_mesh_collection, self)->release();
+}
+
+APHY_EXPORT aphy_error aphyAddCollisionMeshAccessorToCollection(aphy_collision_mesh_collection* self, aphy_collision_mesh_accessor* accessor, aphy_transform* transform)
+{
+	if(!self) return APHY_NULL_POINTER;
+	return asRef(aphy::collision_mesh_collection, self)->addCollisionMeshAccessor(accessor, transform);
 }
 
 //==============================================================================

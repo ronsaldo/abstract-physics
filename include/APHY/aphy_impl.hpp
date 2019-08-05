@@ -380,6 +380,11 @@ typedef ref_counter<broadphase> *broadphase_ptr;
 typedef ref<broadphase> broadphase_ref;
 typedef weak_ref<broadphase> broadphase_weakref;
 
+struct collision_mesh_collection;
+typedef ref_counter<collision_mesh_collection> *collision_mesh_collection_ptr;
+typedef ref<collision_mesh_collection> collision_mesh_collection_ref;
+typedef weak_ref<collision_mesh_collection> collision_mesh_collection_weakref;
+
 struct constraint_solver;
 typedef ref_counter<constraint_solver> *constraint_solver_ptr;
 typedef ref<constraint_solver> constraint_solver_ref;
@@ -437,6 +442,8 @@ public:
 	virtual collision_shape_ptr createConeZ(aphy_scalar radius, aphy_scalar height) = 0;
 	virtual collision_shape_ptr createEmptyShape() = 0;
 	virtual collision_shape_ptr createHeightfieldTerrainShape(aphy_int height_stick_width, aphy_int height_stick_length, aphy_pointer heightfield_data, aphy_scalar height_scale, aphy_scalar min_height, aphy_scalar max_height, aphy_axis up_axis, aphy_scalar_type height_data_type, aphy_bool flip_quad_edges, aphy_scalar local_scale_x, aphy_scalar local_scale_y, aphy_scalar local_scale_z) = 0;
+	virtual collision_mesh_collection_ptr createCollisionMeshCollection() = 0;
+	virtual collision_shape_ptr createTriangleMeshCollisionShape(const collision_mesh_collection_ref & mesh_collection) = 0;
 	virtual collision_shape_ptr createSphere(aphy_scalar radius) = 0;
 	virtual collision_object_ptr createSimpleRigidBody(aphy_scalar mass, const motion_state_ref & motion_state, const collision_shape_ref & collision_shape, aphy_vector3 local_inertia) = 0;
 	virtual collision_object_ptr createSimpleRigidBodyFrom(aphy_scalar mass, const motion_state_ref & motion_state, const collision_shape_ref & collision_shape, aphy_vector3* local_inertia) = 0;
@@ -467,6 +474,15 @@ struct broadphase : base_interface
 {
 public:
 	typedef broadphase main_interface;
+};
+
+
+// Interface wrapper for aphy_collision_mesh_collection.
+struct collision_mesh_collection : base_interface
+{
+public:
+	typedef collision_mesh_collection main_interface;
+	virtual aphy_error addCollisionMeshAccessor(aphy_collision_mesh_accessor* accessor, aphy_transform* transform) = 0;
 };
 
 

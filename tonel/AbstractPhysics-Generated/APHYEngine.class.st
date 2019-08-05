@@ -173,6 +173,20 @@ APHYEngine >> createHeightfieldTerrainShape: height_stick_width height_stick_len
 ]
 
 { #category : #'wrappers' }
+APHYEngine >> createCollisionMeshCollection [
+	| resultValue_ |
+	resultValue_ := APHYCBindings uniqueInstance createCollisionMeshCollection_engine: (self validHandle).
+	^ APHYCollisionMeshCollection forHandle: resultValue_
+]
+
+{ #category : #'wrappers' }
+APHYEngine >> createTriangleMeshCollisionShape: mesh_collection [
+	| resultValue_ |
+	resultValue_ := APHYCBindings uniqueInstance createTriangleMeshCollisionShape_engine: (self validHandle) mesh_collection: (self validHandleOf: mesh_collection).
+	^ APHYCollisionShape forHandle: resultValue_
+]
+
+{ #category : #'wrappers' }
 APHYEngine >> createSphere: radius [
 	| resultValue_ |
 	resultValue_ := APHYCBindings uniqueInstance createSphere_engine: (self validHandle) radius: radius.

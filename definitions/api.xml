@@ -74,7 +74,19 @@
             <field name="rotation" type="matrix3x3" />
             <field name="origin" type="vector3" />
         </struct>
-	</structs>
+
+        <struct name="collision_mesh_accessor">
+            <field name="vertices" type="pointer" />
+            <field name="vertex_offset" type="size" />
+            <field name="vertex_stride" type="size" />
+            <field name="vertex_count" type="size" />
+
+            <field name="indices" type="pointer" />
+            <field name="index_offset" type="size" />
+            <field name="index_stride" type="size" />
+            <field name="index_count" type="size" />
+        </struct>
+    </structs>
 
     <constants>
         <enum name="error">
@@ -239,6 +251,13 @@
                 <arg name="local_scale_z" type="scalar" />
             </method>
 
+            <method name="createCollisionMeshCollection" cname="CreateCollisionMeshCollection" returnType="collision_mesh_collection*">
+            </method>
+
+            <method name="createTriangleMeshCollisionShape" cname="CreateTriangleMeshCollisionShape" returnType="collision_shape*">
+                <arg name="mesh_collection" type="collision_mesh_collection*" />
+            </method>
+
             <method name="createSphere" cname="CreateSphere" returnType="collision_shape*">
                 <arg name="radius" type="scalar" />
             </method>
@@ -293,6 +312,19 @@
             </method>
 
             <method name="release" cname="ReleaseBroadphaseReference" returnType="error">
+            </method>
+        </interface>
+
+        <interface name="collision_mesh_collection">
+            <method name="addReference" cname="AddCollisionMeshCollectionReference" returnType="error">
+            </method>
+
+            <method name="release" cname="ReleaseCollisionMeshCollectionReference" returnType="error">
+            </method>
+
+            <method name="addCollisionMeshAccessor" cname="AddCollisionMeshAccessorToCollection" returnType="error">
+                <arg name="accessor" type="collision_mesh_accessor*" />
+                <arg name="transform" type="transform*" />
             </method>
         </interface>
 

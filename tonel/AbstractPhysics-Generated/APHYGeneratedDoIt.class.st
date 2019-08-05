@@ -18,6 +18,7 @@ APHYGeneratedDoIt class >> initializeStructures [
 	APHYQuaternion rebuildFieldAccessors.
 	APHYMatrix3x3 rebuildFieldAccessors.
 	APHYTransform rebuildFieldAccessors.
+	APHYCollisionMeshAccessor rebuildFieldAccessors.
 ]
 
 { #category : #'initialization' }

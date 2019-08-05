@@ -5,6 +5,7 @@
 #include "CollisionDispatcher.hpp"
 #include "CollisionObject.hpp"
 #include "CollisionShape.hpp"
+#include "CollisionMeshCollection.hpp"
 #include "ConstraintSolver.hpp"
 #include "MotionState.hpp"
 #include "World.hpp"
@@ -230,6 +231,18 @@ collision_shape_ptr BulletEngine::createHeightfieldTerrainShape(aphy_int height_
     return makeObject<BulletCollisionShape> (
         shape,
         APhyBulletCollisionShapeType::HeightField
+    ).disown();
+}
+
+collision_mesh_collection_ptr BulletEngine::createCollisionMeshCollection()
+{
+    return makeObject<APhyBulletCollisionMeshCollection> ().disown();
+}
+
+collision_shape_ptr BulletEngine::createTriangleMeshCollisionShape(const collision_mesh_collection_ref & mesh_collection)
+{
+    return makeObject<BulletCollisionShape> (
+        new btBvhTriangleMeshShape(&mesh_collection.as<APhyBulletCollisionMeshCollection> ()->triangleMeshData, false)
     ).disown();
 }
 

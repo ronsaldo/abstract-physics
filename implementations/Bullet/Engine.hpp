@@ -38,6 +38,8 @@ public:
 	virtual collision_shape_ptr createConeZ(aphy_scalar radius, aphy_scalar height) override;
 	virtual collision_shape_ptr createEmptyShape() override;
 	virtual collision_shape_ptr createHeightfieldTerrainShape(aphy_int height_stick_width, aphy_int height_stick_length, aphy_pointer heightfield_data, aphy_scalar height_scale, aphy_scalar min_height, aphy_scalar max_height, aphy_axis up_axis, aphy_scalar_type height_data_type, aphy_bool flip_quad_edges, aphy_scalar local_scale_x, aphy_scalar local_scale_y, aphy_scalar local_scale_z) override;
+  virtual collision_mesh_collection_ptr createCollisionMeshCollection() override;
+  virtual collision_shape_ptr createTriangleMeshCollisionShape(const collision_mesh_collection_ref & mesh_collection) override;
 	virtual collision_shape_ptr createSphere(aphy_scalar radius) override;
 	virtual collision_object_ptr createSimpleRigidBody(aphy_scalar mass, const motion_state_ref &motion_state, const collision_shape_ref &collision_shape, aphy_vector3 local_inertia) override;
 	virtual collision_object_ptr createSimpleRigidBodyFrom(aphy_scalar mass, const motion_state_ref &motion_state, const collision_shape_ref &collision_shape, aphy_vector3* local_inertia) override;

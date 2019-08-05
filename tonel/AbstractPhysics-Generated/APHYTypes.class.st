@@ -1,6 +1,7 @@
 Class {
 	#name : #APHYTypes,
 	#classVars : [
+		'aphy_collision_mesh_collection',
 		'aphy_enum',
 		'aphy_string',
 		'aphy_short',
@@ -29,6 +30,7 @@ Class {
 		'aphy_constraint_solver',
 		'aphy_collision_shape',
 		'aphy_character_controller',
+		'aphy_collision_mesh_accessor',
 		'aphy_axis',
 		'aphy_ushort',
 		'aphy_collision_object',
@@ -48,6 +50,7 @@ APHYTypes class >> initialize [
 "
 	super initialize.
 
+	aphy_collision_mesh_collection := #'void'.
 	aphy_enum := #'int'.
 	aphy_string := #'char*'.
 	aphy_short := #'short'.
@@ -76,6 +79,7 @@ APHYTypes class >> initialize [
 	aphy_constraint_solver := #'void'.
 	aphy_collision_shape := #'void'.
 	aphy_character_controller := #'void'.
+	aphy_collision_mesh_accessor := APHYCollisionMeshAccessor.
 	aphy_axis := #int.
 	aphy_ushort := #'ushort'.
 	aphy_collision_object := #'void'.

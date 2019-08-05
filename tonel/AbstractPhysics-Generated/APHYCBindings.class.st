@@ -129,6 +129,16 @@ APHYCBindings >> createHeightfieldTerrainShape_engine: engine height_stick_width
 ]
 
 { #category : #'engine' }
+APHYCBindings >> createCollisionMeshCollection_engine: engine [
+	^ self ffiCall: #(aphy_collision_mesh_collection* aphyCreateCollisionMeshCollection (aphy_engine* engine) )
+]
+
+{ #category : #'engine' }
+APHYCBindings >> createTriangleMeshCollisionShape_engine: engine mesh_collection: mesh_collection [
+	^ self ffiCall: #(aphy_collision_shape* aphyCreateTriangleMeshCollisionShape (aphy_engine* engine , aphy_collision_mesh_collection* mesh_collection) )
+]
+
+{ #category : #'engine' }
 APHYCBindings >> createSphere_engine: engine radius: radius [
 	^ self ffiCall: #(aphy_collision_shape* aphyCreateSphere (aphy_engine* engine , aphy_scalar radius) )
 ]
@@ -186,6 +196,21 @@ APHYCBindings >> addReference_broadphase: broadphase [
 { #category : #'broadphase' }
 APHYCBindings >> release_broadphase: broadphase [
 	^ self ffiCall: #(aphy_error aphyReleaseBroadphaseReference (aphy_broadphase* broadphase) )
+]
+
+{ #category : #'collision_mesh_collection' }
+APHYCBindings >> addReference_collision_mesh_collection: collision_mesh_collection [
+	^ self ffiCall: #(aphy_error aphyAddCollisionMeshCollectionReference (aphy_collision_mesh_collection* collision_mesh_collection) )
+]
+
+{ #category : #'collision_mesh_collection' }
+APHYCBindings >> release_collision_mesh_collection: collision_mesh_collection [
+	^ self ffiCall: #(aphy_error aphyReleaseCollisionMeshCollectionReference (aphy_collision_mesh_collection* collision_mesh_collection) )
+]
+
+{ #category : #'collision_mesh_collection' }
+APHYCBindings >> addCollisionMeshAccessor_collision_mesh_collection: collision_mesh_collection accessor: accessor transform: transform [
+	^ self ffiCall: #(aphy_error aphyAddCollisionMeshAccessorToCollection (aphy_collision_mesh_collection* collision_mesh_collection , aphy_collision_mesh_accessor* accessor , aphy_transform* transform) )
 ]
 
 { #category : #'constraint_solver' }

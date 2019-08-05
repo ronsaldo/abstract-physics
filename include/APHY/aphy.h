@@ -43,6 +43,7 @@ typedef struct _aphy_engine aphy_engine;
 typedef struct _aphy_collision_configuration aphy_collision_configuration;
 typedef struct _aphy_collision_dispatcher aphy_collision_dispatcher;
 typedef struct _aphy_broadphase aphy_broadphase;
+typedef struct _aphy_collision_mesh_collection aphy_collision_mesh_collection;
 typedef struct _aphy_constraint_solver aphy_constraint_solver;
 typedef struct _aphy_world aphy_world;
 typedef struct _aphy_character_controller aphy_character_controller;
@@ -115,6 +116,18 @@ typedef struct aphy_transform {
 	aphy_vector3 origin;
 } aphy_transform;
 
+/* Structure aphy_collision_mesh_accessor. */
+typedef struct aphy_collision_mesh_accessor {
+	aphy_pointer vertices;
+	aphy_size vertex_offset;
+	aphy_size vertex_stride;
+	aphy_size vertex_count;
+	aphy_pointer indices;
+	aphy_size index_offset;
+	aphy_size index_stride;
+	aphy_size index_count;
+} aphy_collision_mesh_accessor;
+
 /* Global functions. */
 typedef aphy_error (*aphyGetEngines_FUN) (aphy_size numengines, aphy_engine** engines, aphy_size* ret_numengines);
 
@@ -145,6 +158,8 @@ typedef aphy_collision_shape* (*aphyCreateConeY_FUN) (aphy_engine* engine, aphy_
 typedef aphy_collision_shape* (*aphyCreateConeZ_FUN) (aphy_engine* engine, aphy_scalar radius, aphy_scalar height);
 typedef aphy_collision_shape* (*aphyCreateEmptyShape_FUN) (aphy_engine* engine);
 typedef aphy_collision_shape* (*aphyCreateHeightfieldTerrainShape_FUN) (aphy_engine* engine, aphy_int height_stick_width, aphy_int height_stick_length, aphy_pointer heightfield_data, aphy_scalar height_scale, aphy_scalar min_height, aphy_scalar max_height, aphy_axis up_axis, aphy_scalar_type height_data_type, aphy_bool flip_quad_edges, aphy_scalar local_scale_x, aphy_scalar local_scale_y, aphy_scalar local_scale_z);
+typedef aphy_collision_mesh_collection* (*aphyCreateCollisionMeshCollection_FUN) (aphy_engine* engine);
+typedef aphy_collision_shape* (*aphyCreateTriangleMeshCollisionShape_FUN) (aphy_engine* engine, aphy_collision_mesh_collection* mesh_collection);
 typedef aphy_collision_shape* (*aphyCreateSphere_FUN) (aphy_engine* engine, aphy_scalar radius);
 typedef aphy_collision_object* (*aphyCreateSimpleRigidBody_FUN) (aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia);
 typedef aphy_collision_object* (*aphyCreateSimpleRigidBodyFrom_FUN) (aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3* local_inertia);
@@ -176,6 +191,8 @@ APHY_EXPORT aphy_collision_shape* aphyCreateConeY(aphy_engine* engine, aphy_scal
 APHY_EXPORT aphy_collision_shape* aphyCreateConeZ(aphy_engine* engine, aphy_scalar radius, aphy_scalar height);
 APHY_EXPORT aphy_collision_shape* aphyCreateEmptyShape(aphy_engine* engine);
 APHY_EXPORT aphy_collision_shape* aphyCreateHeightfieldTerrainShape(aphy_engine* engine, aphy_int height_stick_width, aphy_int height_stick_length, aphy_pointer heightfield_data, aphy_scalar height_scale, aphy_scalar min_height, aphy_scalar max_height, aphy_axis up_axis, aphy_scalar_type height_data_type, aphy_bool flip_quad_edges, aphy_scalar local_scale_x, aphy_scalar local_scale_y, aphy_scalar local_scale_z);
+APHY_EXPORT aphy_collision_mesh_collection* aphyCreateCollisionMeshCollection(aphy_engine* engine);
+APHY_EXPORT aphy_collision_shape* aphyCreateTriangleMeshCollisionShape(aphy_engine* engine, aphy_collision_mesh_collection* mesh_collection);
 APHY_EXPORT aphy_collision_shape* aphyCreateSphere(aphy_engine* engine, aphy_scalar radius);
 APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBody(aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3 local_inertia);
 APHY_EXPORT aphy_collision_object* aphyCreateSimpleRigidBodyFrom(aphy_engine* engine, aphy_scalar mass, aphy_motion_state* motion_state, aphy_collision_shape* collision_shape, aphy_vector3* local_inertia);
@@ -203,6 +220,15 @@ typedef aphy_error (*aphyReleaseBroadphaseReference_FUN) (aphy_broadphase* broad
 
 APHY_EXPORT aphy_error aphyAddBroadphaseReference(aphy_broadphase* broadphase);
 APHY_EXPORT aphy_error aphyReleaseBroadphaseReference(aphy_broadphase* broadphase);
+
+/* Methods for interface aphy_collision_mesh_collection. */
+typedef aphy_error (*aphyAddCollisionMeshCollectionReference_FUN) (aphy_collision_mesh_collection* collision_mesh_collection);
+typedef aphy_error (*aphyReleaseCollisionMeshCollectionReference_FUN) (aphy_collision_mesh_collection* collision_mesh_collection);
+typedef aphy_error (*aphyAddCollisionMeshAccessorToCollection_FUN) (aphy_collision_mesh_collection* collision_mesh_collection, aphy_collision_mesh_accessor* accessor, aphy_transform* transform);
+
+APHY_EXPORT aphy_error aphyAddCollisionMeshCollectionReference(aphy_collision_mesh_collection* collision_mesh_collection);
+APHY_EXPORT aphy_error aphyReleaseCollisionMeshCollectionReference(aphy_collision_mesh_collection* collision_mesh_collection);
+APHY_EXPORT aphy_error aphyAddCollisionMeshAccessorToCollection(aphy_collision_mesh_collection* collision_mesh_collection, aphy_collision_mesh_accessor* accessor, aphy_transform* transform);
 
 /* Methods for interface aphy_constraint_solver. */
 typedef aphy_error (*aphyAddConstraintSolverReference_FUN) (aphy_constraint_solver* constraint_solver);
@@ -416,6 +442,8 @@ typedef struct _aphy_icd_dispatch {
 	aphyCreateConeZ_FUN aphyCreateConeZ;
 	aphyCreateEmptyShape_FUN aphyCreateEmptyShape;
 	aphyCreateHeightfieldTerrainShape_FUN aphyCreateHeightfieldTerrainShape;
+	aphyCreateCollisionMeshCollection_FUN aphyCreateCollisionMeshCollection;
+	aphyCreateTriangleMeshCollisionShape_FUN aphyCreateTriangleMeshCollisionShape;
 	aphyCreateSphere_FUN aphyCreateSphere;
 	aphyCreateSimpleRigidBody_FUN aphyCreateSimpleRigidBody;
 	aphyCreateSimpleRigidBodyFrom_FUN aphyCreateSimpleRigidBodyFrom;
@@ -428,6 +456,9 @@ typedef struct _aphy_icd_dispatch {
 	aphyReleaseCollisionDispatcher_FUN aphyReleaseCollisionDispatcher;
 	aphyAddBroadphaseReference_FUN aphyAddBroadphaseReference;
 	aphyReleaseBroadphaseReference_FUN aphyReleaseBroadphaseReference;
+	aphyAddCollisionMeshCollectionReference_FUN aphyAddCollisionMeshCollectionReference;
+	aphyReleaseCollisionMeshCollectionReference_FUN aphyReleaseCollisionMeshCollectionReference;
+	aphyAddCollisionMeshAccessorToCollection_FUN aphyAddCollisionMeshAccessorToCollection;
 	aphyAddConstraintSolverReference_FUN aphyAddConstraintSolverReference;
 	aphyReleaseConstraintSolverReference_FUN aphyReleaseConstraintSolverReference;
 	aphyAddWorldReference_FUN aphyAddWorldReference;

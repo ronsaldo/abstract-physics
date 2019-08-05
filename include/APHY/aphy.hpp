@@ -244,6 +244,16 @@ public:
 		return aphyCreateHeightfieldTerrainShape(this, height_stick_width, height_stick_length, heightfield_data, height_scale, min_height, max_height, up_axis, height_data_type, flip_quad_edges, local_scale_x, local_scale_y, local_scale_z);
 	}
 
+	inline aphy_ref<aphy_collision_mesh_collection> createCollisionMeshCollection()
+	{
+		return aphyCreateCollisionMeshCollection(this);
+	}
+
+	inline aphy_ref<aphy_collision_shape> createTriangleMeshCollisionShape(const aphy_ref<aphy_collision_mesh_collection>& mesh_collection)
+	{
+		return aphyCreateTriangleMeshCollisionShape(this, mesh_collection.get());
+	}
+
 	inline aphy_ref<aphy_collision_shape> createSphere(aphy_scalar radius)
 	{
 		return aphyCreateSphere(this, radius);
@@ -340,6 +350,32 @@ public:
 };
 
 typedef aphy_ref<aphy_broadphase> aphy_broadphase_ref;
+
+// Interface wrapper for aphy_collision_mesh_collection.
+struct _aphy_collision_mesh_collection
+{
+private:
+	_aphy_collision_mesh_collection() {}
+
+public:
+	inline void addReference()
+	{
+		aphyThrowIfFailed(aphyAddCollisionMeshCollectionReference(this));
+	}
+
+	inline void release()
+	{
+		aphyThrowIfFailed(aphyReleaseCollisionMeshCollectionReference(this));
+	}
+
+	inline void addCollisionMeshAccessor(aphy_collision_mesh_accessor* accessor, aphy_transform* transform)
+	{
+		aphyThrowIfFailed(aphyAddCollisionMeshAccessorToCollection(this, accessor, transform));
+	}
+
+};
+
+typedef aphy_ref<aphy_collision_mesh_collection> aphy_collision_mesh_collection_ref;
 
 // Interface wrapper for aphy_constraint_solver.
 struct _aphy_constraint_solver
