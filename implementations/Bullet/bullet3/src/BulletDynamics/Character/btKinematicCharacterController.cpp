@@ -199,7 +199,7 @@ bool btKinematicCharacterController::recoverFromPenetration ( btCollisionWorld* 
 		btBroadphasePair* collisionPair = &m_ghostObject->getOverlappingPairCache()->getOverlappingPairArray()[i];
 
 		btCollisionObject* obj0 = static_cast<btCollisionObject*>(collisionPair->m_pProxy0->m_clientObject);
-                btCollisionObject* obj1 = static_cast<btCollisionObject*>(collisionPair->m_pProxy1->m_clientObject);
+        btCollisionObject* obj1 = static_cast<btCollisionObject*>(collisionPair->m_pProxy1->m_clientObject);
 
 		if ((obj0 && !obj0->hasContactResponse()) || (obj1 && !obj1->hasContactResponse()))
 			continue;
@@ -207,6 +207,8 @@ bool btKinematicCharacterController::recoverFromPenetration ( btCollisionWorld* 
 		if (collisionPair->m_algorithm)
 			collisionPair->m_algorithm->getAllContactManifolds(m_manifoldArray);
 
+		// Get the contact object.
+		auto contactObject = (obj0 == m_ghostObject) ? obj1 : obj0;
 
 		for (int j=0;j<m_manifoldArray.size();j++)
 		{
@@ -229,6 +231,12 @@ bool btKinematicCharacterController::recoverFromPenetration ( btCollisionWorld* 
 					if(m_maxSlopeCosine < floorSlopeCosine)
 					{
 						penetrationDirection = penetrationDirection * upVector;
+
+						if(contactObject->getInternalType() == btCollisionObject::CO_RIGID_BODY)
+						{
+							auto floorRigidBody = static_cast<btRigidBody*> (contactObject);
+							m_newPlatformLinearVelocity = floorRigidBody->getLinearVelocity();
+						}
 					}
 
 					if (dist < maxPen)
@@ -621,6 +629,8 @@ void btKinematicCharacterController::preStep (  btCollisionWorld* collisionWorld
 
 	int numPenetrationLoops = 0;
 	m_touchingContact = false;
+	m_newPlatformLinearVelocity = m_platformLinearVelocity;
+
 	while (recoverFromPenetration (collisionWorld))
 	{
 		numPenetrationLoops++;
@@ -631,6 +641,9 @@ void btKinematicCharacterController::preStep (  btCollisionWorld* collisionWorld
 			break;
 		}
 	}
+
+	auto platformVelocityResponseAlpha = 1.0;
+	m_platformLinearVelocity = m_platformLinearVelocity*(1.0f - platformVelocityResponseAlpha) + m_newPlatformLinearVelocity*platformVelocityResponseAlpha;
 
 	m_currentPosition = m_ghostObject->getWorldTransform().getOrigin();
 	m_targetPosition = m_currentPosition;
@@ -647,7 +660,7 @@ void btKinematicCharacterController::playerStep (  btCollisionWorld* collisionWo
 //	printf("  dt = %f", dt);
 
 	// quick check...
-	if (!m_useWalkDirection && (m_velocityTimeInterval <= 0.0 || m_walkDirection.fuzzyZero())) {
+	if (!m_useWalkDirection && !m_platformLinearVelocity && (m_velocityTimeInterval <= 0.0 || m_walkDirection.fuzzyZero())) {
 //		printf("\n");
 		return;		// no motion
 	}
@@ -666,8 +679,12 @@ void btKinematicCharacterController::playerStep (  btCollisionWorld* collisionWo
 	{
 		m_verticalVelocity = -btFabs(m_fallSpeed);
 	}
-	m_verticalOffset = m_verticalVelocity * dt;
 
+	//printf("m_platformLinearVelocity %f %f %f: %f\n", m_platformLinearVelocity.x(), m_platformLinearVelocity.y(), m_platformLinearVelocity.z(), dt);
+	auto platformStep = m_platformLinearVelocity*dt;
+	auto platformVerticalOffset = upVector.dot(platformStep);
+	auto platformHorizontalStep = platformStep - platformVerticalOffset*upVector;
+	m_verticalOffset = platformVerticalOffset + m_verticalVelocity * dt;
 
 	btTransform xform;
 	xform = m_ghostObject->getWorldTransform ();
@@ -677,7 +694,7 @@ void btKinematicCharacterController::playerStep (  btCollisionWorld* collisionWo
 
 	stepUp (collisionWorld);
 	if (m_useWalkDirection) {
-		stepForwardAndStrafe (collisionWorld, m_walkDirection - upVector.dot(m_walkDirection)*upVector);
+		stepForwardAndStrafe (collisionWorld, platformHorizontalStep + m_walkDirection - upVector.dot(m_walkDirection)*upVector);
 	} else {
 		//printf("  time: %f", m_velocityTimeInterval);
 		// still have some time left for moving!

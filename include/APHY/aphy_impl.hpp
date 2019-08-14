@@ -564,6 +564,9 @@ public:
 	virtual aphy_error setDebugDrawingEnabled(aphy_bool value) = 0;
 	virtual aphy_size getOverlappingObjectCount() = 0;
 	virtual collision_object_ptr getOverlappingObject(aphy_size index) = 0;
+	virtual aphy_error activate() = 0;
+	virtual aphy_error setLinearVelocityFrom(aphy_vector3* velocity) = 0;
+	virtual aphy_error setAngularVelocityFrom(aphy_vector3* velocity) = 0;
 };
 
 

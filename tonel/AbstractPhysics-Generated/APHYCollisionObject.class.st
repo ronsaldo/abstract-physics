@@ -186,3 +186,24 @@ APHYCollisionObject >> getOverlappingObject: index [
 	^ APHYCollisionObject forHandle: resultValue_
 ]
 
+{ #category : #'wrappers' }
+APHYCollisionObject >> activate [
+	| resultValue_ |
+	resultValue_ := APHYCBindings uniqueInstance activate_collision_object: (self validHandle).
+	self checkErrorCode: resultValue_
+]
+
+{ #category : #'wrappers' }
+APHYCollisionObject >> setLinearVelocityFrom: velocity [
+	| resultValue_ |
+	resultValue_ := APHYCBindings uniqueInstance setLinearVelocityFrom_collision_object: (self validHandle) velocity: velocity.
+	self checkErrorCode: resultValue_
+]
+
+{ #category : #'wrappers' }
+APHYCollisionObject >> setAngularVelocityFrom: velocity [
+	| resultValue_ |
+	resultValue_ := APHYCBindings uniqueInstance setAngularVelocityFrom_collision_object: (self validHandle) velocity: velocity.
+	self checkErrorCode: resultValue_
+]
+

@@ -189,4 +189,31 @@ collision_object_ptr BulletCollisionObject::getOverlappingObject(aphy_size index
     return objectWrapper->refFromThis<aphy::collision_object> ().disownedNewRef();
 }
 
+aphy_error BulletCollisionObject::setLinearVelocityFrom(aphy_vector3* velocity)
+{
+    CHECK_POINTER(velocity);
+    if(type != APhyCollisionObjectType::RigidBody)
+        return APHY_INVALID_OPERATION;
+
+    static_cast<btRigidBody*> (handle)->setLinearVelocity(convertAPhyVector(*velocity));
+    return APHY_OK;
+}
+
+aphy_error BulletCollisionObject::setAngularVelocityFrom(aphy_vector3* velocity)
+{
+    CHECK_POINTER(velocity);
+    if(type != APhyCollisionObjectType::RigidBody)
+        return APHY_INVALID_OPERATION;
+
+    static_cast<btRigidBody*> (handle)->setAngularVelocity(convertAPhyVector(*velocity));
+    return APHY_OK;
+}
+
+aphy_error BulletCollisionObject::activate()
+{
+    handle->activate(true);
+    return APHY_OK;
+}
+
+
 } // End of namespace APhyBullet

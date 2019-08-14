@@ -56,6 +56,11 @@ public:
     virtual aphy_size getOverlappingObjectCount() override;
 	virtual collision_object_ptr getOverlappingObject(aphy_size index) override;
 
+	virtual aphy_error setLinearVelocityFrom(aphy_vector3* velocity) override;
+	virtual aphy_error setAngularVelocityFrom(aphy_vector3* velocity) override;
+
+	virtual aphy_error activate() override;
+
     void setHandleCollisionFlagValue(btCollisionObject::CollisionFlags flag, bool value);
 
     btCollisionObject *handle;

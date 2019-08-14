@@ -498,6 +498,21 @@ APHYCBindings >> getOverlappingObject_collision_object: collision_object index: 
 	^ self ffiCall: #(aphy_collision_object* aphyGetGhostCollisionObjectOverlappingObject (aphy_collision_object* collision_object , aphy_size index) )
 ]
 
+{ #category : #'collision_object' }
+APHYCBindings >> activate_collision_object: collision_object [
+	^ self ffiCall: #(aphy_error aphyActivateRigidBody (aphy_collision_object* collision_object) )
+]
+
+{ #category : #'collision_object' }
+APHYCBindings >> setLinearVelocityFrom_collision_object: collision_object velocity: velocity [
+	^ self ffiCall: #(aphy_error aphySetRigidBodyLinearVelocityFrom (aphy_collision_object* collision_object , aphy_vector3* velocity) )
+]
+
+{ #category : #'collision_object' }
+APHYCBindings >> setAngularVelocityFrom_collision_object: collision_object velocity: velocity [
+	^ self ffiCall: #(aphy_error aphySetRigidBodyAngularVelocityFrom (aphy_collision_object* collision_object , aphy_vector3* velocity) )
+]
+
 { #category : #'collision_shape' }
 APHYCBindings >> addReference_collision_shape: collision_shape [
 	^ self ffiCall: #(aphy_error aphyAddCollisionShapeReference (aphy_collision_shape* collision_shape) )

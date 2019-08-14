@@ -400,7 +400,6 @@
                 <arg name="buffer_size" type="size" />
                 <arg name="buffer" type="pointer" />
             </method>
-
         </interface>
 
         <interface name="character_controller">
@@ -556,6 +555,18 @@
             <method name="getOverlappingObject" cname="GetGhostCollisionObjectOverlappingObject" returnType="collision_object*">
                 <arg name="index" type="size" />
             </method>
+
+            <method name="activate" cname="ActivateRigidBody" returnType="error">
+            </method>
+
+            <method name="setLinearVelocityFrom" cname="SetRigidBodyLinearVelocityFrom" returnType="error">
+                <arg name="velocity" type="vector3*" />
+            </method>
+
+            <method name="setAngularVelocityFrom" cname="SetRigidBodyAngularVelocityFrom" returnType="error">
+                <arg name="velocity" type="vector3*" />
+            </method>
+
         </interface>
 
         <interface name="collision_shape">

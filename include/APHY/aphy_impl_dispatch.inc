@@ -592,6 +592,24 @@ APHY_EXPORT aphy_collision_object* aphyGetGhostCollisionObjectOverlappingObject(
 	return reinterpret_cast<aphy_collision_object*> (asRef(aphy::collision_object, self)->getOverlappingObject(index));
 }
 
+APHY_EXPORT aphy_error aphyActivateRigidBody(aphy_collision_object* self)
+{
+	if(!self) return APHY_NULL_POINTER;
+	return asRef(aphy::collision_object, self)->activate();
+}
+
+APHY_EXPORT aphy_error aphySetRigidBodyLinearVelocityFrom(aphy_collision_object* self, aphy_vector3* velocity)
+{
+	if(!self) return APHY_NULL_POINTER;
+	return asRef(aphy::collision_object, self)->setLinearVelocityFrom(velocity);
+}
+
+APHY_EXPORT aphy_error aphySetRigidBodyAngularVelocityFrom(aphy_collision_object* self, aphy_vector3* velocity)
+{
+	if(!self) return APHY_NULL_POINTER;
+	return asRef(aphy::collision_object, self)->setAngularVelocityFrom(velocity);
+}
+
 //==============================================================================
 // collision_shape C dispatching functions.
 //==============================================================================

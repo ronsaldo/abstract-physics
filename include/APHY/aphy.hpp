@@ -702,6 +702,21 @@ public:
 		return aphyGetGhostCollisionObjectOverlappingObject(this, index);
 	}
 
+	inline void activate()
+	{
+		aphyThrowIfFailed(aphyActivateRigidBody(this));
+	}
+
+	inline void setLinearVelocityFrom(aphy_vector3* velocity)
+	{
+		aphyThrowIfFailed(aphySetRigidBodyLinearVelocityFrom(this, velocity));
+	}
+
+	inline void setAngularVelocityFrom(aphy_vector3* velocity)
+	{
+		aphyThrowIfFailed(aphySetRigidBodyAngularVelocityFrom(this, velocity));
+	}
+
 };
 
 typedef aphy_ref<aphy_collision_object> aphy_collision_object_ref;

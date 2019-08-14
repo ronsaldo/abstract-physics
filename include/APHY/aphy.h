@@ -328,6 +328,9 @@ typedef aphy_error (*aphySetCollisionObjectIsCharacterObject_FUN) (aphy_collisio
 typedef aphy_error (*aphySetCollisionObjectDebugDrawingEnabled_FUN) (aphy_collision_object* collision_object, aphy_bool value);
 typedef aphy_size (*aphyGetGhostCollisionObjectOverlappingObjectCount_FUN) (aphy_collision_object* collision_object);
 typedef aphy_collision_object* (*aphyGetGhostCollisionObjectOverlappingObject_FUN) (aphy_collision_object* collision_object, aphy_size index);
+typedef aphy_error (*aphyActivateRigidBody_FUN) (aphy_collision_object* collision_object);
+typedef aphy_error (*aphySetRigidBodyLinearVelocityFrom_FUN) (aphy_collision_object* collision_object, aphy_vector3* velocity);
+typedef aphy_error (*aphySetRigidBodyAngularVelocityFrom_FUN) (aphy_collision_object* collision_object, aphy_vector3* velocity);
 
 APHY_EXPORT aphy_error aphyAddCollisionObjectReference(aphy_collision_object* collision_object);
 APHY_EXPORT aphy_error aphyReleaseCollisionObjectReference(aphy_collision_object* collision_object);
@@ -355,6 +358,9 @@ APHY_EXPORT aphy_error aphySetCollisionObjectIsCharacterObject(aphy_collision_ob
 APHY_EXPORT aphy_error aphySetCollisionObjectDebugDrawingEnabled(aphy_collision_object* collision_object, aphy_bool value);
 APHY_EXPORT aphy_size aphyGetGhostCollisionObjectOverlappingObjectCount(aphy_collision_object* collision_object);
 APHY_EXPORT aphy_collision_object* aphyGetGhostCollisionObjectOverlappingObject(aphy_collision_object* collision_object, aphy_size index);
+APHY_EXPORT aphy_error aphyActivateRigidBody(aphy_collision_object* collision_object);
+APHY_EXPORT aphy_error aphySetRigidBodyLinearVelocityFrom(aphy_collision_object* collision_object, aphy_vector3* velocity);
+APHY_EXPORT aphy_error aphySetRigidBodyAngularVelocityFrom(aphy_collision_object* collision_object, aphy_vector3* velocity);
 
 /* Methods for interface aphy_collision_shape. */
 typedef aphy_error (*aphyAddCollisionShapeReference_FUN) (aphy_collision_shape* collision_shape);
@@ -516,6 +522,9 @@ typedef struct _aphy_icd_dispatch {
 	aphySetCollisionObjectDebugDrawingEnabled_FUN aphySetCollisionObjectDebugDrawingEnabled;
 	aphyGetGhostCollisionObjectOverlappingObjectCount_FUN aphyGetGhostCollisionObjectOverlappingObjectCount;
 	aphyGetGhostCollisionObjectOverlappingObject_FUN aphyGetGhostCollisionObjectOverlappingObject;
+	aphyActivateRigidBody_FUN aphyActivateRigidBody;
+	aphySetRigidBodyLinearVelocityFrom_FUN aphySetRigidBodyLinearVelocityFrom;
+	aphySetRigidBodyAngularVelocityFrom_FUN aphySetRigidBodyAngularVelocityFrom;
 	aphyAddCollisionShapeReference_FUN aphyAddCollisionShapeReference;
 	aphyReleaseCollisionShapeReference_FUN aphyReleaseCollisionShapeReference;
 	aphySetShapeMargin_FUN aphySetShapeMargin;
