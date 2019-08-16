@@ -156,6 +156,7 @@ btKinematicCharacterController::btKinematicCharacterController (btPairCachingGho
 	m_currentStepOffset = 0;
 	full_drop = false;
 	bounce_fix = false;
+	m_platformLinearVelocity.setValue(0, 0, 0);
 }
 
 btKinematicCharacterController::~btKinematicCharacterController ()
