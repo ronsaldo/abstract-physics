@@ -3,10 +3,6 @@ cmake_minimum_required(VERSION 2.8)
 cmake_policy(SET CMP0063 NEW)
 project(APHY)
 
-if(APPLE)
-	set(CMAKE_OSX_ARCHITECTURES "x86_64;i386")
-endif()
-
 option(APHY_BUILD_SAMPLES "Build APHY Samples" OFF)
 
 # Check the build type
