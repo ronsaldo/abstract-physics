@@ -6,7 +6,7 @@ Class {
 
 { #category : #'library downloading' }
 APHYCBindingsBase >> fetchLibrary [
-	PhaNAPIBintray fetchLibrary: 'APhyBullet' fromUser: 'ronsaldo' repository: 'abstract-physics' package: 'lib'.
+	PhaNAPIGitHubRelease fetchLibrary: 'APhyBullet' fromIcebergRepoOfClass: self class
 
 ]
 

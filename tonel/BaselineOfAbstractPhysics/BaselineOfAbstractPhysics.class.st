@@ -10,12 +10,12 @@ BaselineOfAbstractPhysics >> baseline: spec [
 	spec for: #'common' do: [
 		spec blessing: #'baseline'.
 		spec postLoadDoIt: #postLoadActions.
-		spec 
+		spec
 			baseline: #'PhaNAPI' with: [
 				spec
 					repository: 'github://ronsaldo/phanapi/tonel' ].
 
-		spec 
+		spec
 			package: #'AbstractPhysics-Core' with: [
 				spec requires: #(#'PhaNAPI' ). ];
 			package: #'AbstractPhysics-Generated' with: [
@@ -27,5 +27,5 @@ BaselineOfAbstractPhysics >> baseline: spec [
 
 { #category : #baselines }
 BaselineOfAbstractPhysics >> postLoadActions [
-	(Smalltalk globals at: #APHYCBindingsBase) fetchLibrary
+	(Smalltalk globals at: #APHYCBindingsBase) fetchLibraryInPostLoadAction
 ]
