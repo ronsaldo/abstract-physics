@@ -86,7 +86,7 @@ jobs:
                       vsPlatform: x64
                       buildMode: Release
         env:
-            VS_PLATFORM: ${{ matrix.vsPlatform }}
+            VS_PLATFORM: ${{ matrix.variant.vsPlatform }}
             PLATFORM_NAME: ${{ matrix.variant.platformName }}
             BUILD_MODE: ${{ matrix.variant.buildMode }}
             PROJECT_NAME: abstract-physics

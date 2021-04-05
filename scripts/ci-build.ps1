@@ -8,5 +8,7 @@ if(!$VS_PLATFORM) {$VS_PLATFORM = "Win32"}
 
 mkdir build
 cd build
+echo "cmake.exe .. -G ""Visual Studio 16 2019"" -A $VS_PLATFORM"
 cmake.exe .. -G "Visual Studio 16 2019" -A $VS_PLATFORM
+echo "cmake.exe --build . --config $BUILD_MODE"
 cmake.exe --build . --config $BUILD_MODE
